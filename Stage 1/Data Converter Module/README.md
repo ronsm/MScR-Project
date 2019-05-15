@@ -35,4 +35,6 @@ When you run this application, a folder named 'dataset' is generated within the 
     │       └── labels.txt
     └── ...
 
-The application automatically splits the data into train and test sets, at a 70/30% split.
+The application automatically splits the data into train/test sets, at a 70/30% split. In this case, each measureable property (antenna, peakRSSI, phaseAngle, and velocity) are treated as distinct sensor inputs. Each file in the 'input' folder for each set represents an input feature, while the labels.txt file in each contains the class labels.
+
+Data within each input text file is structured so that each line represents one sample window (i.e. one label), with each line containing white-space seperated values that represent state values for each snapshot recorded during the sample window.
