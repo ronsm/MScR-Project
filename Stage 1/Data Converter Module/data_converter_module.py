@@ -9,21 +9,40 @@ db = client['RALT_RFID_HAR_System']
 # user modifable variables
 collection_name_prefix = 'Sample Dataset '
 num_samples = 3
+num_tags = 5
 
 def get_collection(collection_name):
     collection = db[collection_name]
     pointer = collection.find({})
     return pointer
 
+def read_tag_epcs():
+    with open("tags.txt") as f:
+        tag_epcs = f.read().splitlines() 
+    f.close()
+
+    return tag_epcs
+
 def print_collection(pointer):
     for document in pointer:
         pprint.pprint(document)
 
-def create_dataset_files():
-    files = ["antenna", "peakRSSI", "phaseAngle", "velocity"]
+def create_dataset_files(tag_epcs):
+    # training set
+    for tag in tag_epcs:
+        with open("dataset/train/input/{}_antenna.txt".format(tag), "w") as f:
+            f.write("")
+            f.close
 
-    for file in files:
-        with open("dataset/train/input/{}.txt".format(file), "w") as f:
+        with open("dataset/train/input/{}_peakRSSI.txt".format(tag), "w") as f:
+            f.write("")
+            f.close
+
+        with open("dataset/train/input/{}_phaseAngle.txt".format(tag), "w") as f:
+            f.write("")
+            f.close
+
+        with open("dataset/train/input/{}_velocity.txt".format(tag), "w") as f:
             f.write("")
             f.close
 
@@ -31,8 +50,21 @@ def create_dataset_files():
             f.write("")
             f.close
 
-    for file in files:
-        with open("dataset/test/input/{}.txt".format(file), "w") as f:
+    # test set
+    for tag in tag_epcs:
+        with open("dataset/test/input/{}_antenna.txt".format(tag), "w") as f:
+            f.write("")
+            f.close
+
+        with open("dataset/test/input/{}_peakRSSI.txt".format(tag), "w") as f:
+            f.write("")
+            f.close
+
+        with open("dataset/test/input/{}_phaseAngle.txt".format(tag), "w") as f:
+            f.write("")
+            f.close
+
+        with open("dataset/test/input/{}_velocity.txt".format(tag), "w") as f:
             f.write("")
             f.close
 
@@ -40,12 +72,10 @@ def create_dataset_files():
             f.write("")
             f.close
 
-def write_dataset_input_files():    
+def write_dataset_input_files(tag_epcs):    
     train_collections = 0.7 * num_samples
     train_collections = round(train_collections)
     test_collections = (num_samples-train_collections)
-    
-    files = ["antenna", "peakRSSI", "phaseAngle", "velocity"]
 
     # write to training set
     for i in range(1, train_collections + 1):
@@ -53,55 +83,100 @@ def write_dataset_input_files():
         pointer = get_collection(collection_name)
 
         for document in pointer:
-            with open('dataset/train/input/antenna.txt', 'a') as f:
-                f.write('some_antenna  ')
-                f.close()
-            with open('dataset/train/input/peakRSSI.txt', 'a') as f:
-                f.write('some_peakRSSI  ')
-                f.close()
-            with open('dataset/train/input/phaseAngle.txt', 'a') as f:
-                f.write('some_phaseAngle  ')
-                f.close()
-            with open('dataset/train/input/velocity.txt', 'a') as f:
-                f.write('some_velocity  ')
-                f.close()
+            for i in range(0, num_tags):
+                epc = document["tags"][i]["_id"]
+                antenna = document["tags"][i]["antenna"]
+                peakRSSI = document["tags"][i]["peakRSSI"]
+                phaseAngle = document["tags"][i]["phaseAngle"]
+                velocity = document["tags"][i]["velocity"]
 
-        for file in files:
-            with open("dataset/train/input/{}.txt".format(file), "a") as f:
+                with open("dataset/train/input/{}_antenna.txt".format(epc), "a") as f:
+                    f.write(antenna)
+                    f.write("  ")
+                    f.close()
+
+                with open("dataset/train/input/{}_peakRSSI.txt".format(epc), "a") as f:
+                    f.write(peakRSSI)
+                    f.write("  ")
+                    f.close()
+
+                with open("dataset/train/input/{}_phaseAngle.txt".format(epc), "a") as f:
+                    f.write(str(phaseAngle))
+                    f.write("  ")
+                    f.close()
+
+                with open("dataset/train/input/{}_velocity.txt".format(epc), "a") as f:
+                    f.write(velocity)
+                    f.write("  ")
+                    f.close()
+        # add new lines at end of every sample
+        for tag in tag_epcs:
+            with open("dataset/train/input/{}_antenna.txt".format(tag), "a") as f:
                 f.write('\n')
-                f.close()
+                f.close
 
-        # write to test set
+            with open("dataset/train/input/{}_peakRSSI.txt".format(tag), "a") as f:
+                f.write('\n')
+                f.close
+
+            with open("dataset/train/input/{}_phaseAngle.txt".format(tag), "a") as f:
+                f.write('\n')
+                f.close
+
+            with open("dataset/train/input/{}_velocity.txt".format(tag), "a") as f:
+                f.write('\n')
+                f.close
+
+    # write to test set
     for i in range(train_collections + 1, num_samples + 1):
         collection_name = collection_name_prefix + str(i)
         pointer = get_collection(collection_name)
 
         for document in pointer:
-            with open('dataset/test/input/antenna.txt', 'a') as f:
-                f.write('some_antenna  ')
-                f.close()
-            with open('dataset/test/input/peakRSSI.txt', 'a') as f:
-                f.write('some_peakRSSI  ')
-                f.close()
-            with open('dataset/test/input/phaseAngle.txt', 'a') as f:
-                f.write('some_phaseAngle  ')
-                f.close()
-            with open('dataset/test/input/velocity.txt', 'a') as f:
-                f.write('some_velocity  ')
-                f.close()
+            for i in range(0, num_tags):
+                epc = document["tags"][i]["_id"]
+                antenna = document["tags"][i]["antenna"]
+                peakRSSI = document["tags"][i]["peakRSSI"]
+                phaseAngle = document["tags"][i]["phaseAngle"]
+                velocity = document["tags"][i]["velocity"]
 
-            pprint.pprint(document["tags"][0]["_id"])
+                with open("dataset/test/input/{}_antenna.txt".format(epc), "a") as f:
+                    f.write(antenna)
+                    f.write("  ")
+                    f.close()
 
-        for file in files:
-            with open("dataset/test/input/{}.txt".format(file), "a") as f:
+                with open("dataset/test/input/{}_peakRSSI.txt".format(epc), "a") as f:
+                    f.write(peakRSSI)
+                    f.write("  ")
+                    f.close()
+
+                with open("dataset/test/input/{}_phaseAngle.txt".format(epc), "a") as f:
+                    f.write(str(phaseAngle))
+                    f.write("  ")
+                    f.close()
+
+                with open("dataset/test/input/{}_velocity.txt".format(epc), "a") as f:
+                    f.write(velocity)
+                    f.write("  ")
+                    f.close()
+
+        # add new lines at end of every sample
+        for tag in tag_epcs:
+            with open("dataset/test/input/{}_antenna.txt".format(tag), "a") as f:
                 f.write('\n')
-                f.close()
+                f.close
 
-# def get_data_test():
-#     collection_name = 'Sample Dataset 1'
-#     pointer = get_collection(collection_name)
+            with open("dataset/test/input/{}_peakRSSI.txt".format(tag), "a") as f:
+                f.write('\n')
+                f.close
 
-#     for document in pointer:
+            with open("dataset/test/input/{}_phaseAngle.txt".format(tag), "a") as f:
+                f.write('\n')
+                f.close
+
+            with open("dataset/test/input/{}_velocity.txt".format(tag), "a") as f:
+                f.write('\n')
+                f.close
 
 def main():
     # clear the terminal
@@ -114,15 +189,20 @@ def main():
     print("- github: @ronsm | email: ronnie.smith@ed.ac.uk | web: ronsm.com")
     print()
 
+    # read in tag EPCs
+    print("[MAIN][STAT] Reading in tag EPCs from tags.txt...", end="", flush=True)
+    tag_epcs = read_tag_epcs()
+    print("[DONE]")
+
     # create output files in 'Dataset' folder
-    print("[MAIN] Creating (overwriting) output files in dataset folder...", end="", flush=True)
-    create_dataset_files()
+    print("[MAIN][STAT] Creating (overwriting) output files in dataset folder...", end="", flush=True)
+    create_dataset_files(tag_epcs)
     print("[DONE]")
 
     # write to dataset input files from database
-    print("[MAIN] Dataset will be split 70/30 for train/test sets.")
-    print("[MAIN] Writing to dataset files with database (MongoDB) data...", end="", flush=True)
-    write_dataset_input_files()
+    print("[MAIN][INFO] Dataset will be split 70/30 for train/test sets.")
+    print("[MAIN][STAT] Writing to dataset files with database (MongoDB) data...", end="", flush=True)
+    write_dataset_input_files(tag_epcs)
     print("[DONE]")
   
 if __name__== "__main__":
