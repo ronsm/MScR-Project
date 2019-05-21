@@ -737,13 +737,6 @@ public class DataCollector implements LLRPEndpoint {
      */
     public static void main(String[] args) {
         BasicConfigurator.configure();
-        
-		// Get label for activity
-		Scanner reader = new Scanner(System.in);
-		System.out.println("[DATA_COLLECTOR][MAIN] Enter a label for this activity: ");
-		String label = reader.next();
-		di.init(di, label);
-		reader.close();
 
         // Only show root events from the base logger
         Logger.getRootLogger().setLevel(Level.ERROR);
@@ -763,6 +756,14 @@ public class DataCollector implements LLRPEndpoint {
         example.setReaderConfiguration();
         example.addRoSpec(true);
         example.enable();
+        
+		// Get label for activity
+		Scanner reader = new Scanner(System.in);
+		System.out.println("[DATA_COLLECTOR][MAIN] Enter a label for this activity: ");
+		String label = reader.next();
+		di.init(di, label);
+		reader.close();
+        
         example.start();
         try {
             Thread.sleep(5000);
@@ -792,6 +793,7 @@ class DataInterface {
 	HashMap<String, ReportData> map = new HashMap<String, ReportData>();
 	HashMap<String, Integer> tags = new HashMap<String, Integer>();
 	
+	long startTime;
 	long snapshotTimestamp;
 	static String activityLabel;
 	
@@ -918,13 +920,19 @@ class DataInterface {
 		
 		DBObject snapshot = new BasicDBObject("_id", snapshotTimestamp);
 		
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		long elapsedTime = timestamp.getTime() - startTime;
+		
 		snapshot.put("activityLabel", activityLabel);
+		snapshot.put("elapsedTime", elapsedTime);
+		
+		List<BasicDBObject> tagArray = new ArrayList<>();
 		
 	    for (Map.Entry<String, ReportData> entry : hm.entrySet()) {
 	        String key = entry.getKey();
 	        ReportData rd = entry.getValue();
 	        
-	        DBObject report = new BasicDBObject("_id", rd.getEPC())
+	        tagArray.add(new BasicDBObject("_id", rd.getEPC())
 	        		.append("lastUpdated", rd.getLastUpdated())
 	        		.append("antenna", rd.getAntenna())
 	        		.append("channel", rd.getChannel())
@@ -933,9 +941,10 @@ class DataInterface {
 	        		.append("peakRSSI", rd.getPeakRSSI())
 	        		.append("seenCount", rd.getSeenCount())
 	        		.append("phaseAngle", rd.getPhaseAngle())
-	        		.append("velocity", rd.getVelocity());
-	        snapshot.put(rd.getEPC(), report);
+	        		.append("velocity", rd.getVelocity()));
 	    }
+	    
+	    snapshot.put("tags", tagArray);
 	    
 		DB database = mongoClient.getDB("RALT_RFID_HAR_System");
 		DBCollection collection = database.getCollection(activityLabel);
@@ -978,6 +987,10 @@ class DataInterface {
 		
 		// Set label for activity
 		activityLabel = label;
+		
+		// Record start time
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		startTime = timestamp.getTime();
 	}
 	
 }
