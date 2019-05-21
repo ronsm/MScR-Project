@@ -61,6 +61,7 @@ public class DataCollector implements LLRPEndpoint {
     private LLRPConnection connection;
     
     static DataInterface di = new DataInterface();
+    static int numSnapshots = 60;
 
     private static Logger logger  = Logger.getLogger("org.impinj.llrp.ltk.examples.datacollector");
     private ROSpec rospec;
@@ -765,19 +766,24 @@ public class DataCollector implements LLRPEndpoint {
 		reader.close();
         
         example.start();
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException ex) {
-            logger.error("Sleep Interrupted");
+        for(int i = 0; i < numSnapshots; i++) {
+            try {
+            	// Collect samples for n milliseconds
+                Thread.sleep(5000);
+                
+                // Get snapshot
+                HashMap<String, ReportData> snapshot = di.getSnapshot();
+                
+                // Submit snapshot
+                di.submitSnapshot(snapshot);
+            } catch (InterruptedException ex) {
+                logger.error("Sleep Interrupted");
+                example.stop();
+                example.disconnect();
+            }
         }
         example.stop();
         example.disconnect();
-        
-        // Get snapshot
-        HashMap<String, ReportData> snapshot = di.getSnapshot();
-        
-        // Submit snapshot
-        di.submitSnapshot(snapshot);
         
         System.exit(0);
     }
