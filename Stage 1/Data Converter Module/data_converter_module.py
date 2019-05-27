@@ -1,13 +1,14 @@
 import pymongo
 from pymongo import MongoClient
 import pprint
+import sys
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
 db = client['RALT_RFID_HAR_System']
 
 # user modifable variables
-collection_name_prefix = 'Sample Dataset '
+collection_name_prefix = None
 num_samples = 3
 num_tags = 5
 
@@ -79,10 +80,22 @@ def write_dataset_input_files(tag_epcs):
 
     # write to training set
     for i in range(1, train_collections + 1):
-        collection_name = collection_name_prefix + str(i)
+        collection_name = collection_name_prefix + "_" + str(i)
         pointer = get_collection(collection_name)
 
+        labelled = 0
+
         for document in pointer:
+            if labelled == 0:
+                label = document["activityLabel"]
+
+                with open("dataset/train/labels.txt".format(), "a") as f:
+                    f.write(label)
+                    f.write('\n')
+                    f.close()
+
+                labelled = 1
+
             for i in range(0, num_tags):
                 epc = document["tags"][i]["_id"]
                 antenna = document["tags"][i]["antenna"]
@@ -109,30 +122,43 @@ def write_dataset_input_files(tag_epcs):
                     f.write(velocity)
                     f.write("  ")
                     f.close()
+
         # add new lines at end of every sample
         for tag in tag_epcs:
             with open("dataset/train/input/{}_antenna.txt".format(tag), "a") as f:
                 f.write('\n')
-                f.close
+                f.close()
 
             with open("dataset/train/input/{}_peakRSSI.txt".format(tag), "a") as f:
                 f.write('\n')
-                f.close
+                f.close()
 
             with open("dataset/train/input/{}_phaseAngle.txt".format(tag), "a") as f:
                 f.write('\n')
-                f.close
+                f.close()
 
             with open("dataset/train/input/{}_velocity.txt".format(tag), "a") as f:
                 f.write('\n')
-                f.close
+                f.close()
 
     # write to test set
     for i in range(train_collections + 1, num_samples + 1):
-        collection_name = collection_name_prefix + str(i)
+        collection_name = collection_name_prefix + "_" + str(i)
         pointer = get_collection(collection_name)
 
+        labelled = 0
+
         for document in pointer:
+            if labelled == 0:
+                label = document["activityLabel"]
+
+                with open("dataset/test/labels.txt".format(), "a") as f:
+                    f.write(label)
+                    f.write('\n')
+                    f.close()
+
+                labelled = 1
+
             for i in range(0, num_tags):
                 epc = document["tags"][i]["_id"]
                 antenna = document["tags"][i]["antenna"]
@@ -164,19 +190,19 @@ def write_dataset_input_files(tag_epcs):
         for tag in tag_epcs:
             with open("dataset/test/input/{}_antenna.txt".format(tag), "a") as f:
                 f.write('\n')
-                f.close
+                f.close()
 
             with open("dataset/test/input/{}_peakRSSI.txt".format(tag), "a") as f:
                 f.write('\n')
-                f.close
+                f.close()
 
             with open("dataset/test/input/{}_phaseAngle.txt".format(tag), "a") as f:
                 f.write('\n')
-                f.close
+                f.close()
 
             with open("dataset/test/input/{}_velocity.txt".format(tag), "a") as f:
                 f.write('\n')
-                f.close
+                f.close()
 
 def main():
     # clear the terminal
@@ -188,6 +214,16 @@ def main():
     print("- Developed by Ronnie Smith")
     print("- github: @ronsm | email: ronnie.smith@ed.ac.uk | web: ronsm.com")
     print()
+
+    num_arguments = len(sys.argv)
+
+    global collection_name_prefix
+
+    if num_arguments == 2:
+        collection_name_prefix = sys.argv[1]
+    else:
+        print("[MAIN][INFO] Invalid arguments. Usage: python3 data_converter_module.py collection_name")
+        exit()
 
     # read in tag EPCs
     print("[MAIN][STAT] Reading in tag EPCs from tags.txt...", end="", flush=True)

@@ -14,6 +14,11 @@ def get_collection(collection_name):
     pointer = collection.find({})
     return collection, pointer
 
+def create_collection(collection_name):
+    collection = db[collection_name]
+    pointer = collection.find({})
+    return collection, pointer
+
 def get_video_length(filename):
     clip = VideoFileClip(filename)
     durationMillis = clip.duration * 1000
@@ -85,6 +90,29 @@ def label_database(startTimes, endTimes, labels, collection_name):
 
         colelction.update_one(query, newValue)
 
+def split_collections(collection_name):
+    collection, pointer = get_collection(collection_name)
+
+    suffix = 1
+
+    previousDocument = None
+    for document in pointer:
+        if previousDocument == None:
+            previousDocument = document
+
+        sub_collection = collection_name + '_' + str(suffix)
+
+        if document["activityLabel"] == previousDocument["activityLabel"]:
+            collection_new, pointer_new = get_collection(sub_collection)
+            collection_new.insert_one(document)
+        else:
+            suffix = suffix + 1
+            sub_collection = collection_name + '_' + str(suffix)
+            collection_new, pointer_new = get_collection(sub_collection)
+            collection_new.insert_one(document)
+
+        previousDocument = document
+
 def main():
     # clear the terminal
     print(chr(27) + "[2J")
@@ -123,6 +151,11 @@ def main():
     # apply labels to the live database collection
     print("[MAIN][STAT] Applying labels to database collection...", end="", flush=True)
     label_database(startTimes, endTimes, labels, collection_name)
+    print("[DONE]")
+
+    # split the top-level collection into individual collections for each sample
+    print("[MAIN][STAT] Splitting master collection into sample collections...", end="", flush=True)
+    split_collections(collection_name)
     print("[DONE]")
 
 if __name__== "__main__":
