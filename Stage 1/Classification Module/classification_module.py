@@ -36,7 +36,7 @@ def load_dataset_group(group, prefix=''):
         filenames += [file]
     os.chdir('../../..')
 
-    print(filenames)
+    # print(filenames)
 
     X = load_group(filenames, filepath)
     y = load_file(prefix + group + '/y_'+group+'.txt')
@@ -112,7 +112,7 @@ def main():
         repeats = int(repeats)
     else:
         repeats = 10
-        print("[MAIN][INFO] Invalid arguments. Usage: python3 data_converter_module.py collection_name")
+        print("[MAIN][INFO] Invalid arguments. Usage: python3 classification_module.py num_experiments")
         exit()
 
 	# load dataset
