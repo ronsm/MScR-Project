@@ -11,6 +11,7 @@ db = client['RALT_RFID_HAR_System']
 collection_name_prefix = None
 num_samples = 3
 num_tags = 5
+unified_sequence_length = 128
 
 def get_collection(collection_name):
     collection = db[collection_name]
@@ -84,8 +85,11 @@ def write_dataset_input_files(tag_epcs):
         pointer = get_collection(collection_name)
 
         labelled = 0
+        sequence_length = 0
 
         for document in pointer:
+            sequence_length = sequence_length + 1
+
             if labelled == 0:
                 label = document["activityLabel"]
 
@@ -123,8 +127,31 @@ def write_dataset_input_files(tag_epcs):
                     f.write("  ")
                     f.close()
 
-        # add new lines at end of every sample
+        # pad timeseries and add new lines at end of every sample
         for tag in tag_epcs:
+            if sequence_length < unified_sequence_length:
+                sequence_length_diff = unified_sequence_length - sequence_length
+                for i in range(0, sequence_length_diff):
+                    with open("dataset/train/input/{}_antenna.txt".format(tag), "a") as f:
+                        f.write("0.0")
+                        f.write("  ")
+                        f.close()
+
+                    with open("dataset/train/input/{}_peakRSSI.txt".format(tag), "a") as f:
+                        f.write("0.0")
+                        f.write("  ")
+                        f.close()
+
+                    with open("dataset/train/input/{}_phaseAngle.txt".format(tag), "a") as f:
+                        f.write("0.0")
+                        f.write("  ")
+                        f.close()
+
+                    with open("dataset/train/input/{}_velocity.txt".format(tag), "a") as f:
+                        f.write("0.0")
+                        f.write("  ")
+                        f.close()
+
             with open("dataset/train/input/{}_antenna.txt".format(tag), "a") as f:
                 f.write('\n')
                 f.close()
