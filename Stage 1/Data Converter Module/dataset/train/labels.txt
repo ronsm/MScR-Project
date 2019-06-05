@@ -1,2 +1,6 @@
-Eating
-Drinking
+sitting_living_room_sofa
+transitioning
+using_sink_kitchen
+transitioning
+preparing_food_drink_kitchen
+transitioning

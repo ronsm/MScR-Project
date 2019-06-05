@@ -70,6 +70,8 @@ def get_sec(human_time):
 
 def get_label_for_snapshot(time, startTimes, endTimes, labels):
     found = 0
+    label = 'err:label_error'
+
     for i in range(0, len(startTimes)):
         if found == 1:
             break

@@ -9,8 +9,8 @@ db = client['RALT_RFID_HAR_System']
 
 # user modifable variables
 collection_name_prefix = None
-num_samples = 3
-num_tags = 5
+num_samples = 7
+num_tags = 150
 unified_sequence_length = 128
 
 def get_collection(collection_name):
