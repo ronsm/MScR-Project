@@ -48,7 +48,7 @@ def create_dataset_files(tag_epcs):
             f.write("")
             f.close
 
-    with open("dataset/train/labels.txt".format(), "w") as f:
+    with open("dataset/train/y_train.txt".format(), "w") as f:
             f.write("")
             f.close
 
@@ -70,7 +70,7 @@ def create_dataset_files(tag_epcs):
             f.write("")
             f.close
 
-    with open("dataset/test/labels.txt".format(), "w") as f:
+    with open("dataset/test/y_test.txt".format(), "w") as f:
             f.write("")
             f.close
 
@@ -93,7 +93,7 @@ def write_dataset_input_files(tag_epcs):
             if labelled == 0:
                 label = document["activityLabel"]
 
-                with open("dataset/train/labels.txt".format(), "a") as f:
+                with open("dataset/train/y_train.txt".format(), "a") as f:
                     f.write(label)
                     f.write('\n')
                     f.close()
@@ -179,7 +179,7 @@ def write_dataset_input_files(tag_epcs):
             if labelled == 0:
                 label = document["activityLabel"]
 
-                with open("dataset/test/labels.txt".format(), "a") as f:
+                with open("dataset/test/y_test.txt".format(), "a") as f:
                     f.write(label)
                     f.write('\n')
                     f.close()

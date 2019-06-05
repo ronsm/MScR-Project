@@ -17,6 +17,7 @@ import glob, os
 def load_file(filepath):
     print(filepath)
     dataframe = read_csv(filepath, header=None, delim_whitespace=True)
+    print(dataframe)
     return dataframe.values
 
 def load_group(filenames, prefix=''):
