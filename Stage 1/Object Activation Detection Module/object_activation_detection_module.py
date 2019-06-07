@@ -112,10 +112,6 @@ def main():
     print("- github: @ronsm | email: ronnie.smith@ed.ac.uk | web: ronsm.com")
     print()
 
-    # collection_name = 'Sample Dataset Segmentation'
-    # annotation_labels = 'annotation_labels.txt'
-    # annotation_times = 'annotation_times.txt'
-
     num_arguments = len(sys.argv)
 
     if num_arguments == 2:
