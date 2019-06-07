@@ -21,20 +21,20 @@ def create_collection(collection_name):
 
 def get_video_length(filename):
     clip = VideoFileClip(filename)
-    durationMillis = clip.duration * 1000
-    return durationMillis
+    duration_millis = clip.duration * 1000
+    return duration_millis
 
 def read_annotations(annotation_labels, annotation_times):
     f = open(annotation_times, "r")
-    startTimes = []
-    endTimes = []
+    start_times = []
+    end_times = []
 
     for x in f:
         splits = x.split('-')
         splits[1] = splits[1].rstrip('\n')
 
-        startTimes.append(splits[0])
-        endTimes.append(splits[1])
+        start_times.append(splits[0])
+        end_times.append(splits[1])
 
     f.close()
 
@@ -45,20 +45,20 @@ def read_annotations(annotation_labels, annotation_times):
         label = x.rstrip('\n')
         labels.append(label)
 
-    return startTimes, endTimes, labels
+    return start_times, end_times, labels
 
-def annotations_to_milliseconds(startTimes, endTimes):
-    startTimesMillis = []
-    endTimesMillis = []
+def annotations_to_milliseconds(start_times, end_times):
+    start_time_millis = []
+    end_time_millis = []
 
-    for i in range(0, len(startTimes)):
-        millis = get_sec(startTimes[i])
-        startTimesMillis.append(millis)
+    for i in range(0, len(start_times)):
+        millis = get_sec(start_times[i])
+        start_time_millis.append(millis)
 
-        millis = get_sec(endTimes[i])
-        endTimesMillis.append(millis)
+        millis = get_sec(end_times[i])
+        end_time_millis.append(millis)
 
-    return startTimesMillis, endTimesMillis
+    return start_time_millis, end_time_millis
 
 def get_sec(human_time):
     h = 0
@@ -68,14 +68,14 @@ def get_sec(human_time):
 
     return milliseconds
 
-def get_label_for_snapshot(time, startTimes, endTimes, labels):
+def get_label_for_snapshot(time, start_times, end_times, labels):
     found = 0
     label = 'err:label_error'
 
-    for i in range(0, len(startTimes)):
+    for i in range(0, len(start_times)):
         if found == 1:
             break
-        if int(time) > endTimes[i]:
+        if int(time) > end_times[i]:
             found = 0
         else:
             label = labels[i]
@@ -83,14 +83,14 @@ def get_label_for_snapshot(time, startTimes, endTimes, labels):
 
     return label
 
-def label_database(startTimes, endTimes, labels, collection_name):
+def label_database(start_times, end_times, labels, collection_name):
     colelction, pointer = get_collection(collection_name)
 
     for document in pointer:
         query = { "_id": document["_id"]}
-        newValue = { "$set": { "activityLabel": get_label_for_snapshot(document["elapsedTime"], startTimes, endTimes, labels) } }
+        activity_label = { "$set": { "activity_label": get_label_for_snapshot(document["elapsedTime"], end_times, end_times, labels) } }
 
-        colelction.update_one(query, newValue)
+        colelction.update_one(query, activity_label)
 
 def split_collections(collection_name):
     collection, pointer = get_collection(collection_name)
@@ -104,7 +104,7 @@ def split_collections(collection_name):
 
         sub_collection = collection_name + '_' + str(suffix)
 
-        if document["activityLabel"] == previousDocument["activityLabel"]:
+        if document["activity_label"] == previousDocument["activity_label"]:
             collection_new, pointer_new = get_collection(sub_collection)
             collection_new.insert_one(document)
         else:
@@ -142,17 +142,17 @@ def main():
 
     # read in annotation times from user-supplied .txt file
     print("[MAIN][STAT] Reading in annotation times...", end="", flush=True)
-    startTimes, endTimes, labels = read_annotations(annotation_labels, annotation_times)
+    start_times, end_times, labels = read_annotations(annotation_labels, annotation_times)
     print("[DONE]")
     
     # convert to milliseconds so that they are in same format as in database
     print("[MAIN][STAT] Converting annotation times to milliseconds...", end="", flush=True)
-    startTimes, endTimes = annotations_to_milliseconds(startTimes, endTimes)
+    start_times, end_times = annotations_to_milliseconds(start_times, end_times)
     print("[DONE]")
 
     # apply labels to the live database collection
     print("[MAIN][STAT] Applying labels to database collection...", end="", flush=True)
-    label_database(startTimes, endTimes, labels, collection_name)
+    label_database(start_times, end_times, labels, collection_name)
     print("[DONE]")
 
     # split the top-level collection into individual collections for each sample
