@@ -1,0 +1,402 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="https://ronsm.com/courses/mscr-project/sho.owl"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="https://ronsm.com/courses/mscr-project/sho.owl">
+    <Prefix name="" IRI="https://ronsm.com/courses/mscr-project/sho.owl#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="skos" IRI="http://www.w3.org/2004/02/skos/core#"/>
+    <Prefix name="swrl" IRI="http://www.w3.org/2003/11/swrl#"/>
+    <Prefix name="SHOnt" IRI="file://SHOnt.owl#"/>
+    <Prefix name="swrlb" IRI="http://www.w3.org/2003/11/swrlb#"/>
+    <Declaration>
+        <Class IRI="#IndoorLocation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#OutdoorLocation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SmartHomeActivity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SmartHomeLocation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SmartHomeObject"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#bathroom_location"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#bedroom_location"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#kitchen_location"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#living_room_location"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPossibleActivity"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPossibleActor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPossibleLocation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isPossibleActorIn"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#activity_applying_removing_makeup"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#activity_brushing_hair"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#activity_dressing"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#activity_reading"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#activity_sitting"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#activity_sleeping"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#bedroom_location_bed"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#bedroom_location_chair"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#bedroom_location_drawers"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#bedroom_location_mirror"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#bedroom_location_wardrobe"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#object_book"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#object_clothing"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#object_hairbrush"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#object_makeup_bag"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty IRI="#Author"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#IndoorLocation"/>
+        <Class IRI="#SmartHomeLocation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#OutdoorLocation"/>
+        <Class IRI="#SmartHomeLocation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#bathroom_location"/>
+        <Class IRI="#IndoorLocation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#bedroom_location"/>
+        <Class IRI="#IndoorLocation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#kitchen_location"/>
+        <Class IRI="#IndoorLocation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#living_room_location"/>
+        <Class IRI="#IndoorLocation"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#bathroom_location"/>
+        <Class IRI="#bedroom_location"/>
+        <Class IRI="#kitchen_location"/>
+        <Class IRI="#living_room_location"/>
+    </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#SmartHomeActivity"/>
+        <NamedIndividual IRI="#activity_applying_removing_makeup"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SmartHomeActivity"/>
+        <NamedIndividual IRI="#activity_brushing_hair"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SmartHomeActivity"/>
+        <NamedIndividual IRI="#activity_dressing"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SmartHomeActivity"/>
+        <NamedIndividual IRI="#activity_reading"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SmartHomeActivity"/>
+        <NamedIndividual IRI="#activity_sitting"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SmartHomeActivity"/>
+        <NamedIndividual IRI="#activity_sleeping"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#bedroom_location"/>
+        <NamedIndividual IRI="#bedroom_location_bed"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#bedroom_location"/>
+        <NamedIndividual IRI="#bedroom_location_chair"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#bedroom_location"/>
+        <NamedIndividual IRI="#bedroom_location_drawers"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#bedroom_location"/>
+        <NamedIndividual IRI="#bedroom_location_mirror"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#bedroom_location"/>
+        <NamedIndividual IRI="#bedroom_location_wardrobe"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SmartHomeObject"/>
+        <NamedIndividual IRI="#object_book"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SmartHomeObject"/>
+        <NamedIndividual IRI="#object_clothing"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SmartHomeObject"/>
+        <NamedIndividual IRI="#object_hairbrush"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SmartHomeObject"/>
+        <NamedIndividual IRI="#object_makeup_bag"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleActor"/>
+        <NamedIndividual IRI="#activity_applying_removing_makeup"/>
+        <NamedIndividual IRI="#object_makeup_bag"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleLocation"/>
+        <NamedIndividual IRI="#activity_applying_removing_makeup"/>
+        <NamedIndividual IRI="#bedroom_location_mirror"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleActor"/>
+        <NamedIndividual IRI="#activity_brushing_hair"/>
+        <NamedIndividual IRI="#object_hairbrush"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleLocation"/>
+        <NamedIndividual IRI="#activity_brushing_hair"/>
+        <NamedIndividual IRI="#bedroom_location_mirror"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleActor"/>
+        <NamedIndividual IRI="#activity_dressing"/>
+        <NamedIndividual IRI="#object_clothing"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleLocation"/>
+        <NamedIndividual IRI="#activity_dressing"/>
+        <NamedIndividual IRI="#bedroom_location_drawers"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleLocation"/>
+        <NamedIndividual IRI="#activity_dressing"/>
+        <NamedIndividual IRI="#bedroom_location_wardrobe"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleActor"/>
+        <NamedIndividual IRI="#activity_reading"/>
+        <NamedIndividual IRI="#object_book"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleLocation"/>
+        <NamedIndividual IRI="#activity_reading"/>
+        <NamedIndividual IRI="#bedroom_location_bed"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleLocation"/>
+        <NamedIndividual IRI="#activity_reading"/>
+        <NamedIndividual IRI="#bedroom_location_chair"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleLocation"/>
+        <NamedIndividual IRI="#activity_sitting"/>
+        <NamedIndividual IRI="#bedroom_location_chair"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleLocation"/>
+        <NamedIndividual IRI="#activity_sleeping"/>
+        <NamedIndividual IRI="#bedroom_location_bed"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleActivity"/>
+        <NamedIndividual IRI="#bedroom_location_bed"/>
+        <NamedIndividual IRI="#activity_reading"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleActivity"/>
+        <NamedIndividual IRI="#bedroom_location_bed"/>
+        <NamedIndividual IRI="#activity_sleeping"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleActivity"/>
+        <NamedIndividual IRI="#bedroom_location_chair"/>
+        <NamedIndividual IRI="#activity_reading"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleActivity"/>
+        <NamedIndividual IRI="#bedroom_location_chair"/>
+        <NamedIndividual IRI="#activity_sitting"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleActivity"/>
+        <NamedIndividual IRI="#bedroom_location_drawers"/>
+        <NamedIndividual IRI="#activity_dressing"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleActivity"/>
+        <NamedIndividual IRI="#bedroom_location_mirror"/>
+        <NamedIndividual IRI="#activity_applying_removing_makeup"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleActivity"/>
+        <NamedIndividual IRI="#bedroom_location_mirror"/>
+        <NamedIndividual IRI="#activity_brushing_hair"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPossibleActivity"/>
+        <NamedIndividual IRI="#bedroom_location_wardrobe"/>
+        <NamedIndividual IRI="#activity_dressing"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isPossibleActorIn"/>
+        <NamedIndividual IRI="#object_book"/>
+        <NamedIndividual IRI="#activity_reading"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isPossibleActorIn"/>
+        <NamedIndividual IRI="#object_clothing"/>
+        <NamedIndividual IRI="#activity_dressing"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isPossibleActorIn"/>
+        <NamedIndividual IRI="#object_hairbrush"/>
+        <NamedIndividual IRI="#activity_brushing_hair"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isPossibleActorIn"/>
+        <NamedIndividual IRI="#object_makeup_bag"/>
+        <NamedIndividual IRI="#activity_applying_removing_makeup"/>
+    </ObjectPropertyAssertion>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasPossibleActivity"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasPossibleLocation"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isPossibleActorIn"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasPossibleActivity"/>
+        <ObjectProperty IRI="#hasPossibleLocation"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasPossibleActor"/>
+        <ObjectProperty IRI="#isPossibleActorIn"/>
+    </InverseObjectProperties>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#IndoorLocation</IRI>
+        <Literal>Indoor home space</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
+        <IRI>#IndoorLocation</IRI>
+        <Literal>Indoor</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
+        <IRI>#IndoorLocation</IRI>
+        <Literal>Inside</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>#IndoorLocation</IRI>
+        <Literal>IndoorLocation</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#OutdoorLocation</IRI>
+        <Literal>Outdoor home space</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
+        <IRI>#OutdoorLocation</IRI>
+        <Literal>Outdoor</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
+        <IRI>#OutdoorLocation</IRI>
+        <Literal>Outside</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>#OutdoorLocation</IRI>
+        <Literal>OutdoorLocation</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>#SmartHomeActivity</IRI>
+        <Literal>SmartHomeActivity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>#SmartHomeLocation</IRI>
+        <Literal>SmartHomeLocation</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
+        <IRI>#SmartHomeObject</IRI>
+        <Literal>SmartHomeObject</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.6.2018-09-06T00:27:41Z) https://github.com/owlcs/owlapi -->
+
