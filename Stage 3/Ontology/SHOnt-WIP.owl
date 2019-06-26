@@ -1,25 +1,16 @@
 <?xml version="1.0"?>
-
-
-<!DOCTYPE Ontology [
-    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
-    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
-    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
-    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
-]>
-
-
 <Ontology xmlns="http://www.w3.org/2002/07/owl#"
      xml:base="file://SHOnt.owl"
-     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      ontologyIRI="file://SHOnt.owl"
      versionIRI="file://SHOnt.owl/1.2.5">
     <Prefix name="" IRI="file://SHOnt.owl#"/>
     <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
     <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
     <Prefix name="skos" IRI="http://www.w3.org/2004/02/skos/core#"/>
@@ -28,242 +19,41 @@
     <Prefix name="swrlb" IRI="http://www.w3.org/2003/11/swrlb#"/>
     <Annotation>
         <AnnotationProperty IRI="#Author"/>
-        <Literal datatypeIRI="&xsd;string">Comillas Pontifical University, ICAI School of Engineering, Institute for Research in Technology (IIT)</Literal>
+        <Literal>Ronnie Smith (ronnie.smith@ed.ac.uk)
+Edinburgh Centre for Robotics
+Heriot-Watt University and the University of Edinburgh
+
+Based on work by Javier Juárez Montojo, while at Comillas Pontifical University, ICAI School of Engineering, Institute for Research in Technology (IIT).</Literal>
     </Annotation>
     <Annotation>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <Literal datatypeIRI="&xsd;string">Smart Home Ontology (SHOnt)</Literal>
-    </Annotation>
-    <Annotation>
-        <AnnotationProperty IRI="#Author"/>
-        <Literal datatypeIRI="&xsd;string">Javier Juárez Montojo</Literal>
+        <Literal>Smart Home Ontology (SHOnt)</Literal>
     </Annotation>
     <Annotation>
         <AnnotationProperty abbreviatedIRI="owl:versionInfo"/>
-        <Literal datatypeIRI="&xsd;string">SHOnt version 1.2.5
+        <Literal>SHOnt version 1.2.5
 </Literal>
     </Annotation>
     <Declaration>
-        <Class IRI="#Actuator"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#AirCleaner"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#AirConditioner"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Alarm"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#AlarmClock"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Amplifier"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#AnsweringMachine"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Application"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Audio"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#BackYard"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Bathing"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Bathroom"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#BathroomScale"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Bed"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Bedroom"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Blind"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#BodyCareDevice"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Boiler"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#BrushingTeeth"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Building"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#CDPlayer"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#CO2Sensor"/>
     </Declaration>
     <Declaration>
         <Class IRI="#CO2level"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Camera"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Chair"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Clock"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#CoffeeMaker"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Computer"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Cooker"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Cooking"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Corridor"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#CurlingIron"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#DeepFreezer"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Device"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#DiningRoom"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Dishwasher"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Display"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Door"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Doorbell"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Dressing"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Dryer"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Dvd"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Eating"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ElectricalCooker"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ElectricalOven"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ElectricityMeter"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ElectronicToothbrush"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Entertainment"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#EnvironmentalCondition"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Fan"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Fax"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#FireAlarm"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Floor"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Fridge"/>
     </Declaration>
     <Declaration>
         <Class IRI="#FrontYard"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Furniture"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#Garden"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#GasCooker"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#GasMeter"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Hairdryer"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Hall"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Heater"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#HiFi"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Humidity"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#HumiditySensor"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#IndoorLocation"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Interphone"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Iron"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Jacuzzi"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Kitchen"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#KitchenScale"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Laptop"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Lighting"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#LivingRoom"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Location"/>
@@ -275,106 +65,16 @@
         <Class IRI="#Luminance"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#LuminanceSensor"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Meter"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Microcontroller"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Microphone"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#MicrowaveOven"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Middleware"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#MobilePhone"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#MovementSensor"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#Noise"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#NoiseSensor"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Office"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#OperatingSystem"/>
     </Declaration>
     <Declaration>
         <Class IRI="#OutdoorLocation"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Oven"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#Patio"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#PersonalComputer"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Phone"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Polisher"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PowerConsumption"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#Pressure"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PressureSensor"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Printer"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Projector"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Radiator"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Radio"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Reading"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Room"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Router"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Scale"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Scanner"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Sensor"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Service"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Showering"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Sleeping"/>
     </Declaration>
     <Declaration>
         <Class IRI="#SmartHomeActivity"/>
@@ -383,94 +83,28 @@
         <Class IRI="#SmartHomeContext"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#SmartHomeEntity"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#SmartHomeEntityCharacteristic"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#SmartPhone"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#SmartPlug"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Sofa"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Software"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Speaker"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Sprinkler"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Stair"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#State"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#StorageRoom"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Structural"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#StudyRoom"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Table"/>
+        <Class IRI="#SmartHomeObject"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Temperature"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#TemperatureSensor"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Thermostat"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#Time"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Toaster"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Tv"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#User"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#VacuumCleaner"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Walking"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#WallClock"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#WashingMachine"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#WashingRoom"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#WatchingTV"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#WaterMeter"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Window"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#Yard"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#bathroom_location"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#bedroom_location"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#kitchen_location"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#living_room_location"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#affectsEnvironmentalParameter"/>
@@ -531,6 +165,12 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#isLocatedIn"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isPossibleActivity"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isPossibleLocation"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#isProvidedBy"/>
@@ -593,6 +233,39 @@
         <DataProperty IRI="#value"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#applying_removing_makeup"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#bedroom_location_bed"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#bedroom_location_chair"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#bedroom_location_drawers"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#bedroom_location_mirror"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#bedroom_location_wardrobe"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#brushing_hair"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#dressing"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#reading"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#sitting"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#sleeping"/>
+    </Declaration>
+    <Declaration>
         <AnnotationProperty IRI="#Author"/>
     </Declaration>
     <Declaration>
@@ -602,314 +275,32 @@
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
     </Declaration>
     <SubClassOf>
-        <Class IRI="#Actuator"/>
-        <Class IRI="#SmartHomeEntity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#AirCleaner"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#AirConditioner"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Alarm"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#AlarmClock"/>
-        <Class IRI="#Clock"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Amplifier"/>
-        <Class IRI="#Entertainment"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#AnsweringMachine"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Application"/>
-        <Class IRI="#Software"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Audio"/>
-        <Class IRI="#Entertainment"/>
-    </SubClassOf>
-    <SubClassOf>
         <Class IRI="#BackYard"/>
         <Class IRI="#Yard"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Bathing"/>
-        <Class IRI="#SmartHomeActivity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Bathroom"/>
-        <Class IRI="#IndoorLocation"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#BathroomScale"/>
-        <Class IRI="#Scale"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Bed"/>
-        <Class IRI="#Furniture"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Bedroom"/>
-        <Class IRI="#Room"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Blind"/>
-        <Class IRI="#Structural"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#BodyCareDevice"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Boiler"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#BrushingTeeth"/>
-        <Class IRI="#SmartHomeActivity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Building"/>
-        <Class IRI="#IndoorLocation"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#CDPlayer"/>
-        <Class IRI="#Audio"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#CO2Sensor"/>
-        <Class IRI="#Sensor"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#CO2Sensor"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#returnsParameter"/>
-            <Class IRI="#CO2level"/>
-        </ObjectSomeValuesFrom>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#CO2level"/>
         <Class IRI="#EnvironmentalCondition"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#Camera"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Chair"/>
-        <Class IRI="#Furniture"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Clock"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#CoffeeMaker"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Computer"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Cooker"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Cooking"/>
-        <Class IRI="#SmartHomeActivity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Corridor"/>
-        <Class IRI="#IndoorLocation"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#CurlingIron"/>
-        <Class IRI="#BodyCareDevice"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#DeepFreezer"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Device"/>
-        <Class IRI="#SmartHomeEntity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#DiningRoom"/>
-        <Class IRI="#Room"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Dishwasher"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Display"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Door"/>
-        <Class IRI="#Structural"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Doorbell"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Dressing"/>
-        <Class IRI="#SmartHomeActivity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Dryer"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Dvd"/>
-        <Class IRI="#Entertainment"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Eating"/>
-        <Class IRI="#SmartHomeActivity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#ElectricalCooker"/>
-        <Class IRI="#Cooker"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#ElectricalOven"/>
-        <Class IRI="#Oven"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#ElectricityMeter"/>
-        <Class IRI="#Meter"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#ElectronicToothbrush"/>
-        <Class IRI="#BodyCareDevice"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Entertainment"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
         <Class IRI="#EnvironmentalCondition"/>
         <Class IRI="#SmartHomeContext"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#Fan"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Fax"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#FireAlarm"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Floor"/>
-        <Class IRI="#IndoorLocation"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Fridge"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
         <Class IRI="#FrontYard"/>
         <Class IRI="#Yard"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Furniture"/>
-        <Class IRI="#SmartHomeEntity"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#Garden"/>
         <Class IRI="#OutdoorLocation"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#GasCooker"/>
-        <Class IRI="#Cooker"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#GasMeter"/>
-        <Class IRI="#Meter"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Hairdryer"/>
-        <Class IRI="#BodyCareDevice"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Hall"/>
-        <Class IRI="#IndoorLocation"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Heater"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#HiFi"/>
-        <Class IRI="#Audio"/>
-    </SubClassOf>
-    <SubClassOf>
         <Class IRI="#Humidity"/>
         <Class IRI="#EnvironmentalCondition"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#HumiditySensor"/>
-        <Class IRI="#Sensor"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#HumiditySensor"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#returnsParameter"/>
-            <Class IRI="#Humidity"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
         <Class IRI="#IndoorLocation"/>
         <Class IRI="#Location"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Interphone"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Iron"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Jacuzzi"/>
-        <Class IRI="#BodyCareDevice"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Kitchen"/>
-        <Class IRI="#IndoorLocation"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#KitchenScale"/>
-        <Class IRI="#Scale"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Laptop"/>
-        <Class IRI="#Computer"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Lighting"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#LivingRoom"/>
-        <Class IRI="#Room"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#Location"/>
@@ -924,325 +315,52 @@
         <Class IRI="#EnvironmentalCondition"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#LuminanceSensor"/>
-        <Class IRI="#Sensor"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#LuminanceSensor"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#returnsParameter"/>
-            <Class IRI="#Luminance"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Meter"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Microcontroller"/>
-        <Class IRI="#Computer"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Microphone"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#MicrowaveOven"/>
-        <Class IRI="#Oven"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Middleware"/>
-        <Class IRI="#Software"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#MobilePhone"/>
-        <Class IRI="#Phone"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#MovementSensor"/>
-        <Class IRI="#Sensor"/>
-    </SubClassOf>
-    <SubClassOf>
         <Class IRI="#Noise"/>
         <Class IRI="#EnvironmentalCondition"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#NoiseSensor"/>
-        <Class IRI="#Sensor"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#NoiseSensor"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#returnsParameter"/>
-            <Class IRI="#Noise"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Office"/>
-        <Class IRI="#Room"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#OperatingSystem"/>
-        <Class IRI="#Software"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#OutdoorLocation"/>
         <Class IRI="#Location"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#Oven"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
         <Class IRI="#Patio"/>
         <Class IRI="#OutdoorLocation"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#PersonalComputer"/>
-        <Class IRI="#Computer"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Phone"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Polisher"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#PowerConsumption"/>
-        <Class IRI="#SmartHomeEntityCharacteristic"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#Pressure"/>
         <Class IRI="#EnvironmentalCondition"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#PressureSensor"/>
-        <Class IRI="#Sensor"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#PressureSensor"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#returnsParameter"/>
-            <Class IRI="#Pressure"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Printer"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Projector"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Radiator"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Radio"/>
-        <Class IRI="#Entertainment"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Reading"/>
-        <Class IRI="#SmartHomeActivity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Room"/>
-        <Class IRI="#IndoorLocation"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Router"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Scale"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Scanner"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Sensor"/>
-        <Class IRI="#SmartHomeEntity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Service"/>
-        <Class IRI="#SmartHomeEntity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Showering"/>
-        <Class IRI="#SmartHomeActivity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Sleeping"/>
-        <Class IRI="#SmartHomeActivity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#SmartPhone"/>
-        <Class IRI="#Computer"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#SmartPhone"/>
-        <Class IRI="#Phone"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#SmartPlug"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Sofa"/>
-        <Class IRI="#Furniture"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Software"/>
-        <Class IRI="#SmartHomeEntity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Speaker"/>
-        <Class IRI="#Entertainment"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Sprinkler"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Stair"/>
-        <Class IRI="#IndoorLocation"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#State"/>
-        <Class IRI="#SmartHomeEntityCharacteristic"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#StorageRoom"/>
-        <Class IRI="#Room"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Structural"/>
-        <Class IRI="#SmartHomeEntity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#StudyRoom"/>
-        <Class IRI="#Room"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Table"/>
-        <Class IRI="#Furniture"/>
-    </SubClassOf>
-    <SubClassOf>
         <Class IRI="#Temperature"/>
         <Class IRI="#EnvironmentalCondition"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#TemperatureSensor"/>
-        <Class IRI="#Sensor"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#TemperatureSensor"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#returnsParameter"/>
-            <Class IRI="#Temperature"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Thermostat"/>
-        <Class IRI="#Device"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#Time"/>
         <Class IRI="#SmartHomeContext"/>
     </SubClassOf>
     <SubClassOf>
-        <Class IRI="#Toaster"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Tv"/>
-        <Class IRI="#Entertainment"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#User"/>
-        <Class IRI="#SmartHomeEntity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#VacuumCleaner"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Walking"/>
-        <Class IRI="#SmartHomeActivity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#WallClock"/>
-        <Class IRI="#Clock"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#WashingMachine"/>
-        <Class IRI="#Device"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#WashingRoom"/>
-        <Class IRI="#Room"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#WatchingTV"/>
-        <Class IRI="#SmartHomeActivity"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#WaterMeter"/>
-        <Class IRI="#Meter"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Window"/>
-        <Class IRI="#Structural"/>
-    </SubClassOf>
-    <SubClassOf>
         <Class IRI="#Yard"/>
         <Class IRI="#OutdoorLocation"/>
     </SubClassOf>
-    <DisjointClasses>
-        <Class IRI="#Actuator"/>
-        <Class IRI="#Furniture"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Actuator"/>
-        <Class IRI="#Service"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Actuator"/>
-        <Class IRI="#Software"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Actuator"/>
-        <Class IRI="#Structural"/>
-    </DisjointClasses>
+    <SubClassOf>
+        <Class IRI="#bathroom_location"/>
+        <Class IRI="#IndoorLocation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#bedroom_location"/>
+        <Class IRI="#IndoorLocation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#kitchen_location"/>
+        <Class IRI="#IndoorLocation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#living_room_location"/>
+        <Class IRI="#IndoorLocation"/>
+    </SubClassOf>
     <DisjointClasses>
         <Class IRI="#BackYard"/>
         <Class IRI="#FrontYard"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Bathroom"/>
-        <Class IRI="#Building"/>
-        <Class IRI="#Corridor"/>
-        <Class IRI="#Floor"/>
-        <Class IRI="#Stair"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Building"/>
-        <Class IRI="#Corridor"/>
-        <Class IRI="#Floor"/>
-        <Class IRI="#Kitchen"/>
-        <Class IRI="#Stair"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Building"/>
-        <Class IRI="#Corridor"/>
-        <Class IRI="#Floor"/>
-        <Class IRI="#Room"/>
-        <Class IRI="#Stair"/>
     </DisjointClasses>
     <DisjointClasses>
         <Class IRI="#CO2level"/>
@@ -1253,37 +371,9 @@
         <Class IRI="#Temperature"/>
     </DisjointClasses>
     <DisjointClasses>
-        <Class IRI="#Device"/>
-        <Class IRI="#Furniture"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Device"/>
-        <Class IRI="#Service"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Device"/>
-        <Class IRI="#Software"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Device"/>
-        <Class IRI="#Structural"/>
-    </DisjointClasses>
-    <DisjointClasses>
         <Class IRI="#EnvironmentalCondition"/>
         <Class IRI="#Location"/>
         <Class IRI="#Time"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Furniture"/>
-        <Class IRI="#Sensor"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Furniture"/>
-        <Class IRI="#Service"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Furniture"/>
-        <Class IRI="#Software"/>
     </DisjointClasses>
     <DisjointClasses>
         <Class IRI="#IndoorLocation"/>
@@ -1291,46 +381,114 @@
         <Class IRI="#OutdoorLocation"/>
     </DisjointClasses>
     <DisjointClasses>
-        <Class IRI="#PowerConsumption"/>
-        <Class IRI="#State"/>
+        <Class IRI="#bathroom_location"/>
+        <Class IRI="#bedroom_location"/>
+        <Class IRI="#kitchen_location"/>
+        <Class IRI="#living_room_location"/>
     </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Sensor"/>
-        <Class IRI="#Service"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Sensor"/>
-        <Class IRI="#Software"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Sensor"/>
-        <Class IRI="#Structural"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Service"/>
-        <Class IRI="#Structural"/>
-    </DisjointClasses>
-    <DisjointClasses>
+    <ClassAssertion>
         <Class IRI="#SmartHomeActivity"/>
-        <Class IRI="#SmartHomeContext"/>
-        <Class IRI="#SmartHomeEntity"/>
-        <Class IRI="#SmartHomeEntityCharacteristic"/>
-    </DisjointClasses>
-    <DisjointClasses>
-        <Class IRI="#Software"/>
-        <Class IRI="#Structural"/>
-    </DisjointClasses>
+        <NamedIndividual IRI="#applying_removing_makeup"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#bedroom_location"/>
+        <NamedIndividual IRI="#bedroom_location_bed"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#bedroom_location"/>
+        <NamedIndividual IRI="#bedroom_location_chair"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#bedroom_location"/>
+        <NamedIndividual IRI="#bedroom_location_drawers"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#bedroom_location"/>
+        <NamedIndividual IRI="#bedroom_location_mirror"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#bedroom_location"/>
+        <NamedIndividual IRI="#bedroom_location_wardrobe"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SmartHomeActivity"/>
+        <NamedIndividual IRI="#brushing_hair"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SmartHomeActivity"/>
+        <NamedIndividual IRI="#dressing"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SmartHomeActivity"/>
+        <NamedIndividual IRI="#reading"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SmartHomeActivity"/>
+        <NamedIndividual IRI="#sitting"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SmartHomeActivity"/>
+        <NamedIndividual IRI="#sleeping"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isPossibleLocation"/>
+        <NamedIndividual IRI="#applying_removing_makeup"/>
+        <NamedIndividual IRI="#bedroom_location_mirror"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isPossibleLocation"/>
+        <NamedIndividual IRI="#brushing_hair"/>
+        <NamedIndividual IRI="#bedroom_location_mirror"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isPossibleLocation"/>
+        <NamedIndividual IRI="#dressing"/>
+        <NamedIndividual IRI="#bedroom_location_drawers"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isPossibleLocation"/>
+        <NamedIndividual IRI="#dressing"/>
+        <NamedIndividual IRI="#bedroom_location_wardrobe"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isPossibleLocation"/>
+        <NamedIndividual IRI="#reading"/>
+        <NamedIndividual IRI="#bedroom_location_bed"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isPossibleLocation"/>
+        <NamedIndividual IRI="#reading"/>
+        <NamedIndividual IRI="#bedroom_location_chair"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isPossibleLocation"/>
+        <NamedIndividual IRI="#sitting"/>
+        <NamedIndividual IRI="#bedroom_location_chair"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isPossibleLocation"/>
+        <NamedIndividual IRI="#sleeping"/>
+        <NamedIndividual IRI="#bedroom_location_bed"/>
+    </ObjectPropertyAssertion>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isPossibleActivity"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isPossibleLocation"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#isAffectedBy"/>
         <ObjectProperty IRI="#affectsEnvironmentalParameter"/>
+        <ObjectProperty IRI="#isAffectedBy"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#hasAttached"/>
         <ObjectProperty IRI="#attachedTo"/>
+        <ObjectProperty IRI="#hasAttached"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#isConsumptionOf"/>
         <ObjectProperty IRI="#consumes"/>
+        <ObjectProperty IRI="#isConsumptionOf"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#contains"/>
@@ -1345,24 +503,28 @@
         <ObjectProperty IRI="#isInFloor"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#isActuatorOf"/>
         <ObjectProperty IRI="#hasActuator"/>
+        <ObjectProperty IRI="#isActuatorOf"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#isInBuilding"/>
         <ObjectProperty IRI="#hasRoom"/>
+        <ObjectProperty IRI="#isInBuilding"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#isSensorOf"/>
         <ObjectProperty IRI="#hasSensor"/>
+        <ObjectProperty IRI="#isSensorOf"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#isStateOf"/>
         <ObjectProperty IRI="#hasState"/>
+        <ObjectProperty IRI="#isStateOf"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#providesService"/>
+        <ObjectProperty IRI="#isPossibleActivity"/>
+        <ObjectProperty IRI="#isPossibleLocation"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
         <ObjectProperty IRI="#isProvidedBy"/>
+        <ObjectProperty IRI="#providesService"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#returnedBySensor"/>
@@ -1387,18 +549,6 @@
         <ObjectProperty IRI="#isLocatedIn"/>
     </TransitiveObjectProperty>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="#affectsEnvironmentalParameter"/>
-        <Class IRI="#Device"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#attachedTo"/>
-        <Class IRI="#SmartPlug"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#consumes"/>
-        <Class IRI="#Device"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
         <ObjectProperty IRI="#contains"/>
         <Class IRI="#Location"/>
     </ObjectPropertyDomain>
@@ -1407,52 +557,12 @@
         <Class IRI="#EnvironmentalCondition"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="#floorOf"/>
-        <Class IRI="#Floor"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#hasActuator"/>
-        <Class IRI="#Device"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#hasAttached"/>
-        <Class IRI="#Device"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#hasCoordinates"/>
-        <Class IRI="#SmartHomeEntity"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
         <ObjectProperty IRI="#hasEnvironmentalParameter"/>
         <Class IRI="#Location"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="#hasFloor"/>
-        <Class IRI="#Building"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#hasRoom"/>
-        <Class IRI="#Building"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#hasSensor"/>
-        <Class IRI="#Device"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#hasState"/>
-        <Class IRI="#SmartHomeEntity"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#isActuatorOf"/>
-        <Class IRI="#Actuator"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
         <ObjectProperty IRI="#isAffectedBy"/>
         <Class IRI="#EnvironmentalCondition"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#isConsumptionOf"/>
-        <Class IRI="#PowerConsumption"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#isInBuilding"/>
@@ -1463,48 +573,12 @@
         <Class IRI="#IndoorLocation"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="#isLocatedIn"/>
-        <Class IRI="#SmartHomeEntity"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#isProvidedBy"/>
-        <Class IRI="#Service"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#isSensorOf"/>
-        <Class IRI="#Sensor"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#isStateOf"/>
-        <Class IRI="#State"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#providesService"/>
-        <Class IRI="#Device"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
         <ObjectProperty IRI="#returnedBySensor"/>
         <Class IRI="#EnvironmentalCondition"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
-        <ObjectProperty IRI="#returnsParameter"/>
-        <Class IRI="#Sensor"/>
     </ObjectPropertyDomain>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#affectsEnvironmentalParameter"/>
         <Class IRI="#EnvironmentalCondition"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#attachedTo"/>
-        <Class IRI="#Device"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#consumes"/>
-        <Class IRI="#PowerConsumption"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#contains"/>
-        <Class IRI="#SmartHomeEntity"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#environmentalParameterOf"/>
@@ -1513,14 +587,6 @@
     <ObjectPropertyRange>
         <ObjectProperty IRI="#floorOf"/>
         <Class IRI="#IndoorLocation"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#hasActuator"/>
-        <Class IRI="#Actuator"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#hasAttached"/>
-        <Class IRI="#SmartPlug"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#hasCoordinates"/>
@@ -1531,64 +597,12 @@
         <Class IRI="#EnvironmentalCondition"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="#hasFloor"/>
-        <Class IRI="#Floor"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
         <ObjectProperty IRI="#hasRoom"/>
         <Class IRI="#Location"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="#hasSensor"/>
-        <Class IRI="#Sensor"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#hasState"/>
-        <Class IRI="#State"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#isActuatorOf"/>
-        <Class IRI="#Device"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#isAffectedBy"/>
-        <Class IRI="#Device"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#isConsumptionOf"/>
-        <Class IRI="#Device"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#isInBuilding"/>
-        <Class IRI="#Building"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#isInFloor"/>
-        <Class IRI="#Floor"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
         <ObjectProperty IRI="#isLocatedIn"/>
         <Class IRI="#Location"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#isProvidedBy"/>
-        <Class IRI="#Device"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#isSensorOf"/>
-        <Class IRI="#Device"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#isStateOf"/>
-        <Class IRI="#SmartHomeEntity"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#providesService"/>
-        <Class IRI="#Service"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="#returnedBySensor"/>
-        <Class IRI="#Sensor"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#returnsParameter"/>
@@ -1614,10 +628,6 @@
         <Class IRI="#LocationCoordinates"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
-        <DataProperty IRI="#email"/>
-        <Class IRI="#User"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
         <DataProperty IRI="#environmentalValue"/>
         <Class IRI="#EnvironmentalCondition"/>
     </DataPropertyDomain>
@@ -1626,32 +636,8 @@
         <Class IRI="#LocationCoordinates"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
-        <DataProperty IRI="#level"/>
-        <Class IRI="#SmartHomeEntity"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
         <DataProperty IRI="#longitude"/>
         <Class IRI="#LocationCoordinates"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="#manufacturer"/>
-        <Class IRI="#SmartHomeEntity"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="#model"/>
-        <Class IRI="#SmartHomeEntity"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="#name"/>
-        <Class IRI="#User"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="#phoneNumber"/>
-        <Class IRI="#User"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="#powerValue"/>
-        <Class IRI="#PowerConsumption"/>
     </DataPropertyDomain>
     <DataPropertyRange>
         <DataProperty IRI="#altitude"/>
@@ -1707,1692 +693,557 @@
     </DataPropertyRange>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Actuator</IRI>
-        <Literal datatypeIRI="&xsd;string">A mechanism used to control actions of other elements, such as motors</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Actuator</IRI>
-        <Literal datatypeIRI="&xsd;string">ControlStyleDevice</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Actuator</IRI>
-        <Literal datatypeIRI="&xsd;string">Actuator</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#AirCleaner</IRI>
-        <Literal datatypeIRI="&xsd;string">AirPurifier</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#AirCleaner</IRI>
-        <Literal datatypeIRI="&xsd;string">AirCleaner</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#AirConditioner</IRI>
-        <Literal datatypeIRI="&xsd;string">AirConditioner</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Alarm</IRI>
-        <Literal datatypeIRI="&xsd;string">SecurityAlarm</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Alarm</IRI>
-        <Literal datatypeIRI="&xsd;string">Alarm</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#AlarmClock</IRI>
-        <Literal datatypeIRI="&xsd;string">Clock used to wake someone up.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#AlarmClock</IRI>
-        <Literal datatypeIRI="&xsd;string">AlarmClock</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Amplifier</IRI>
-        <Literal datatypeIRI="&xsd;string">AudioAmplifier</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Amplifier</IRI>
-        <Literal datatypeIRI="&xsd;string">Amplifier</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#AnsweringMachine</IRI>
-        <Literal datatypeIRI="&xsd;string">Electronic device that answers the telephone and records messages.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#AnsweringMachine</IRI>
-        <Literal datatypeIRI="&xsd;string">AnsweringMachine</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Application</IRI>
-        <Literal datatypeIRI="&xsd;string">Application</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Audio</IRI>
-        <Literal datatypeIRI="&xsd;string">Audio</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#BackYard</IRI>
-        <Literal datatypeIRI="&xsd;string">A yard in the back of the house</Literal>
+        <Literal>A yard in the back of the house</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#BackYard</IRI>
-        <Literal datatypeIRI="&xsd;string">BackYard</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Bathing</IRI>
-        <Literal datatypeIRI="&xsd;string">Bathing</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Bathroom</IRI>
-        <Literal datatypeIRI="&xsd;string">Bathroom</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#BathroomScale</IRI>
-        <Literal datatypeIRI="&xsd;string">BathroomScale</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Bed</IRI>
-        <Literal datatypeIRI="&xsd;string">Bed</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Bedroom</IRI>
-        <Literal datatypeIRI="&xsd;string">Bedroom</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Blind</IRI>
-        <Literal datatypeIRI="&xsd;string">Blind</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#BodyCareDevice</IRI>
-        <Literal datatypeIRI="&xsd;string">BodyCareDevice</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Boiler</IRI>
-        <Literal datatypeIRI="&xsd;string">Sealed vessel where water is warm up.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Boiler</IRI>
-        <Literal datatypeIRI="&xsd;string">Kettle</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Boiler</IRI>
-        <Literal datatypeIRI="&xsd;string">Boiler</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#BrushingTeeth</IRI>
-        <Literal datatypeIRI="&xsd;string">BrushingTeeth</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Building</IRI>
-        <Literal datatypeIRI="&xsd;string">House</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Building</IRI>
-        <Literal datatypeIRI="&xsd;string">Building</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#CDPlayer</IRI>
-        <Literal datatypeIRI="&xsd;string">CDPlayer</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#CO2Sensor</IRI>
-        <Literal datatypeIRI="&xsd;string">CO2Sensor</Literal>
+        <Literal>BackYard</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#CO2level</IRI>
-        <Literal datatypeIRI="&xsd;string">CO2</Literal>
+        <Literal>CO2</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#CO2level</IRI>
-        <Literal datatypeIRI="&xsd;string">CO2level</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Camera</IRI>
-        <Literal datatypeIRI="&xsd;string">Camera</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Chair</IRI>
-        <Literal datatypeIRI="&xsd;string">Chair</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Clock</IRI>
-        <Literal datatypeIRI="&xsd;string">A device for measuring time.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Clock</IRI>
-        <Literal datatypeIRI="&xsd;string">Clock</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#CoffeeMaker</IRI>
-        <Literal datatypeIRI="&xsd;string">CoffeeMachine</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#CoffeeMaker</IRI>
-        <Literal datatypeIRI="&xsd;string">CoffeeMaker</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Computer</IRI>
-        <Literal datatypeIRI="&xsd;string">A machine that performs calculations automatically.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Computer</IRI>
-        <Literal datatypeIRI="&xsd;string">Computer</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Cooker</IRI>
-        <Literal datatypeIRI="&xsd;string">An appliance used for cooking food.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Cooker</IRI>
-        <Literal datatypeIRI="&xsd;string">Cooker</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Cooking</IRI>
-        <Literal datatypeIRI="&xsd;string">KitchenADL</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Cooking</IRI>
-        <Literal datatypeIRI="&xsd;string">Cooking</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Corridor</IRI>
-        <Literal datatypeIRI="&xsd;string">Corridor</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#CurlingIron</IRI>
-        <Literal datatypeIRI="&xsd;string">CurlingIron</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#DeepFreezer</IRI>
-        <Literal datatypeIRI="&xsd;string">Electric refrigerator in which food is frozen and stored for long periods of time.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#DeepFreezer</IRI>
-        <Literal datatypeIRI="&xsd;string">DeepFreezer</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Device</IRI>
-        <Literal datatypeIRI="&xsd;string">Machine designed for a purpose.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Device</IRI>
-        <Literal datatypeIRI="&xsd;string">Appliance</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Device</IRI>
-        <Literal datatypeIRI="&xsd;string">ApplianceCategory</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Device</IRI>
-        <Literal datatypeIRI="&xsd;string">ElectriElectroAppliance</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Device</IRI>
-        <Literal datatypeIRI="&xsd;string">Device</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#DiningRoom</IRI>
-        <Literal datatypeIRI="&xsd;string">DiningRoom</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Dishwasher</IRI>
-        <Literal datatypeIRI="&xsd;string">A machine for washing dishes</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Dishwasher</IRI>
-        <Literal datatypeIRI="&xsd;string">Dishwasher</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Display</IRI>
-        <Literal datatypeIRI="&xsd;string">Display</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Door</IRI>
-        <Literal datatypeIRI="&xsd;string">Door</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Doorbell</IRI>
-        <Literal datatypeIRI="&xsd;string">Doorbell</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Dressing</IRI>
-        <Literal datatypeIRI="&xsd;string">Dressing</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Dryer</IRI>
-        <Literal datatypeIRI="&xsd;string">A device for drying something, especially the hair or laundry.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Dryer</IRI>
-        <Literal datatypeIRI="&xsd;string">Dryer</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Dvd</IRI>
-        <Literal datatypeIRI="&xsd;string">Appliance thar read dvd</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Dvd</IRI>
-        <Literal datatypeIRI="&xsd;string">DVDPlayer</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Dvd</IRI>
-        <Literal datatypeIRI="&xsd;string">Dvd</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Eating</IRI>
-        <Literal datatypeIRI="&xsd;string">Eating</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#ElectricalCooker</IRI>
-        <Literal datatypeIRI="&xsd;string">ElectricalCooker</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#ElectricityMeter</IRI>
-        <Literal datatypeIRI="&xsd;string">ElectricityMeter</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#ElectronicToothbrush</IRI>
-        <Literal datatypeIRI="&xsd;string">Toothbrush</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#ElectronicToothbrush</IRI>
-        <Literal datatypeIRI="&xsd;string">ElectronicToothbrush</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Entertainment</IRI>
-        <Literal datatypeIRI="&xsd;string">MediaAppliance</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Entertainment</IRI>
-        <Literal datatypeIRI="&xsd;string">EntertainmentDevice</Literal>
+        <Literal>CO2level</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#EnvironmentalCondition</IRI>
-        <Literal datatypeIRI="&xsd;string">Environment</Literal>
+        <Literal>Environment</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#EnvironmentalCondition</IRI>
-        <Literal datatypeIRI="&xsd;string">EnvironmentalParameter</Literal>
+        <Literal>EnvironmentalParameter</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#EnvironmentalCondition</IRI>
-        <Literal datatypeIRI="&xsd;string">SensorParameter</Literal>
+        <Literal>SensorParameter</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#EnvironmentalCondition</IRI>
-        <Literal datatypeIRI="&xsd;string">EnvironmentalCondition</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Fan</IRI>
-        <Literal datatypeIRI="&xsd;string">A device for creating a current of air</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Fan</IRI>
-        <Literal datatypeIRI="&xsd;string">Fan</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Fax</IRI>
-        <Literal datatypeIRI="&xsd;string">Appliance that send text and document.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Fax</IRI>
-        <Literal datatypeIRI="&xsd;string">Fax</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#FireAlarm</IRI>
-        <Literal datatypeIRI="&xsd;string">FireAlarm</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Floor</IRI>
-        <Literal datatypeIRI="&xsd;string">Floor</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Fridge</IRI>
-        <Literal datatypeIRI="&xsd;string">A refrigerator.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Fridge</IRI>
-        <Literal datatypeIRI="&xsd;string">Refrigerator</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Fridge</IRI>
-        <Literal datatypeIRI="&xsd;string">Fridge</Literal>
+        <Literal>EnvironmentalCondition</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#FrontYard</IRI>
-        <Literal datatypeIRI="&xsd;string">A yard in the front of the house</Literal>
+        <Literal>A yard in the front of the house</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#FrontYard</IRI>
-        <Literal datatypeIRI="&xsd;string">FrontYard</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Furniture</IRI>
-        <Literal datatypeIRI="&xsd;string">The movable articles that are used to make a room or building suitable for living or working in, such as tables, chairs, or desks.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Furniture</IRI>
-        <Literal datatypeIRI="&xsd;string">Furnishing</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Furniture</IRI>
-        <Literal datatypeIRI="&xsd;string">Furniture</Literal>
+        <Literal>FrontYard</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#Garden</IRI>
-        <Literal datatypeIRI="&xsd;string">An area of land used for growing flowers, fruits, or vegetables.</Literal>
+        <Literal>An area of land used for growing flowers, fruits, or vegetables.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#Garden</IRI>
-        <Literal datatypeIRI="&xsd;string">Garden</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#GasCooker</IRI>
-        <Literal datatypeIRI="&xsd;string">GasCooker</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#GasMeter</IRI>
-        <Literal datatypeIRI="&xsd;string">GasMeter</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Hairdryer</IRI>
-        <Literal datatypeIRI="&xsd;string">Hairdryer</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Hall</IRI>
-        <Literal datatypeIRI="&xsd;string">Hall</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Heater</IRI>
-        <Literal datatypeIRI="&xsd;string">A device for warming the air or water.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Heater</IRI>
-        <Literal datatypeIRI="&xsd;string">Heater</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#HiFi</IRI>
-        <Literal datatypeIRI="&xsd;string">Equipment for the reproduction of sound with high fidelity</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#HiFi</IRI>
-        <Literal datatypeIRI="&xsd;string">HiFi</Literal>
+        <Literal>Garden</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#Humidity</IRI>
-        <Literal datatypeIRI="&xsd;string">Humidity</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#HumiditySensor</IRI>
-        <Literal datatypeIRI="&xsd;string">HumisditySensing</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#HumiditySensor</IRI>
-        <Literal datatypeIRI="&xsd;string">HumiditySenser</Literal>
+        <Literal>Humidity</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#IndoorLocation</IRI>
-        <Literal datatypeIRI="&xsd;string">Indoor home space</Literal>
+        <Literal>Indoor home space</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#IndoorLocation</IRI>
-        <Literal datatypeIRI="&xsd;string">Indoor</Literal>
+        <Literal>Indoor</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#IndoorLocation</IRI>
-        <Literal datatypeIRI="&xsd;string">Inside</Literal>
+        <Literal>Inside</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#IndoorLocation</IRI>
-        <Literal datatypeIRI="&xsd;string">IndoorLocation</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Interphone</IRI>
-        <Literal datatypeIRI="&xsd;string">A telephonic intercommunication system linking different rooms in a building.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Interphone</IRI>
-        <Literal datatypeIRI="&xsd;string">Interphone</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Iron</IRI>
-        <Literal datatypeIRI="&xsd;string">Iron</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Jacuzzi</IRI>
-        <Literal datatypeIRI="&xsd;string">Jacuzzi</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Kitchen</IRI>
-        <Literal datatypeIRI="&xsd;string">Kitchen</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#KitchenScale</IRI>
-        <Literal datatypeIRI="&xsd;string">KitchenScale</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Laptop</IRI>
-        <Literal datatypeIRI="&xsd;string">PortablePC</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Laptop</IRI>
-        <Literal datatypeIRI="&xsd;string">PortablePersonalComputer</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Laptop</IRI>
-        <Literal datatypeIRI="&xsd;string">Laptop</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Lighting</IRI>
-        <Literal datatypeIRI="&xsd;string">Lamp</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Lighting</IRI>
-        <Literal datatypeIRI="&xsd;string">Light</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Lighting</IRI>
-        <Literal datatypeIRI="&xsd;string">LightBulb</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Lighting</IRI>
-        <Literal datatypeIRI="&xsd;string">LightFixture</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Lighting</IRI>
-        <Literal datatypeIRI="&xsd;string">Lighting</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#LivingRoom</IRI>
-        <Literal datatypeIRI="&xsd;string">LivingRoom</Literal>
+        <Literal>IndoorLocation</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#Location</IRI>
-        <Literal datatypeIRI="&xsd;string">Models places of the Smart Home</Literal>
+        <Literal>Models places of the Smart Home</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#Location</IRI>
-        <Literal datatypeIRI="&xsd;string">BuildingEnvironment</Literal>
+        <Literal>BuildingEnvironment</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#Location</IRI>
-        <Literal datatypeIRI="&xsd;string">Place</Literal>
+        <Literal>Place</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#Location</IRI>
-        <Literal datatypeIRI="&xsd;string">Space</Literal>
+        <Literal>Space</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#Location</IRI>
-        <Literal datatypeIRI="&xsd;string">SymbolicLocation</Literal>
+        <Literal>SymbolicLocation</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#LocationCoordinates</IRI>
-        <Literal datatypeIRI="&xsd;string">Absolute coordinates</Literal>
+        <Literal>Absolute coordinates</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#LocationCoordinates</IRI>
-        <Literal datatypeIRI="&xsd;string">AbsoluteLocation</Literal>
+        <Literal>AbsoluteLocation</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#LocationCoordinates</IRI>
-        <Literal datatypeIRI="&xsd;string">AbsoluteLocationInformation</Literal>
+        <Literal>AbsoluteLocationInformation</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#LocationCoordinates</IRI>
-        <Literal datatypeIRI="&xsd;string">LocationCoordinates</Literal>
+        <Literal>LocationCoordinates</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#Luminance</IRI>
-        <Literal datatypeIRI="&xsd;string">Ilumination</Literal>
+        <Literal>Ilumination</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#Luminance</IRI>
-        <Literal datatypeIRI="&xsd;string">LuminousIntensity</Literal>
+        <Literal>LuminousIntensity</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#Luminance</IRI>
-        <Literal datatypeIRI="&xsd;string">brightness</Literal>
+        <Literal>brightness</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#Luminance</IRI>
-        <Literal datatypeIRI="&xsd;string">Luminance</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#LuminanceSensor</IRI>
-        <Literal datatypeIRI="&xsd;string">BrightnessSensing</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#LuminanceSensor</IRI>
-        <Literal datatypeIRI="&xsd;string">LightSensor</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#LuminanceSensor</IRI>
-        <Literal datatypeIRI="&xsd;string">LightingSensor</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#LuminanceSensor</IRI>
-        <Literal datatypeIRI="&xsd;string">LuminositySensor</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#LuminanceSensor</IRI>
-        <Literal datatypeIRI="&xsd;string">LuminanceSensor</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Meter</IRI>
-        <Literal datatypeIRI="&xsd;string">Meter</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Microcontroller</IRI>
-        <Literal datatypeIRI="&xsd;string">Microcontroller</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Microphone</IRI>
-        <Literal datatypeIRI="&xsd;string">MIC</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Microphone</IRI>
-        <Literal datatypeIRI="&xsd;string">Microphone</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#MicrowaveOven</IRI>
-        <Literal datatypeIRI="&xsd;string">An oven in which food is cooked by microwaves.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#MicrowaveOven</IRI>
-        <Literal datatypeIRI="&xsd;string">Microwave</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#MicrowaveOven</IRI>
-        <Literal datatypeIRI="&xsd;string">MicrowaveOven</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Middleware</IRI>
-        <Literal datatypeIRI="&xsd;string">Middleware</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#MobilePhone</IRI>
-        <Literal datatypeIRI="&xsd;string">Phone with no wire</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#MobilePhone</IRI>
-        <Literal datatypeIRI="&xsd;string">CellPhone</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#MobilePhone</IRI>
-        <Literal datatypeIRI="&xsd;string">CelularPhone</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#MobilePhone</IRI>
-        <Literal datatypeIRI="&xsd;string">Mobile-Phone</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#MobilePhone</IRI>
-        <Literal datatypeIRI="&xsd;string">WirelessPhone</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#MobilePhone</IRI>
-        <Literal datatypeIRI="&xsd;string">WirelessPhone</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#MovementSensor</IRI>
-        <Literal datatypeIRI="&xsd;string">MotionSensor</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#MovementSensor</IRI>
-        <Literal datatypeIRI="&xsd;string">MovementSensor</Literal>
+        <Literal>Luminance</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#Noise</IRI>
-        <Literal datatypeIRI="&xsd;string">Loudness</Literal>
+        <Literal>Loudness</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#Noise</IRI>
-        <Literal datatypeIRI="&xsd;string">NoiseLevel</Literal>
+        <Literal>NoiseLevel</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#Noise</IRI>
-        <Literal datatypeIRI="&xsd;string">Noise</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#NoiseSensor</IRI>
-        <Literal datatypeIRI="&xsd;string">LoudnessSensing</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#NoiseSensor</IRI>
-        <Literal datatypeIRI="&xsd;string">NoiseSensor</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Office</IRI>
-        <Literal datatypeIRI="&xsd;string">Office</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#OperatingSystem</IRI>
-        <Literal datatypeIRI="&xsd;string">OS</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#OperatingSystem</IRI>
-        <Literal datatypeIRI="&xsd;string">OperatingSystem</Literal>
+        <Literal>Noise</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#OutdoorLocation</IRI>
-        <Literal datatypeIRI="&xsd;string">Outdoor home space</Literal>
+        <Literal>Outdoor home space</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#OutdoorLocation</IRI>
-        <Literal datatypeIRI="&xsd;string">Outdoor</Literal>
+        <Literal>Outdoor</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#OutdoorLocation</IRI>
-        <Literal datatypeIRI="&xsd;string">Outside</Literal>
+        <Literal>Outside</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#OutdoorLocation</IRI>
-        <Literal datatypeIRI="&xsd;string">OutdoorLocation</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Oven</IRI>
-        <Literal datatypeIRI="&xsd;string">Kitchen appliance used for baking or roasting</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Oven</IRI>
-        <Literal datatypeIRI="&xsd;string">Oven</Literal>
+        <Literal>OutdoorLocation</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#Patio</IRI>
-        <Literal datatypeIRI="&xsd;string">An outdoor space that is paved</Literal>
+        <Literal>An outdoor space that is paved</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#Patio</IRI>
-        <Literal datatypeIRI="&xsd;string">Patio</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#PersonalComputer</IRI>
-        <Literal datatypeIRI="&xsd;string">DesktopComputer</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#PersonalComputer</IRI>
-        <Literal datatypeIRI="&xsd;string">PC</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#PersonalComputer</IRI>
-        <Literal datatypeIRI="&xsd;string">PersonalComputer</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Phone</IRI>
-        <Literal datatypeIRI="&xsd;string">Appliance to comunicate with other person</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Phone</IRI>
-        <Literal datatypeIRI="&xsd;string">Telephone</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Phone</IRI>
-        <Literal datatypeIRI="&xsd;string">Phone</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Polisher</IRI>
-        <Literal datatypeIRI="&xsd;string">Polisher</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#PowerConsumption</IRI>
-        <Literal datatypeIRI="&xsd;string">Consumption</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#PowerConsumption</IRI>
-        <Literal datatypeIRI="&xsd;string">PowerConsumption</Literal>
+        <Literal>Patio</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#Pressure</IRI>
-        <Literal datatypeIRI="&xsd;string">Pressure</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#PressureSensor</IRI>
-        <Literal datatypeIRI="&xsd;string">PressureSensor</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Printer</IRI>
-        <Literal datatypeIRI="&xsd;string">Output device that prints</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Printer</IRI>
-        <Literal datatypeIRI="&xsd;string">Printer</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Projector</IRI>
-        <Literal datatypeIRI="&xsd;string">Projector</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Radiator</IRI>
-        <Literal datatypeIRI="&xsd;string">Radiator</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Radio</IRI>
-        <Literal datatypeIRI="&xsd;string">A communication system based on broadcasting electromagnetic waves</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Radio</IRI>
-        <Literal datatypeIRI="&xsd;string">Radio</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Reading</IRI>
-        <Literal datatypeIRI="&xsd;string">Reading</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Room</IRI>
-        <Literal datatypeIRI="&xsd;string">Room</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Router</IRI>
-        <Literal datatypeIRI="&xsd;string">Router</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Scale</IRI>
-        <Literal datatypeIRI="&xsd;string">WeighingScale</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Scale</IRI>
-        <Literal datatypeIRI="&xsd;string">Scale</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Scanner</IRI>
-        <Literal datatypeIRI="&xsd;string">Scanner</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Sensor</IRI>
-        <Literal datatypeIRI="&xsd;string">An object which detects or measures a physical property.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Sensor</IRI>
-        <Literal datatypeIRI="&xsd;string">SensorStyleDevice</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Sensor</IRI>
-        <Literal datatypeIRI="&xsd;string">Sensor</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Service</IRI>
-        <Literal datatypeIRI="&xsd;string"> Functionality provided by a device or a software program</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Service</IRI>
-        <Literal datatypeIRI="&xsd;string">Service</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Showering</IRI>
-        <Literal datatypeIRI="&xsd;string">Showering</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Sleeping</IRI>
-        <Literal datatypeIRI="&xsd;string">Sleeping</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#SmartHomeActivity</IRI>
-        <Literal datatypeIRI="&xsd;string">Models user activities</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#SmartHomeActivity</IRI>
-        <Literal datatypeIRI="&xsd;string">Activity</Literal>
+        <Literal>Pressure</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#SmartHomeActivity</IRI>
-        <Literal datatypeIRI="&xsd;string">SmartHomeActivity</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#SmartHomeContext</IRI>
-        <Literal datatypeIRI="&xsd;string">Models information related to locations, people, time and environmental conditions.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#SmartHomeContext</IRI>
-        <Literal datatypeIRI="&xsd;string">Context</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#SmartHomeContext</IRI>
-        <Literal datatypeIRI="&xsd;string">ContextInformation</Literal>
+        <Literal>SmartHomeActivity</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#SmartHomeContext</IRI>
-        <Literal datatypeIRI="&xsd;string">SmartHomeContext</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#SmartHomeEntity</IRI>
-        <Literal datatypeIRI="&xsd;string">Models physical entities involved in the Smart Home system</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#SmartHomeEntity</IRI>
-        <Literal datatypeIRI="&xsd;string">Artifact</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#SmartHomeEntity</IRI>
-        <Literal datatypeIRI="&xsd;string">BuildingEquipment</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#SmartHomeEntity</IRI>
-        <Literal datatypeIRI="&xsd;string">BuildingThing</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#SmartHomeEntity</IRI>
-        <Literal datatypeIRI="&xsd;string">CompEntity</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#SmartHomeEntity</IRI>
-        <Literal datatypeIRI="&xsd;string">ComputingEntity</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#SmartHomeEntity</IRI>
-        <Literal datatypeIRI="&xsd;string">Object</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#SmartHomeEntity</IRI>
-        <Literal datatypeIRI="&xsd;string">PhysicalObject</Literal>
+        <Literal>SmartHomeContext</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#SmartHomeEntity</IRI>
-        <Literal datatypeIRI="&xsd;string">SmartHomeEntity</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#SmartHomeEntityCharacteristic</IRI>
-        <Literal datatypeIRI="&xsd;string">Models states, parameters, values and other characteristics of home entities</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#SmartHomeEntityCharacteristic</IRI>
-        <Literal datatypeIRI="&xsd;string">SmartHomeEntityCharacteristic</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#SmartPhone</IRI>
-        <Literal datatypeIRI="&xsd;string">SmartPhone</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#SmartPlug</IRI>
-        <Literal datatypeIRI="&xsd;string">SmartOutlet</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#SmartPlug</IRI>
-        <Literal datatypeIRI="&xsd;string">SmartPlug</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Sofa</IRI>
-        <Literal datatypeIRI="&xsd;string">Sofa</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Software</IRI>
-        <Literal datatypeIRI="&xsd;string">Program used in a computer system</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Software</IRI>
-        <Literal datatypeIRI="&xsd;string">Software</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Speaker</IRI>
-        <Literal datatypeIRI="&xsd;string">AudioSpeakers</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Speaker</IRI>
-        <Literal datatypeIRI="&xsd;string">Loudspeaker</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Speaker</IRI>
-        <Literal datatypeIRI="&xsd;string">Speaker</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Sprinkler</IRI>
-        <Literal datatypeIRI="&xsd;string">A device that sprays water.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Sprinkler</IRI>
-        <Literal datatypeIRI="&xsd;string">Sprinkler</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Stair</IRI>
-        <Literal datatypeIRI="&xsd;string">Stair</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#State</IRI>
-        <Literal datatypeIRI="&xsd;string">A particular condition that something is in at a specific time.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#State</IRI>
-        <Literal datatypeIRI="&xsd;string">DeviceState</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#State</IRI>
-        <Literal datatypeIRI="&xsd;string">OnOffState</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#State</IRI>
-        <Literal datatypeIRI="&xsd;string">PowerState</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#State</IRI>
-        <Literal datatypeIRI="&xsd;string">State</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#StorageRoom</IRI>
-        <Literal datatypeIRI="&xsd;string">StorageRoom</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Structural</IRI>
-        <Literal datatypeIRI="&xsd;string">Structural elements of the environment</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Structural</IRI>
-        <Literal datatypeIRI="&xsd;string">StructuralThing</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Structural</IRI>
-        <Literal datatypeIRI="&xsd;string">Structural</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#StudyRoom</IRI>
-        <Literal datatypeIRI="&xsd;string">StudyRoom</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Table</IRI>
-        <Literal datatypeIRI="&xsd;string">Table</Literal>
+        <IRI>#SmartHomeObject</IRI>
+        <Literal>SmartHomeObject</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#Temperature</IRI>
-        <Literal datatypeIRI="&xsd;string">Temperature</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#TemperatureSensor</IRI>
-        <Literal datatypeIRI="&xsd;string">TemperatureSensing</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#TemperatureSensor</IRI>
-        <Literal datatypeIRI="&xsd;string">Thermometer</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#TemperatureSensor</IRI>
-        <Literal datatypeIRI="&xsd;string">TemperatureSensor</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Thermostat</IRI>
-        <Literal datatypeIRI="&xsd;string">Thermostat</Literal>
+        <Literal>Temperature</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#Time</IRI>
-        <Literal datatypeIRI="&xsd;string">Time</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Toaster</IRI>
-        <Literal datatypeIRI="&xsd;string">Toaster</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#Tv</IRI>
-        <Literal datatypeIRI="&xsd;string">A receiver that displays television images</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#Tv</IRI>
-        <Literal datatypeIRI="&xsd;string">Television</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Tv</IRI>
-        <Literal datatypeIRI="&xsd;string">Tv</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#User</IRI>
-        <Literal datatypeIRI="&xsd;string">Actor</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#User</IRI>
-        <Literal datatypeIRI="&xsd;string">Human</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#User</IRI>
-        <Literal datatypeIRI="&xsd;string">Person</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#User</IRI>
-        <Literal datatypeIRI="&xsd;string">User</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#VacuumCleaner</IRI>
-        <Literal datatypeIRI="&xsd;string">A device that by means of suction collects dust and small particles from floors and other surfaces.</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#VacuumCleaner</IRI>
-        <Literal datatypeIRI="&xsd;string">Cleaner</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#VacuumCleaner</IRI>
-        <Literal datatypeIRI="&xsd;string">Vacuum</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#VacuumCleaner</IRI>
-        <Literal datatypeIRI="&xsd;string">VacuumCleaner</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Walking</IRI>
-        <Literal datatypeIRI="&xsd;string">Walking</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#WallClock</IRI>
-        <Literal datatypeIRI="&xsd;string">WallClock</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
-        <IRI>#WashingMachine</IRI>
-        <Literal datatypeIRI="&xsd;string">Washer</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#WashingMachine</IRI>
-        <Literal datatypeIRI="&xsd;string">WashingMachine</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#WashingRoom</IRI>
-        <Literal datatypeIRI="&xsd;string">WashingRoom</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#WatchingTV</IRI>
-        <Literal datatypeIRI="&xsd;string">WatchingTV</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#WaterMeter</IRI>
-        <Literal datatypeIRI="&xsd;string">WaterMeter</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
-        <IRI>#Window</IRI>
-        <Literal datatypeIRI="&xsd;string">Window</Literal>
+        <Literal>Time</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#Yard</IRI>
-        <Literal datatypeIRI="&xsd;string">A piece of bounded ground</Literal>
+        <Literal>A piece of bounded ground</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#Yard</IRI>
-        <Literal datatypeIRI="&xsd;string">Yard</Literal>
+        <Literal>Yard</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#affectsEnvironmentalParameter</IRI>
-        <Literal datatypeIRI="&xsd;string">affectsParameter</Literal>
+        <Literal>affectsParameter</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#affectsEnvironmentalParameter</IRI>
-        <Literal datatypeIRI="&xsd;string">affectsEnvironmentalParameter</Literal>
+        <Literal>affectsEnvironmentalParameter</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#altitude</IRI>
-        <Literal datatypeIRI="&xsd;string">altitude</Literal>
+        <Literal>altitude</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#attachedTo</IRI>
-        <Literal datatypeIRI="&xsd;string">isAttachedToAppliance</Literal>
+        <Literal>isAttachedToAppliance</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#attachedTo</IRI>
-        <Literal datatypeIRI="&xsd;string">attachedTo</Literal>
+        <Literal>attachedTo</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#consumes</IRI>
-        <Literal datatypeIRI="&xsd;string">consumes</Literal>
+        <Literal>consumes</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#contains</IRI>
-        <Literal datatypeIRI="&xsd;string">isLocationOf</Literal>
+        <Literal>isLocationOf</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#contains</IRI>
-        <Literal datatypeIRI="&xsd;string">spatialContains</Literal>
+        <Literal>spatialContains</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#contains</IRI>
-        <Literal datatypeIRI="&xsd;string">contains</Literal>
+        <Literal>contains</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#email</IRI>
-        <Literal datatypeIRI="&xsd;string">email</Literal>
+        <Literal>email</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#environmentalParameterOf</IRI>
-        <Literal datatypeIRI="&xsd;string">environmentalParameterOf</Literal>
+        <Literal>environmentalParameterOf</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#environmentalValue</IRI>
-        <Literal datatypeIRI="&xsd;string">environmentValue</Literal>
+        <Literal>environmentValue</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#environmentalValue</IRI>
-        <Literal datatypeIRI="&xsd;string">environmentalValue</Literal>
+        <Literal>environmentalValue</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#floorOf</IRI>
-        <Literal datatypeIRI="&xsd;string">floorOf</Literal>
+        <Literal>floorOf</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#hasActuator</IRI>
-        <Literal datatypeIRI="&xsd;string">hasActuator</Literal>
+        <Literal>hasActuator</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#hasAttached</IRI>
-        <Literal datatypeIRI="&xsd;string">hasAttached</Literal>
+        <Literal>hasAttached</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#hasCoordinates</IRI>
-        <Literal datatypeIRI="&xsd;string">Property to indicate the absolute coordinates of an object</Literal>
+        <Literal>Property to indicate the absolute coordinates of an object</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#hasCoordinates</IRI>
-        <Literal datatypeIRI="&xsd;string">hasCoordinates</Literal>
+        <Literal>hasCoordinates</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#hasEnvironmentalParameter</IRI>
-        <Literal datatypeIRI="&xsd;string">hasEnvironmentalParameter</Literal>
+        <Literal>hasEnvironmentalParameter</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#hasFloor</IRI>
-        <Literal datatypeIRI="&xsd;string">hasFloor</Literal>
+        <Literal>hasFloor</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#hasRoom</IRI>
-        <Literal datatypeIRI="&xsd;string">hasRoom</Literal>
+        <Literal>hasRoom</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#hasSensor</IRI>
-        <Literal datatypeIRI="&xsd;string">hasSensor</Literal>
+        <Literal>hasSensor</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#hasState</IRI>
-        <Literal datatypeIRI="&xsd;string">has-device-state</Literal>
+        <Literal>has-device-state</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#hasState</IRI>
-        <Literal datatypeIRI="&xsd;string">hasDeviceState</Literal>
+        <Literal>hasDeviceState</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#hasState</IRI>
-        <Literal datatypeIRI="&xsd;string">hasPowerState</Literal>
+        <Literal>hasPowerState</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#hasState</IRI>
-        <Literal datatypeIRI="&xsd;string">hasState</Literal>
+        <Literal>hasState</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#isAffectedBy</IRI>
-        <Literal datatypeIRI="&xsd;string">isAffectedBy</Literal>
+        <Literal>isAffectedBy</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#isConsumptionOf</IRI>
-        <Literal datatypeIRI="&xsd;string">consumptionOf</Literal>
+        <Literal>consumptionOf</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#isConsumptionOf</IRI>
-        <Literal datatypeIRI="&xsd;string">isConsumptionOf</Literal>
+        <Literal>isConsumptionOf</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#isInBuilding</IRI>
-        <Literal datatypeIRI="&xsd;string">isInBuilding</Literal>
+        <Literal>isInBuilding</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#isInFloor</IRI>
-        <Literal datatypeIRI="&xsd;string">isInFloor</Literal>
+        <Literal>isInFloor</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#isLocatedIn</IRI>
-        <Literal datatypeIRI="&xsd;string">hasLocation</Literal>
+        <Literal>hasLocation</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#isLocatedIn</IRI>
-        <Literal datatypeIRI="&xsd;string">is-at-location</Literal>
+        <Literal>is-at-location</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#isLocatedIn</IRI>
-        <Literal datatypeIRI="&xsd;string">isIn</Literal>
+        <Literal>isIn</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#isLocatedIn</IRI>
-        <Literal datatypeIRI="&xsd;string">locatedAt</Literal>
+        <Literal>locatedAt</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#isLocatedIn</IRI>
-        <Literal datatypeIRI="&xsd;string">locatedIn</Literal>
+        <Literal>locatedIn</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#isLocatedIn</IRI>
-        <Literal datatypeIRI="&xsd;string">isLocatedIn</Literal>
+        <Literal>isLocatedIn</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#isProvidedBy</IRI>
-        <Literal datatypeIRI="&xsd;string">exposesDevice</Literal>
+        <Literal>exposesDevice</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#isProvidedBy</IRI>
-        <Literal datatypeIRI="&xsd;string">isProvidedBy</Literal>
+        <Literal>isProvidedBy</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#isSensorOf</IRI>
-        <Literal datatypeIRI="&xsd;string">isSensorOf</Literal>
+        <Literal>isSensorOf</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#isStateOf</IRI>
-        <Literal datatypeIRI="&xsd;string">isStateOf</Literal>
+        <Literal>isStateOf</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#latitude</IRI>
-        <Literal datatypeIRI="&xsd;string">latitude</Literal>
+        <Literal>latitude</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#level</IRI>
-        <Literal datatypeIRI="&xsd;string">level</Literal>
+        <Literal>level</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#longitude</IRI>
-        <Literal datatypeIRI="&xsd;string">longitude</Literal>
+        <Literal>longitude</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#manufacturer</IRI>
-        <Literal datatypeIRI="&xsd;string">manufacturer</Literal>
+        <Literal>manufacturer</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#model</IRI>
-        <Literal datatypeIRI="&xsd;string">model</Literal>
+        <Literal>model</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#name</IRI>
-        <Literal datatypeIRI="&xsd;string">fullName</Literal>
+        <Literal>fullName</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#name</IRI>
-        <Literal datatypeIRI="&xsd;string">name</Literal>
+        <Literal>name</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#phoneNumber</IRI>
-        <Literal datatypeIRI="&xsd;string">mobilePhoneNumb</Literal>
+        <Literal>mobilePhoneNumb</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#phoneNumber</IRI>
-        <Literal datatypeIRI="&xsd;string">mobilePhoneNumber</Literal>
+        <Literal>mobilePhoneNumber</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#phoneNumber</IRI>
-        <Literal datatypeIRI="&xsd;string">phone</Literal>
+        <Literal>phone</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#phoneNumber</IRI>
-        <Literal datatypeIRI="&xsd;string">phoneNumber</Literal>
+        <Literal>phoneNumber</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#powerValue</IRI>
-        <Literal datatypeIRI="&xsd;string">powerValue</Literal>
+        <Literal>powerValue</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#providesService</IRI>
-        <Literal datatypeIRI="&xsd;string">isExposedByService</Literal>
+        <Literal>isExposedByService</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#providesService</IRI>
-        <Literal datatypeIRI="&xsd;string">providesService</Literal>
+        <Literal>providesService</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#returnedBySensor</IRI>
-        <Literal datatypeIRI="&xsd;string">returnedBySensor</Literal>
+        <Literal>returnedBySensor</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#returnsParameter</IRI>
-        <Literal datatypeIRI="&xsd;string">hasSensorParameter</Literal>
+        <Literal>hasSensorParameter</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#stateValue</IRI>
-        <Literal datatypeIRI="&xsd;string">PowerStateValue</Literal>
+        <Literal>PowerStateValue</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#stateValue</IRI>
-        <Literal datatypeIRI="&xsd;string">deviceStatus</Literal>
+        <Literal>deviceStatus</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#stateValue</IRI>
-        <Literal datatypeIRI="&xsd;string">stateValue</Literal>
+        <Literal>stateValue</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:altLabel"/>
         <IRI>#unit</IRI>
-        <Literal datatypeIRI="&xsd;string">measuringUnit</Literal>
+        <Literal>measuringUnit</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#unit</IRI>
-        <Literal datatypeIRI="&xsd;string">unit</Literal>
+        <Literal>unit</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="skos:prefLabel"/>
         <IRI>#value</IRI>
-        <Literal datatypeIRI="&xsd;string">value</Literal>
+        <Literal>value</Literal>
     </AnnotationAssertion>
 </Ontology>
 
 
 
-<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+<!-- Generated by the OWL API (version 4.5.6.2018-09-06T00:27:41Z) https://github.com/owlcs/owlapi -->
 
