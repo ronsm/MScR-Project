@@ -2,6 +2,7 @@ import pymongo
 from pymongo import MongoClient
 import pprint
 import sys
+from random import shuffle
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
@@ -9,14 +10,45 @@ db = client['RALT_RFID_HAR_System']
 
 # user modifable variables
 collection_name_prefix = None
-num_samples = 7
 num_tags = 150
 unified_sequence_length = 128
+train_test_ratio = 0.7
 
 def get_collection(collection_name):
     collection = db[collection_name]
     pointer = collection.find({})
     return pointer
+
+def get_collection_names(database_name):
+    collections = db.collection_names()
+
+    shuffle(collections)
+
+    num_collections = len(collections)
+
+    num_train_collections = train_test_ratio * num_collections
+    num_train_collections = round(num_train_collections)
+    num_test_collections = (num_collections-num_train_collections)
+
+    train_collections = []
+    test_collections = []
+
+    for i in range(0, num_collections):
+        if i < num_train_collections:
+            train_collections.append(collections[i])
+        else:
+            test_collections.append(collections[i])
+
+    return num_collections, num_train_collections, num_test_collections, train_collections, test_collections
+
+def progress_bar(iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█'):
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    filledLength = int(length * iteration // total)
+    bar = fill * filledLength + '-' * (length - filledLength)
+    print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end = '\r')
+
+    if iteration == total: 
+        print()
 
 def read_tag_epcs():
     with open("tags.txt") as f:
@@ -74,15 +106,14 @@ def create_dataset_files(tag_epcs):
             f.write("")
             f.close
 
-def write_dataset_input_files(tag_epcs):    
-    train_collections = 0.7 * num_samples
-    train_collections = round(train_collections)
-    test_collections = (num_samples-train_collections)
-
+def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, num_test_collections, train_collections, test_collections):
     # write to training set
-    for i in range(1, train_collections + 1):
-        collection_name = collection_name_prefix + "_" + str(i)
-        pointer = get_collection(collection_name)
+    print("[write_dataset_input_files][INFO] Writing training set...")
+    progress_bar(0, num_train_collections, prefix = 'Progress:', suffix = 'Complete', length = 50)
+
+    for i in range(0, num_train_collections):
+        progress_bar(i + 1, num_train_collections, prefix = 'Progress:', suffix = 'Complete', length = 50)
+        pointer = get_collection(train_collections[i])
 
         labelled = 0
         sequence_length = 0
@@ -168,10 +199,15 @@ def write_dataset_input_files(tag_epcs):
                 f.write('\n')
                 f.close()
 
+    progress_bar(num_train_collections, num_train_collections, prefix = 'Progress:', suffix = 'Complete', length = 50)
+
     # write to test set
-    for i in range(train_collections + 1, num_samples + 1):
-        collection_name = collection_name_prefix + "_" + str(i)
-        pointer = get_collection(collection_name)
+    print("[write_dataset_input_files][INFO] Writing test set...")
+    progress_bar(0, num_test_collections, prefix = 'Progress:', suffix = 'Complete', length = 50)
+
+    for i in range(0, num_test_collections):
+        progress_bar(i + 1, num_test_collections, prefix = 'Progress:', suffix = 'Complete', length = 50)
+        pointer = get_collection(test_collections[i])
 
         labelled = 0
 
@@ -231,6 +267,8 @@ def write_dataset_input_files(tag_epcs):
                 f.write('\n')
                 f.close()
 
+    progress_bar(num_test_collections, num_test_collections, prefix = 'Progress:', suffix = 'Complete', length = 50)
+
 def main():
     # clear the terminal
     print(chr(27) + "[2J")
@@ -244,17 +282,22 @@ def main():
 
     num_arguments = len(sys.argv)
 
-    global collection_name_prefix
+    global database_name
 
     if num_arguments == 2:
-        collection_name_prefix = sys.argv[1]
+        database_name = sys.argv[1]
     else:
-        print("[MAIN][INFO] Invalid arguments. Usage: python3 data_converter_module.py collection_name")
+        print("[MAIN][INFO] Invalid arguments. Usage: python3 data_converter_module.py database_name")
         exit()
 
     # read in tag EPCs
     print("[MAIN][STAT] Reading in tag EPCs from tags.txt...", end="", flush=True)
     tag_epcs = read_tag_epcs()
+    print("[DONE]")
+
+    # get the names of all collections (sessions) in the given database
+    print("[MAIN][STAT] Getting all collection (session) names from database...", end="", flush=True)
+    num_collections, num_train_collections, num_test_collections, train_collections, test_collections = get_collection_names(database_name)
     print("[DONE]")
 
     # create output files in 'Dataset' folder
@@ -264,9 +307,8 @@ def main():
 
     # write to dataset input files from database
     print("[MAIN][INFO] Dataset will be split 70/30 for train/test sets.")
-    print("[MAIN][STAT] Writing to dataset files with database (MongoDB) data...", end="", flush=True)
-    write_dataset_input_files(tag_epcs)
-    print("[DONE]")
+    print("[MAIN][STAT] Writing to dataset files with database (MongoDB) data...")
+    write_dataset_input_files(tag_epcs, num_collections, num_train_collections, num_test_collections, train_collections, test_collections)
   
 if __name__== "__main__":
   main()
