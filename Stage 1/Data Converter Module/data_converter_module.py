@@ -199,7 +199,7 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
                 f.write('\n')
                 f.close()
 
-    progress_bar(num_train_collections, num_train_collections, prefix = 'Progress:', suffix = 'Complete', length = 50)
+    print()
 
     # write to test set
     print("[write_dataset_input_files][INFO] Writing test set...")
@@ -267,7 +267,7 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
                 f.write('\n')
                 f.close()
 
-    progress_bar(num_test_collections, num_test_collections, prefix = 'Progress:', suffix = 'Complete', length = 50)
+    print()
 
 def main():
     # clear the terminal
