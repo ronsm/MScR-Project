@@ -6,6 +6,7 @@ import sys
 from database_helper import database_helper
 from data_converter_module import data_converter_module
 from object_activitation_detection_module import object_activation_detection_module
+from classification_module import classification_module
 
 class semantic_reasoning_module:
     def __init__(self, database_name):
@@ -20,12 +21,14 @@ class semantic_reasoning_module:
         self.database_helper = database_helper(database_name)
         self.data_converter_module = data_converter_module(1, self.database_helper, self.tag_epcs, self.num_tags, self.unified_sequence_length, self.train_test_ratio)
         self.object_activation_detection_module = object_activation_detection_module(self.database_helper, self.num_object_tags)
+        self.classification_module = classification_module(self.unified_sequence_length)
 
         self.start()
 
     def start(self):
-        self.data_converter_module.start()
-        self.object_activation_detection_module.start()
+        # self.data_converter_module.start()
+        # self.object_activation_detection_module.start()
+        self.classification_module.start()
 
     def read_tag_epcs(self):
         with open("tags.txt") as f:
