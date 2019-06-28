@@ -15,9 +15,9 @@ import sys
 import glob, os
 
 def load_file(filepath):
-    print(filepath)
+    # print(filepath)
     dataframe = read_csv(filepath, header=None, delim_whitespace=True)
-    print(dataframe)
+    # print(dataframe)
     return dataframe.values
 
 def load_group(filenames, prefix=''):
@@ -44,22 +44,25 @@ def load_dataset_group(group, prefix=''):
     return X, y
 
 def load_dataset(prefix=''):
-	trainX, trainy = load_dataset_group('train', prefix + 'dataset/')
-	print(trainX.shape, trainy.shape)
+    trainX, trainy = load_dataset_group('train', prefix + 'dataset/')
+    print(trainX.shape, trainy.shape)
 
-	testX, testy = load_dataset_group('test', prefix + 'dataset/')
-	print(testX.shape, testy.shape)
+    testX, testy = load_dataset_group('test', prefix + 'dataset/')
+    print(testX.shape, testy.shape)
 
-	# zero-offset class values
-	trainy = trainy - 1
-	testy = testy - 1
+    trainy = trainy.astype(int)
+    testy = testy.astype(int)
 
-	# one hot encode y
-	trainy = to_categorical(trainy)
-	testy = to_categorical(testy)
-	print(trainX.shape, trainy.shape, testX.shape, testy.shape)
+    # zero-offset class values
+    trainy = trainy - 1
+    testy = testy - 1
 
-	return trainX, trainy, testX, testy
+    # one hot encode y
+    trainy = to_categorical(trainy)
+    testy = to_categorical(testy)
+    print(trainX.shape, trainy.shape, testX.shape, testy.shape)
+
+    return trainX, trainy, testX, testy
 
 # fit and evaluate a model
 def evaluate_model(trainX, trainy, testX, testy):
@@ -68,7 +71,7 @@ def evaluate_model(trainX, trainy, testX, testy):
 	n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 
 	# reshape into subsequences (samples, time steps, rows, cols, channels)
-	n_steps, n_length = 4, 32
+	n_steps, n_length = 2, 12
 	trainX = trainX.reshape((trainX.shape[0], n_steps, 1, n_length, n_features))
 	testX = testX.reshape((testX.shape[0], n_steps, 1, n_length, n_features))
 

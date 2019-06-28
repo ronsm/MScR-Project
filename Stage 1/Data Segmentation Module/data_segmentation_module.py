@@ -7,7 +7,10 @@ import sys
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['RALT_RFID_HAR_System']
+db = client['RALT_RFID_HAR_System_2']
+
+# configuration variables
+time_between_snapshots_millis = 5000
 
 def get_collection(collection_name):
     collection = db[collection_name]
@@ -68,14 +71,16 @@ def get_sec(human_time):
 
     return milliseconds
 
-def get_label_for_snapshot(time, start_times, end_times, labels):
+def get_label_for_snapshot(document_num, start_times, end_times, labels):
     found = 0
     label = 'err:label_error'
+
+    document_time = (document_num * time_between_snapshots_millis) + time_between_snapshots_millis
 
     for i in range(0, len(start_times)):
         if found == 1:
             break
-        if int(time) > end_times[i]:
+        if document_time > end_times[i]:
             found = 0
         else:
             label = labels[i]
@@ -86,11 +91,14 @@ def get_label_for_snapshot(time, start_times, end_times, labels):
 def label_database(start_times, end_times, labels, collection_name):
     colelction, pointer = get_collection(collection_name)
 
+    document_num = 0
     for document in pointer:
         query = { "_id": document["_id"]}
-        activity_label = { "$set": { "activity_label": get_label_for_snapshot(document["elapsedTime"], end_times, end_times, labels) } }
+        activity_label = { "$set": { "activity_label": get_label_for_snapshot(document_num, end_times, end_times, labels) } }
 
         colelction.update_one(query, activity_label)
+
+        document_num = document_num + 1
 
 def split_collections(collection_name):
     collection, pointer = get_collection(collection_name)
