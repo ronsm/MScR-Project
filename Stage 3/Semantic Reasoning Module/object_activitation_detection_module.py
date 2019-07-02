@@ -22,12 +22,12 @@ class object_activation_detection_module:
     def start(self):
         # split the 'tags' array in each snapshot into 'tags' and 'object_tags'
         print("[object_activation_detection_module][STAT] Splitting tags into static and object tags in collection... ", end="", flush=True)
-        # self.split_tags()
+        self.split_tags()
         print("[DONE]")
 
         # apply object labels to the database, using the object tag dictionary
         print("[object_activation_detection_module][STAT] Applying labels to object tags... ", end="", flush=True)
-        # self.label_tags()
+        self.label_tags()
         print("[DONE]")
 
         # get timeseries of object RSSI, calculate CPD, return results
