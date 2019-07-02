@@ -67,6 +67,6 @@ class classification_module:
 
     def predict(self, new_data):
         model = load_model('models/model.h5')
-        predictions = model.predict_classes(new_data)
+        predictions = model.predict(new_data)
 
         return predictions

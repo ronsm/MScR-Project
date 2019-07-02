@@ -43,17 +43,17 @@ class data_converter_module:
         label = 0
 
         if full_label == "bedroom_location_bed":
-            label = 1
-        elif full_label == "bedroom_location_chair":
             label = 2
-        elif full_label == "bedroom_location_wardrobe":
+        elif full_label == "bedroom_location_chair":
             label = 3
-        elif full_label == "bedroom_location_drawers":
+        elif full_label == "bedroom_location_wardrobe":
             label = 4
-        elif full_label == "bedroom_location_mirror":
+        elif full_label == "bedroom_location_drawers":
             label = 5
+        elif full_label == "bedroom_location_mirror":
+            label = 6
         elif full_label == "TRA":
-            label = 100
+            label = 1
 
         label = str(label)
 

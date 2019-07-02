@@ -54,8 +54,8 @@ def load_dataset(prefix=''):
     testy = testy.astype(int)
 
     # zero-offset class values
-    trainy = trainy - 1
-    testy = testy - 1
+    # trainy = trainy - 1
+    # testy = testy - 1
 
     # one hot encode y
     trainy = to_categorical(trainy)

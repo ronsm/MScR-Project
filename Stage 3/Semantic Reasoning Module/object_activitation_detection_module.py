@@ -9,17 +9,25 @@ import numpy as np
 np.set_printoptions(threshold=sys.maxsize)
 
 class object_activation_detection_module:
-    def __init__(self, database_helper, num_object_tags):
+    def __init__(self, database_helper, num_object_tags, object_tag_epcs, object_tag_labels, object_tag_dict):
         print("[object_activation_detection_module][INFO] Starting up... ", end="", flush=True)
         self.database_helper = database_helper
         self.num_object_tags = num_object_tags
-        self.object_tags = {}
+        self.object_tag_dict = object_tag_dict
+        self.object_tag_epcs = object_tag_epcs
+        self.object_tag_labels = object_tag_labels
+        self.num_collections, self.collection_names = self.database_helper.get_all_collection_names()
         print("[OK]")
 
     def start(self):
         # split the 'tags' array in each snapshot into 'tags' and 'object_tags'
         print("[object_activation_detection_module][STAT] Splitting tags into static and object tags in collection... ", end="", flush=True)
-        self.split_tags()
+        # self.split_tags()
+        print("[DONE]")
+
+        # apply object labels to the database, using the object tag dictionary
+        print("[object_activation_detection_module][STAT] Applying labels to object tags... ", end="", flush=True)
+        # self.label_tags()
         print("[DONE]")
 
         # get timeseries of object RSSI, calculate CPD, return results
@@ -27,10 +35,33 @@ class object_activation_detection_module:
         self.calculate_cpd_store()
         print("[DONE]")
 
+        # generate the master list (list of lists) of object activiations by label
+        print("[object_activation_detection_module][STAT] Generating master list (list of lists) of object activiations (by label)... ", end="", flush=True)
+        master_list = self.generate_activated_object_lists()
+        print("[DONE]")
+
+        return master_list
+
     def split_tags(self):
         self.num_collections, self.collection_names = self.database_helper.get_all_collection_names()
         for collection in self.collection_names:
             self.database_helper.split_static_and_object_tags(collection)
+
+    def label_tags(self):
+        self.num_collections, self.collection_names = self.database_helper.get_all_collection_names()
+        for collection in self.collection_names:
+            collection, pointer = self.database_helper.get_collection(collection)
+
+            for document in pointer:
+
+                object_tag_labels = []
+                for i in range(0, len(document['object_tags'])):
+                    object_tag_labels.append(self.object_tag_dict[document['object_tags'][i]['_id']])
+
+                query = {"_id": document["_id"]}
+                add_cp = { "$set": { "object_tag_labels": object_tag_labels } }
+
+                collection.update_one(query, add_cp)
 
     def calculate_cpd_store(self):
         for collection in self.collection_names:
@@ -80,16 +111,33 @@ class object_activation_detection_module:
 
         rows, cols = object_tags_rssi_cp.shape
 
+        object_tags_rssi_cp = object_tags_rssi_cp.transpose()
         object_tags_rssi_cp = object_tags_rssi_cp.tolist()
 
+        i = 0
         for document in pointer:
-            i = 0
-            document_object_cp = []
-            for j in range(0, rows):
-                document_object_cp.append(object_tags_rssi_cp[j][i])
-            i = i + 1
-
             query = {"_id": document["_id"]}
-            add_cp = { "$set": { "object_tags_cpd": document_object_cp } }
+            add_cp = { "$set": { "object_tag_cps": object_tags_rssi_cp[i] } }
 
             collection.update_one(query, add_cp)
+            i = i + 1
+
+    def generate_activated_object_lists(self):
+        master_list = []
+
+        self.num_collections, self.collection_names = self.database_helper.get_all_collection_names()
+        for collection in self.collection_names:
+            collection, pointer = self.database_helper.get_collection(collection)
+
+            collection_list = []
+            for document in pointer:
+                for i in range(0, self.num_object_tags):
+                    if document["object_tag_cps"][i] == 1:
+                        collection_list.append(document["object_tag_labels"][i])
+
+            if len(collection_list) == 0:
+                collection_list.append('none')
+            collection_list = list(dict.fromkeys(collection_list))
+            master_list.append(collection_list)
+
+        return master_list
