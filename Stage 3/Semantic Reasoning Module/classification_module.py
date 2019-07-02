@@ -15,6 +15,8 @@ from matplotlib import pyplot
 from keras.models import load_model
 import sys
 import glob, os
+import operator
+import pprint
 
 class classification_module:
     def __init__(self, unified_sequence_length):
@@ -25,9 +27,10 @@ class classification_module:
 
     def start(self):
         new_data = self.load_dataset()
-        predictions = self.predict(new_data)
-        
-        print(predictions)
+        master_list = self.predict(new_data)
+        master_list = self.one_hot_decoding(master_list)
+
+        return master_list
 
     def load_file(self, filepath):
         dataframe = read_csv(filepath, header=None, delim_whitespace=True)
@@ -69,4 +72,38 @@ class classification_module:
         model = load_model('models/model.h5')
         predictions = model.predict(new_data)
 
-        return predictions
+        master_list = []
+        for i in range(0, len(predictions)):
+            prediction_dict = {}
+            for j in range(0, len(predictions[i])):
+                prediction_dict[j] = predictions[i][j]
+            sorted_prediction_dict = sorted(prediction_dict.items(), key=operator.itemgetter(1), reverse=True)
+            master_list.append(sorted_prediction_dict)
+
+        return master_list
+
+    def one_hot_decoding(self, master_list):
+        one_hot_encodings = self.load_label_map()
+
+        for i in range(0, len(master_list)):
+            for j in range(0, len(master_list[i])):
+                master_list[i][j] = list(master_list[i][j])
+
+        for i in range(0, len(master_list)):
+            for j in range(0, len(master_list[i])):
+                master_list[i][j][0] = one_hot_encodings[master_list[i][j][0]]
+
+        return master_list
+
+    def load_label_map(self):
+        one_hot_encodings = {}
+        with open("label_map.txt") as f:
+            lines = f.read().splitlines()
+        f.close()
+
+        for line in lines:
+            splits = line.split(":", 1)
+            splits[0] = int(splits[0])
+            one_hot_encodings[splits[0]] = splits[1]
+
+        return one_hot_encodings

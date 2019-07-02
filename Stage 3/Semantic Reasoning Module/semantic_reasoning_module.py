@@ -31,7 +31,7 @@ class semantic_reasoning_module:
         # self.data_converter_module.start()
 
         object_activations = self.object_activation_detection_module.start()
-        # self.classification_module.start()
+        location_classifications = self.classification_module.start()
 
     def load_static_tag_data(self):
         with open("tags/static.txt") as f:
