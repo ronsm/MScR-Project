@@ -12,7 +12,6 @@ class semantic_reasoning_module:
     def __init__(self, database_name):
         self.unified_sequence_length = 24
         self.num_tags = 244
-        self.unified_sequence_length = 24
         self.train_test_ratio = 0.7
         self.num_object_tags = 72
         self.dcvm_mode = 1
@@ -30,8 +29,10 @@ class semantic_reasoning_module:
     def start(self):
         # self.data_converter_module.start()
 
-        object_activations = self.object_activation_detection_module.start()
+        # object_activations = self.object_activation_detection_module.start()
         location_classifications = self.classification_module.start()
+
+        pprint.pprint(location_classifications)
 
     def load_static_tag_data(self):
         with open("tags/static.txt") as f:

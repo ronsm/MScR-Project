@@ -21,7 +21,7 @@ import pprint
 class classification_module:
     def __init__(self, unified_sequence_length):
         print("[classification_module][INFO] Starting up... ")
-        self.model = load_model('models/model.h5')
+        self.model = load_model('models/best_model.h5')
         self.unified_sequence_length = unified_sequence_length
         print("[classification_module][INFO] Starting up... [OK]")
 
@@ -69,8 +69,7 @@ class classification_module:
         return new_data
 
     def predict(self, new_data):
-        model = load_model('models/model.h5')
-        predictions = model.predict(new_data)
+        predictions = self.model.predict(new_data)
 
         master_list = []
         for i in range(0, len(predictions)):

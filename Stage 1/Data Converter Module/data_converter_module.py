@@ -11,8 +11,8 @@ db = client['RALT_RFID_HAR_System_3']
 # user modifable variables
 collection_name_prefix = None
 num_tags = 244
-unified_sequence_length = 12
-train_test_ratio = 0.6
+unified_sequence_length = 24
+train_test_ratio = 0.7
 
 def get_collection(collection_name):
     collection = db[collection_name]
@@ -65,15 +65,15 @@ def get_label(full_label):
     label = 0
 
     if full_label == "bedroom_location_bed":
-        label = 1
+        label = 0
     elif full_label == "bedroom_location_chair":
-        label = 2
+        label = 1
     elif full_label == "bedroom_location_wardrobe":
-        label = 3
+        label = 2
     elif full_label == "bedroom_location_drawers":
-        label = 4
+        label = 3
     elif full_label == "bedroom_location_mirror":
-        label = 5
+        label = 4
     elif full_label == "TRA":
         label = 100
 

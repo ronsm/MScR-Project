@@ -1,7 +1,5 @@
-0:undefined
-1:TRA
-2:bedroom_location_bed
-3:bedroom_location_chair
-4:bedroom_location_wardrobe
-5:bedroom_location_drawers
-6:bedrom_location_mirror
+0:bedroom_location_bed
+1:bedroom_location_chair
+2:bedroom_location_wardrobe
+3:bedroom_location_drawers
+4:bedroom_location_mirror

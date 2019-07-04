@@ -64,7 +64,7 @@ def load_dataset(prefix=''):
     trainy = trainy.astype(int)
     testy = testy.astype(int)
 
-    # zero-offset class values
+    # zero-offset class values (if they don't already!)
     # trainy = trainy - 1
     # testy = testy - 1
 
@@ -82,14 +82,14 @@ def evaluate_model(trainX, trainy, testX, testy):
     n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 
     # reshape into subsequences (samples, time steps, rows, cols, channels)
-    n_steps, n_length = 2, 6
+    n_steps, n_length = 2, 12
     trainX = trainX.reshape((trainX.shape[0], n_steps, 1, n_length, n_features))
     testX = testX.reshape((testX.shape[0], n_steps, 1, n_length, n_features))
 
     # define model
     model = Sequential()
     model.add(ConvLSTM2D(filters=64, kernel_size=(1,3), activation='relu', input_shape=(n_steps, 1, n_length, n_features)))
-    model.add(Dropout(0.2))
+    model.add(Dropout(0.5))
     model.add(Flatten())
     model.add(Dense(100, activation='relu'))
     model.add(Dense(n_outputs, activation='softmax'))
