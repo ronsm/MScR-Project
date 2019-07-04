@@ -12,7 +12,7 @@ db = client['RALT_RFID_HAR_System_3']
 collection_name_prefix = None
 num_tags = 244
 unified_sequence_length = 12
-train_test_ratio = 0.7
+train_test_ratio = 0.6
 
 def get_collection(collection_name):
     collection = db[collection_name]

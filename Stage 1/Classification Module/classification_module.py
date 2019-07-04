@@ -1,6 +1,7 @@
 from numpy import mean
 from numpy import std
 from numpy import dstack
+import numpy as np
 from pandas import read_csv
 from keras.models import Sequential
 from keras.layers import Dense
@@ -14,8 +15,15 @@ from keras.utils import plot_model
 from matplotlib import pyplot
 from keras.layers.convolutional import Conv1D
 from keras.layers.convolutional import MaxPooling1D
+from keras.wrappers.scikit_learn import KerasClassifier
+from keras.callbacks import EarlyStopping, ModelCheckpoint
+from keras.models import load_model
+from sklearn.model_selection import cross_val_score
+from sklearn.datasets import make_classification
 import sys
 import glob, os
+
+np.random.seed(0)
 
 def load_file(filepath):
     # print(filepath)
@@ -70,29 +78,37 @@ def load_dataset(prefix=''):
 # fit and evaluate a model
 def evaluate_model(trainX, trainy, testX, testy):
     # define model
-    verbose, epochs, batch_size = 0, 25, 32
+    verbose, epochs, batch_size = 0, 10, 4
     n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
-    # reshape data into time steps of sub-sequences
+
+    # reshape into subsequences (samples, time steps, rows, cols, channels)
     n_steps, n_length = 2, 6
-    trainX = trainX.reshape((trainX.shape[0], n_steps, n_length, n_features))
-    testX = testX.reshape((testX.shape[0], n_steps, n_length, n_features))
+    trainX = trainX.reshape((trainX.shape[0], n_steps, 1, n_length, n_features))
+    testX = testX.reshape((testX.shape[0], n_steps, 1, n_length, n_features))
+
     # define model
     model = Sequential()
-    model.add(TimeDistributed(Conv1D(filters=64, kernel_size=3, activation='relu'), input_shape=(None,n_length,n_features)))
-    model.add(TimeDistributed(Conv1D(filters=64, kernel_size=3, activation='relu')))
-    model.add(TimeDistributed(Dropout(0.5)))
-    model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
-    model.add(TimeDistributed(Flatten()))
-    model.add(LSTM(100))
-    model.add(Dropout(0.5))
+    model.add(ConvLSTM2D(filters=64, kernel_size=(1,3), activation='relu', input_shape=(n_steps, 1, n_length, n_features)))
+    model.add(Dropout(0.2))
+    model.add(Flatten())
     model.add(Dense(100, activation='relu'))
     model.add(Dense(n_outputs, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-    # fit network
-    model.fit(trainX, trainy, epochs=epochs, batch_size=batch_size, verbose=verbose)
+
+    callbacks = [EarlyStopping(monitor='val_loss', patience=2, verbose=1), ModelCheckpoint(filepath='best_model.h5', monitor='val_loss', save_best_only=True)]
+
+    history = model.fit(trainX,
+                      trainy,
+                      epochs=30,
+                      callbacks=callbacks,
+                      verbose=0,
+                      batch_size=100,
+                      validation_data=(testX, testy))
 
     # plot model
     plot_model(model, to_file='model.png', show_shapes=True, show_layer_names=True)
+
+    model = load_model('best_model.h5')
 
     # evaluate model
     _, accuracy = model.evaluate(testX, testy, batch_size=batch_size, verbose=0)
