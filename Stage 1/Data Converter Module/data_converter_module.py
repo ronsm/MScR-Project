@@ -6,12 +6,12 @@ from random import shuffle
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['RALT_RFID_HAR_System_2']
+db = client['RALT_RFID_HAR_System_3']
 
 # user modifable variables
 collection_name_prefix = None
 num_tags = 244
-unified_sequence_length = 24
+unified_sequence_length = 12
 train_test_ratio = 0.7
 
 def get_collection(collection_name):
@@ -276,7 +276,7 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
                 #     f.close()
 
         # add new lines at end of every sample
-        if sequence_length < unified_sequence_length:
+        if sequence_length < unified_sequence_length :
             sequence_length_diff = unified_sequence_length - sequence_length
             for tag in tag_epcs:
                 for i in range(0, sequence_length_diff):
