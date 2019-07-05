@@ -35,8 +35,12 @@ class control_module:
 
         # object_activations = self.object_activation_detection_module.start()
         # location_classifications = self.classification_module.start()
+        location_classifications = [["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
+                                    ["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"]]
+        object_activations = [["object_kettle", "object_mug", "object_coffee_container", "object_book"],
+                            ["object_kettle", "object_mug", "object_coffee_container"]]
 
-        self.semantic_reasoning_module.start()
+        self.semantic_reasoning_module.start(location_classifications, object_activations)
 
     def load_static_tag_data(self):
         with open("knowledge/static.txt") as f:
