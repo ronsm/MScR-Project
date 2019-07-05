@@ -1,81 +1,138 @@
-import pymongo
-from pymongo import MongoClient
 import pprint
 import sys
-
-from database_helper import database_helper
-from data_converter_module import data_converter_module
-from object_activitation_detection_module import object_activation_detection_module
-from classification_module import classification_module
+import rdflib
+from rdflib import Graph
 
 class semantic_reasoning_module:
-    def __init__(self, database_name):
-        self.unified_sequence_length = 24
-        self.num_tags = 244
-        self.train_test_ratio = 0.7
-        self.num_object_tags = 72
-        self.dcvm_mode = 1
-
-        self.static_tag_epcs = self.load_static_tag_data()
-        self.object_tag_epcs, self.object_tag_labels, self.object_tag_dict = self.load_object_tag_data()
-
-        self.database_helper = database_helper(database_name)
-        self.data_converter_module = data_converter_module(self.dcvm_mode, self.database_helper, self.static_tag_epcs, self.num_tags, self.unified_sequence_length, self.train_test_ratio)
-        self.object_activation_detection_module = object_activation_detection_module(self.database_helper, self.num_object_tags, self.object_tag_epcs, self.object_tag_labels, self.object_tag_dict)
-        self.classification_module = classification_module(self.unified_sequence_length)
-
-        self.start()
+    def __init__(self, ontology_name, ontology_IRI):
+        print("[semantic_reasoning_module][STAT] Starting up... ", end="", flush=True)
+        self.ont = self.load_ontology(ontology_name)
+        self.ontology_IRI = ontology_IRI
+        print("[OK]")
 
     def start(self):
-        # self.data_converter_module.start()
+        print("[semantic_reasoning_module][STAT] Module under test...")
+        
+        results = self.get_possible_activities_for_location("bedroom_location_bed")
+        results = self.get_default_activity_for_location("bedroom_location_bed")
+        results = self.get_super_object_of_object("object_coffee_container")
+        results = self.get_neighbours_of_location("bedroom_location_bed")
+        
+        results = self.calculate_dependency_satisfaction("activity_make_hot_drink", ["object_kettle", "object_mug", "object_coffee_container"])
 
-        # object_activations = self.object_activation_detection_module.start()
-        location_classifications = self.classification_module.start()
+    def load_ontology(self, ontology_name):
+        load_name = 'knowledge/' + ontology_name
 
-        pprint.pprint(location_classifications)
+        ont = Graph()
+        ont.parse(load_name)
 
-    def load_static_tag_data(self):
-        with open("tags/static.txt") as f:
-            static_tag_epcs = f.read().splitlines() 
-        f.close()
+        return ont
 
-        return static_tag_epcs
+# ***************************
+# Ontology Querying Functions
+# ***************************
 
-    def load_object_tag_data(self):
-        object_tag_epcs = []
-        object_tag_labels = []
-        object_tag_dict = {}
-        with open("tags/object.txt") as f:
-            lines = f.read().splitlines()
-        f.close()
+    def add_IRI(self, label):
+        ontology_IRI_len = len(self.ontology_IRI)
 
-        for line in lines:
-            splits = line.split(":", 1)
-            object_tag_epcs.append(splits[0])
-            object_tag_labels.append(splits[1])
-            object_tag_dict[splits[0]] = splits[1]
+        potential_IRI = label[:ontology_IRI_len]
 
-        return object_tag_epcs, object_tag_labels, object_tag_dict
+        if potential_IRI == self.ontology_IRI:
+            label_with_IRI = label
+        else:
+            label_with_IRI = self.ontology_IRI + label
+        
+        return label_with_IRI
 
+    def submit_query_single_return(self, subject, predicate, object):
+        query = """
+            PREFIX sho: <file://sho.owl#>
+            SELECT ?""" + object + """
+            WHERE { 
+                sho:""" + subject + """ sho:""" + predicate +  """ ?""" + object + """
+            }
+        """
 
-# clear the terminal
-print(chr(27) + "[2J")
-print("* * * * * * * * * * * * * * *")
-print("* Semantic Reasoning Module *")
-print("* * * * * * * * * * * * * * *")
-print("- Version 1.0")
-print("- Developed by Ronnie Smith")
-print("- github: @ronsm | email: ronnie.smith@ed.ac.uk | web: ronsm.com")
-print()
+        raw_result = self.ont.query(query)
+        print(query)
 
-num_arguments = len(sys.argv)
+        results = []
+        for row in raw_result:
+            results.append(str(getattr(row, object)))
 
-global database_name
+        if len(results) == 0:
+            results.append('no_results')
 
-if num_arguments == 2:
-    database_name = sys.argv[1]
-else:
-    print("[MAIN][INFO] Invalid arguments. Usage: python3 semantic_reasoning_module.py database_name")
-    exit()
+        #  uncomment the line below to see submitted queries
+        print(results)
 
-semantic_reasoning_module = semantic_reasoning_module(database_name)
+        return results
+
+    def get_possible_activities_for_location(self, location):
+        subject = location
+        predicate = "hasPossibleActivity"
+        object = "activity"
+
+        results = self.submit_query_single_return(subject, predicate, object)
+
+        return results
+
+    def get_default_activity_for_location(self, location):
+        subject = location
+        predicate = "hasDefaultActivity"
+        object = "defaultActivity"
+
+        results = self.submit_query_single_return(subject, predicate, object)
+
+        return results
+
+    def get_super_object_of_object(self, sub_object):
+        subject = sub_object
+        predicate = "subObjectOf"
+        object = "superObject"
+
+        results = self.submit_query_single_return(subject, predicate, object)
+
+        return results
+
+    def get_neighbours_of_location(self, location):
+        subject = location
+        predicate = "isNextTo"
+        object = "neighbour"
+
+        results = self.submit_query_single_return(subject, predicate, object)
+
+        return results
+
+    def get_possible_actors_for_activity(self, activity):
+        subject = activity
+        predicate = "hasPossibleActor"
+        object = "possibleActor"
+
+        results = self.submit_query_single_return(subject, predicate, object)
+
+        return results
+
+    def calculate_dependency_satisfaction(self, activity, objects):
+        possible_actors = self.get_possible_actors_for_activity(activity)
+        max_actors = len(possible_actors)
+
+        objects_to_add = []
+        for object in objects:
+            superObject = self.get_super_object_of_object(object)
+            if superObject[0] != 'no_results':
+                objects_to_add.append(superObject[0])
+
+        objects = objects + objects_to_add
+
+        actor_count = 0
+
+        for object in objects:
+            if self.add_IRI(object) in possible_actors:
+                actor_count = actor_count + 1
+
+        score = actor_count / max_actors
+
+        print('Score', score)
+
+        return score

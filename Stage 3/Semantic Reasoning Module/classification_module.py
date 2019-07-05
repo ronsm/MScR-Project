@@ -96,7 +96,7 @@ class classification_module:
 
     def load_label_map(self):
         one_hot_encodings = {}
-        with open("label_map.txt") as f:
+        with open("knowledge/label_map.txt") as f:
             lines = f.read().splitlines()
         f.close()
 
