@@ -1,13 +1,13 @@
 bedroom_location_wardrobe
-bedroom_location_drawers
+TRA
 bedroom_location_chair
 bedroom_location_bed
 bedroom_location_mirror
-bedroom_location_drawers
+TRA
 bedroom_location_wardrobe
 bedroom_location_chair
 bedroom_location_mirror
-bedroom_location_bed
+TRA
 bedroom_location_drawers
 bedroom_location_wardrobe
 bedroom_location_chair

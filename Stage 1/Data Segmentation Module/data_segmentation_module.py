@@ -7,7 +7,7 @@ import sys
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['RALT_RFID_HAR_System_3']
+db = client['RALT_RFID_HAR_System']
 
 # configuration variables
 time_between_snapshots_millis = 5000
@@ -16,6 +16,13 @@ def get_collection(collection_name):
     collection = db[collection_name]
     pointer = collection.find({})
     return collection, pointer
+
+def get_all_collection_names():
+    collections = db.collection_names()
+
+    num_collections = len(collections)
+
+    return num_collections, collections
 
 def create_collection(collection_name):
     collection = db[collection_name]
@@ -123,6 +130,20 @@ def split_collections(collection_name):
 
         previousDocument = document
 
+def drop_transitions(collection_name):
+    num_collections, collections = get_all_collection_names()
+
+    for c in collections:
+        collection, pointer = get_collection(c)
+        collection_name_len = len(collection_name)
+        prefix = c[:collection_name_len]
+
+        if prefix == collection_name:
+            for document in pointer:
+                if document["activity_label"] == "TRA":
+                    collection.drop()
+                break
+            
 def main():
     # clear the terminal
     print(chr(27) + "[2J")
@@ -166,6 +187,11 @@ def main():
     # split the top-level collection into individual collections for each sample
     print("[MAIN][STAT] Splitting master collection into sample collections...", end="", flush=True)
     split_collections(collection_name)
+    print("[DONE]")
+
+    # remove transitioning (TRA) activities from the collection (optional)
+    print("[MAIN][STAT] Removing transitional activities...", end="", flush=True)
+    drop_transitions(collection_name)
     print("[DONE]")
 
 if __name__== "__main__":
