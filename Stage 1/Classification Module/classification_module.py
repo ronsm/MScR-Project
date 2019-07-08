@@ -44,7 +44,7 @@ def load_dataset_group(group, prefix=''):
     filenames = list()
 
     os.chdir(filepath)
-    for file in glob.glob("*.txt"):
+    for file in sorted(glob.glob("*.txt")):
         filenames += [file]
     os.chdir('../../..')
 
@@ -88,32 +88,32 @@ def evaluate_model(trainX, trainy, testX, testy):
 
     # define model
     model = Sequential()
-    model.add(ConvLSTM2D(filters=64, kernel_size=(1,3), activation='relu', input_shape=(n_steps, 1, n_length, n_features)))
+    model.add(ConvLSTM2D(filters=122, kernel_size=(1,3), activation='relu', input_shape=(n_steps, 1, n_length, n_features)))
     model.add(Dropout(0.5))
     model.add(Flatten())
     model.add(Dense(100, activation='relu'))
     model.add(Dense(n_outputs, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-    callbacks = [EarlyStopping(monitor='val_loss', patience=2, verbose=1), ModelCheckpoint(filepath='best_model.h5', monitor='val_loss', save_best_only=True)]
+    callbacks = [EarlyStopping(monitor='val_loss', patience=2, verbose=1), ModelCheckpoint(filepath='epoch_best_model.h5', monitor='val_loss', save_best_only=True)]
 
     history = model.fit(trainX,
                       trainy,
-                      epochs=30,
+                      epochs=20,
                       callbacks=callbacks,
                       verbose=0,
-                      batch_size=100,
+                      batch_size=batch_size,
                       validation_data=(testX, testy))
 
     # plot model
     plot_model(model, to_file='model.png', show_shapes=True, show_layer_names=True)
 
-    model = load_model('best_model.h5')
+    model = load_model('epoch_best_model.h5')
 
     # evaluate model
     _, accuracy = model.evaluate(testX, testy, batch_size=batch_size, verbose=0)
 
-    return accuracy
+    return accuracy, model
 
 # summarize scores
 def summarize_results(scores):
@@ -151,13 +151,19 @@ def main():
 
 	# repeat experiment
     scores = list()
+    peak_score = 0
     for r in range(repeats):
         string = "[MAIN][STAT] Evaluating model, run " + str(r+1) + "/" + str(repeats) + "..."
         print(string)
-        score = evaluate_model(trainX, trainy, testX, testy)
+        score, model = evaluate_model(trainX, trainy, testX, testy)
         score = score * 100.0
         print('>#%d: %.3f' % (r+1, score))
         scores.append(score)
+
+        if score > peak_score:
+            print('[MAIN][INFO] Saving overall best model...')
+            peak_score = score
+            model.save('best_model.h5')
 
     # summarize results
     print("[MAIN][STAT] Summarizing results... [DONE]")

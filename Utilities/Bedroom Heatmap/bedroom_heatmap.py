@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['RALT_RFID_HAR_System_2']
+db = client['RALT_RFID_HAR_System_3']
 
 # user modifable variables
 collection_name_prefix = None
@@ -202,7 +202,7 @@ def create_heatmap(data):
 def main():
     tag_epcs = read_tag_epcs()
 
-    num_collections, collections = get_collection_names('RALT_RFID_HAR_System_2')
+    num_collections, collections = get_collection_names('RALT_RFID_HAR_System_3')
 
     tag_dictionary = create_tag_dictionary(tag_epcs)
 

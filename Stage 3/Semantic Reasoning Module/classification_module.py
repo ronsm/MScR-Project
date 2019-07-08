@@ -13,6 +13,7 @@ from keras.layers import ConvLSTM2D
 from keras.utils import to_categorical
 from matplotlib import pyplot
 from keras.models import load_model
+from sklearn.metrics import confusion_matrix
 import sys
 import glob, os
 import operator
@@ -29,6 +30,8 @@ class classification_module:
         new_data = self.load_dataset()
         master_list = self.predict(new_data)
         master_list = self.one_hot_decoding(master_list)
+
+        # self.debug_print(master_list)
 
         return master_list
 
@@ -49,7 +52,7 @@ class classification_module:
         filenames = list()
 
         os.chdir(filepath)
-        for file in glob.glob("*.txt"):
+        for file in sorted(glob.glob("*.txt")):
             filenames += [file]
         os.chdir('..')
 
@@ -106,3 +109,10 @@ class classification_module:
             one_hot_encodings[splits[0]] = splits[1]
 
         return one_hot_encodings
+
+    def debug_print(self, master_list):
+        i = 1
+        for location_classification in master_list:
+            print('ROW', i)
+            print(location_classification)
+            i = i + 1

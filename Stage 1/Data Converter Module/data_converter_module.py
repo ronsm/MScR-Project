@@ -75,7 +75,7 @@ def get_label(full_label):
     elif full_label == "bedroom_location_mirror":
         label = 4
     elif full_label == "TRA":
-        label = 100
+        label = 5
 
     label = str(label)
 
