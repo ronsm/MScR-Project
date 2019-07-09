@@ -7,7 +7,7 @@ import sys
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['RALT_RFID_HAR_System']
+db = client['RALT_RFID_HAR_System_4']
 
 # configuration variables
 time_between_snapshots_millis = 5000

@@ -14,7 +14,7 @@ class control_module:
         self.unified_sequence_length = 24
         self.num_static_tags = 244
         self.num_object_tags = 72
-        self.train_test_ratio = 0.7
+        self.train_test_ratio = 0.0
         self.dcvm_mode = 1
         self.ontology_name = 'sho.owl'
         self.ontology_IRI = 'file://' + self.ontology_name + '#'
@@ -31,10 +31,8 @@ class control_module:
         self.start()
 
     def start(self):
-        # self.data_converter_module.start()
-
         # object_activations = self.object_activation_detection_module.start()
-        location_classifications = self.classification_module.start()
+        # location_classifications = self.classification_module.start()
         # location_classifications = [["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
         #                             ["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"]]
         # object_activations = [["object_kettle", "object_mug", "object_coffee_container", "object_book"],

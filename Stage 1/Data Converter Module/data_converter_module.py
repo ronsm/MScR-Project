@@ -6,11 +6,11 @@ from random import shuffle
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['RALT_RFID_HAR_System_3']
+db = client['RALT_RFID_HAR_System_4']
 
 # user modifable variables
 collection_name_prefix = None
-num_tags = 244
+num_tags = 268
 unified_sequence_length = 24
 train_test_ratio = 0.7
 
