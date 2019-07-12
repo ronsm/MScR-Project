@@ -55,14 +55,14 @@ class database_helper:
 
             object_tags = []
             for i in range(0, len(document['tags'])):
-                if '1111' in document['tags'][i]['_id']:
+                if '9999' in document['tags'][i]['_id']:
                     object_tags.append(document['tags'][i])
                     
                     document_id = document['tags'][i]['_id']
                     remove = {"$pull": {"tags": {"_id": document_id}}}
                     # remove = { "$unset": { "object_tags_change_points": "", "object_tags_cpd": "", "activityLabel": ""} }
                     # comment out line below to delete copy of object tags in original tag pool
-                    # collection.update_one(query, remove)
+                    collection.update_one(query, remove)
             
             new_array = {"$set": {"object_tags": object_tags}}
 

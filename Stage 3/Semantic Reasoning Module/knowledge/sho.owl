@@ -101,12 +101,12 @@
 
     <!-- http://www.w3.org/2002/07/owl#topObjectProperty -->
 
-    <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#topObjectProperty">
+    <owl:ObjectProperty rdf:about="http://www.w3.org/2002/07/owl#topObjectProperty">
         <owl:inverseOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ReflexiveProperty"/>
-    </rdf:Description>
+    </owl:ObjectProperty>
     
 
 
@@ -330,6 +330,7 @@
         <rdf:type rdf:resource="file://sho.owl#SmartHomeActivity"/>
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_makeup_bag"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#bedroom_location_mirror"/>
+        <sho:subActivityOf rdf:resource="file://sho.owl#activity_grooming"/>
     </owl:NamedIndividual>
     
 
@@ -340,6 +341,18 @@
         <rdf:type rdf:resource="file://sho.owl#SmartHomeActivity"/>
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_hairbrush"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#bedroom_location_mirror"/>
+        <sho:subActivityOf rdf:resource="file://sho.owl#activity_grooming"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#activity_brushing_teeth -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#activity_brushing_teeth">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeActivity"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_toothbrush"/>
+        <sho:hasPossibleLocation rdf:resource="file://sho.owl#bedroom_location_mirror"/>
+        <sho:subActivityOf rdf:resource="file://sho.owl#activity_grooming"/>
     </owl:NamedIndividual>
     
 
@@ -351,6 +364,38 @@
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_clothing"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#bedroom_location_drawers"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#bedroom_location_wardrobe"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#activity_drinking -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#activity_drinking">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeActivity"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_drinkware"/>
+        <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_table"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#activity_eating -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#activity_eating">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeActivity"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_tableware"/>
+        <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_table"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#activity_grooming -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#activity_grooming">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeActivity"/>
+        <sho:hasPossibleLocation rdf:resource="file://sho.owl#bedroom_location_mirror"/>
+        <sho:superActivityOf rdf:resource="file://sho.owl#activity_applying_removing_makeup"/>
+        <sho:superActivityOf rdf:resource="file://sho.owl#activity_brushing_hair"/>
+        <sho:superActivityOf rdf:resource="file://sho.owl#activity_brushing_teeth"/>
     </owl:NamedIndividual>
     
 
@@ -369,6 +414,18 @@
     
 
 
+    <!-- file://sho.owl#activity_make_food -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#activity_make_food">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeActivity"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_tableware"/>
+        <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_worktop_corner"/>
+        <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_worktop_stove"/>
+        <sho:superActivityOf rdf:resource="file://sho.owl#activity_make_sandwich"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- file://sho.owl#activity_make_hot_drink -->
 
     <owl:NamedIndividual rdf:about="file://sho.owl#activity_make_hot_drink">
@@ -380,6 +437,20 @@
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_worktop_sink"/>
         <sho:superActivityOf rdf:resource="file://sho.owl#activity_make_coffee"/>
         <sho:superActivityOf rdf:resource="file://sho.owl#activity_make_tea"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#activity_make_sandwich -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#activity_make_sandwich">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeActivity"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_bread"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_butter"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_plate"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_sandwich_topping"/>
+        <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_worktop_corner"/>
+        <sho:subActivityOf rdf:resource="file://sho.owl#activity_make_food"/>
     </owl:NamedIndividual>
     
 
@@ -403,8 +474,10 @@
     <owl:NamedIndividual rdf:about="file://sho.owl#activity_reading">
         <rdf:type rdf:resource="file://sho.owl#SmartHomeActivity"/>
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_book"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_newspaper"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#bedroom_location_bed"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#bedroom_location_chair"/>
+        <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_table"/>
     </owl:NamedIndividual>
     
 
@@ -414,6 +487,7 @@
     <owl:NamedIndividual rdf:about="file://sho.owl#activity_sitting">
         <rdf:type rdf:resource="file://sho.owl#SmartHomeActivity"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#bedroom_location_chair"/>
+        <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_table"/>
     </owl:NamedIndividual>
     
 
@@ -423,6 +497,18 @@
     <owl:NamedIndividual rdf:about="file://sho.owl#activity_sleeping">
         <rdf:type rdf:resource="file://sho.owl#SmartHomeActivity"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#bedroom_location_bed"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#activity_wash_dishes -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#activity_wash_dishes">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeActivity"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_dish_soap"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_drinkware"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_tableware"/>
+        <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_worktop_sink"/>
     </owl:NamedIndividual>
     
 
@@ -477,8 +563,11 @@
         <rdf:type rdf:resource="file://sho.owl#IndoorLocation"/>
         <rdf:type rdf:resource="file://sho.owl#SmartHomeLocation"/>
         <rdf:type rdf:resource="file://sho.owl#bedroom_location"/>
+        <sho:hasDefaultActivity rdf:resource="file://sho.owl#activity_grooming"/>
         <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_applying_removing_makeup"/>
         <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_brushing_hair"/>
+        <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_brushing_teeth"/>
+        <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_grooming"/>
         <sho:isNextTo rdf:resource="file://sho.owl#bedroom_location_bed"/>
         <sho:isNextTo rdf:resource="file://sho.owl#bedroom_location_chair"/>
     </owl:NamedIndividual>
@@ -506,6 +595,10 @@
         <rdf:type rdf:resource="file://sho.owl#SmartHomeLocation"/>
         <rdf:type rdf:resource="file://sho.owl#kitchen_location"/>
         <sho:hasDefaultActivity rdf:resource="file://sho.owl#activity_sitting"/>
+        <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_drinking"/>
+        <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_eating"/>
+        <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_reading"/>
+        <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_sitting"/>
         <sho:isNextTo rdf:resource="file://sho.owl#kitchen_location_worktop_sink"/>
     </owl:NamedIndividual>
     
@@ -518,7 +611,9 @@
         <rdf:type rdf:resource="file://sho.owl#SmartHomeLocation"/>
         <rdf:type rdf:resource="file://sho.owl#kitchen_location"/>
         <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_make_coffee"/>
+        <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_make_food"/>
         <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_make_hot_drink"/>
+        <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_make_sandwich"/>
         <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_make_tea"/>
         <sho:isNextTo rdf:resource="file://sho.owl#kitchen_location_worktop_sink"/>
         <sho:isNextTo rdf:resource="file://sho.owl#kitchen_location_worktop_stove"/>
@@ -532,9 +627,11 @@
         <rdf:type rdf:resource="file://sho.owl#IndoorLocation"/>
         <rdf:type rdf:resource="file://sho.owl#SmartHomeLocation"/>
         <rdf:type rdf:resource="file://sho.owl#kitchen_location"/>
+        <sho:hasDefaultActivity rdf:resource="file://sho.owl#activity_wash_dishes"/>
         <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_make_coffee"/>
         <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_make_hot_drink"/>
         <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_make_tea"/>
+        <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_wash_dishes"/>
         <sho:isNextTo rdf:resource="file://sho.owl#kitchen_location_table"/>
         <sho:isNextTo rdf:resource="file://sho.owl#kitchen_location_worktop_corner"/>
     </owl:NamedIndividual>
@@ -547,6 +644,7 @@
         <rdf:type rdf:resource="file://sho.owl#IndoorLocation"/>
         <rdf:type rdf:resource="file://sho.owl#SmartHomeLocation"/>
         <rdf:type rdf:resource="file://sho.owl#kitchen_location"/>
+        <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_make_food"/>
         <sho:isNextTo rdf:resource="file://sho.owl#kitchen_location_worktop_corner"/>
     </owl:NamedIndividual>
     
@@ -557,6 +655,24 @@
     <owl:NamedIndividual rdf:about="file://sho.owl#object_book">
         <rdf:type rdf:resource="file://sho.owl#SmartHomeObject"/>
         <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_reading"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#object_bread -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#object_bread">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeObject"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_make_sandwich"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#object_butter -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#object_butter">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeObject"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_make_sandwich"/>
     </owl:NamedIndividual>
     
 
@@ -576,6 +692,36 @@
         <rdf:type rdf:resource="file://sho.owl#SmartHomeObject"/>
         <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_make_coffee"/>
         <sho:subObjectOf rdf:resource="file://sho.owl#object_hot_drink_container"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#object_dish_soap -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#object_dish_soap">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeObject"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_wash_dishes"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#object_drinkware -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#object_drinkware">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeObject"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_drinking"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_wash_dishes"/>
+        <sho:superObjectOf rdf:resource="file://sho.owl#object_glass"/>
+        <sho:superObjectOf rdf:resource="file://sho.owl#object_mug"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#object_glass -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#object_glass">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeObject"/>
+        <sho:subObjectOf rdf:resource="file://sho.owl#object_drinkware"/>
     </owl:NamedIndividual>
     
 
@@ -627,6 +773,47 @@
         <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_make_coffee"/>
         <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_make_hot_drink"/>
         <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_make_tea"/>
+        <sho:subObjectOf rdf:resource="file://sho.owl#object_drinkware"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#object_newspaper -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#object_newspaper">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeObject"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_reading"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#object_plate -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#object_plate">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeObject"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_make_sandwich"/>
+        <sho:subObjectOf rdf:resource="file://sho.owl#object_tableware"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#object_sandwich_topping -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#object_sandwich_topping">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeObject"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_make_sandwich"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#object_tableware -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#object_tableware">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeObject"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_eating"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_make_food"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_wash_dishes"/>
+        <sho:superObjectOf rdf:resource="file://sho.owl#object_plate"/>
     </owl:NamedIndividual>
     
 
@@ -637,6 +824,15 @@
         <rdf:type rdf:resource="file://sho.owl#SmartHomeObject"/>
         <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_make_tea"/>
         <sho:subObjectOf rdf:resource="file://sho.owl#object_hot_drink_container"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#object_toothbrush -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#object_toothbrush">
+        <rdf:type rdf:resource="file://sho.owl#SmartHomeObject"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_brushing_teeth"/>
     </owl:NamedIndividual>
     
 

@@ -10,7 +10,7 @@ client = MongoClient("localhost", 27017, maxPoolSize=50)
 db = client['RALT_RFID_HAR_System_4']
 
 # configuration variables
-time_between_snapshots_millis = 5000
+time_between_snapshots_millis = 1000
 
 def get_collection(collection_name):
     collection = db[collection_name]

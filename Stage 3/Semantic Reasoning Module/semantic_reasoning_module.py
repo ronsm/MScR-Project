@@ -4,10 +4,11 @@ import rdflib
 from rdflib import Graph
 
 class semantic_reasoning_module:
-    def __init__(self, ontology_name, ontology_IRI):
+    def __init__(self, verbose, ontology_name, ontology_IRI):
         print("[semantic_reasoning_module][STAT] Starting up... ", end="", flush=True)
         self.ont = self.load_ontology(ontology_name)
         self.ontology_IRI = ontology_IRI
+        self.verbose = verbose
         print("[OK]")
 
     def start(self, location_classifications, object_activations):
@@ -17,6 +18,8 @@ class semantic_reasoning_module:
         num_location_classifications = len(location_classifications)
         num_object_activations = len(object_activations)
 
+        self.location_classifications, self.object_activations = self.add_IRI_input_data(location_classifications, object_activations)
+
         if num_location_classifications != num_object_activations:
             print("[semantic_reasoning_module][ERROR] Number of samples provided for location_classifications and object_activations differ.")
             print("[semantic_reasoning_module][DEBUG] location_classifications:", num_location_classifications, "object_activations: ", num_object_activations)
@@ -24,9 +27,13 @@ class semantic_reasoning_module:
 
         activities = []
 
-        for location_classification, object_activation in zip(location_classifications, object_activations):
+        for location_classification, object_activation in zip(self.location_classifications, self.object_activations):
             first_guess_activities = self.check_location_and_object_agreements(location_classification[0], object_activation)
-            print(first_guess_activities)
+            print('G1', first_guess_activities)
+
+            if first_guess_activities[0] == "no_results":
+                second_guess_activities = self.check_neighbouring_locations(location_classification, object_activation)
+                print('G2', second_guess_activities)
 
         # self.module_test()
 
@@ -65,16 +72,36 @@ class semantic_reasoning_module:
             if activity in object_activities:
                 agreed_activities.append(activity)
         
+        print('agreed', agreed_activities)
+
         reduced_activities = []
         if len(agreed_activities) == 0:
             agreed_activities.append('no_results')
             reduced_activities = agreed_activities
         elif len(agreed_activities) > 1:
-            reduced_activities = self.reduce_activities_by_parent(agreed_activities)
+            reduced_activities = self.reduce_activities_by_parent(agreed_activities, object_activation)
         else:
             reduced_activities = agreed_activities
 
         return reduced_activities
+
+    def check_neighbouring_locations(self, location_classification, object_activation):
+        agreed_activities = []
+
+        neighbours = self.get_neighbours_of_location(location_classification[0])
+
+        potential_locations = []
+        for location in location_classification:
+            if location in neighbours:
+                potential_locations.append(location)
+
+        for potential_location in potential_locations:
+            potential_agreed_activities = self.check_location_and_object_agreements(potential_location, object_activation)
+            if potential_agreed_activities[0] != "no_results":
+                agreed_activities = agreed_activities + potential_agreed_activities
+
+        return agreed_activities
+
 
 # ***************************
 # Ontology Querying Functions
@@ -104,6 +131,25 @@ class semantic_reasoning_module:
 
         return label
 
+    def add_IRI_input_data(self, location_classifications, object_activations):
+        samples = len(location_classifications)
+
+        new_location_classifications = []
+        new_object_activiations = []
+
+        for sample in range(0, samples):
+            sub_list = []
+            for entry in range(0, len(location_classifications[sample])):
+                sub_list.append(self.add_IRI(location_classifications[sample][entry]))
+            new_location_classifications.append(sub_list)
+
+            sub_list = []
+            for entry in range(0, len(object_activations[sample])):
+                sub_list.append(self.add_IRI(object_activations[sample][entry]))
+            new_object_activiations.append(sub_list)
+
+        return new_location_classifications, new_object_activiations
+
     def submit_query_single_return(self, subject, predicate, object):
         subject = self.remove_IRI(subject)
         predicate = self.remove_IRI(predicate)
@@ -118,7 +164,9 @@ class semantic_reasoning_module:
         """
 
         raw_result = self.ont.query(query)
-        print(query)
+
+        if self.verbose == 1:
+            print(query)
 
         results = []
         for row in raw_result:
@@ -127,8 +175,8 @@ class semantic_reasoning_module:
         if len(results) == 0:
             results.append('no_results')
 
-        #  uncomment the line below to see submitted queries
-        print(results)
+        if self.verbose == 1:
+            print(results)
 
         return results
 
@@ -169,30 +217,6 @@ class semantic_reasoning_module:
         results = self.submit_query_single_return(subject, predicate, object)
 
         return results
-
-    def reduce_activities_by_parent(self, activies):
-        parents = []
-
-        for activity in activies:
-            super_activity = self.get_super_activity_of_activity(activity)
-            parents.append(super_activity)
-
-        parents_reduced = []
-
-        for parent in parents:
-            children = parents.count(parent)
-            if children > 1 and parent not in parents_reduced:
-                parents_reduced = parents_reduced + parent
-
-        for parent in parents_reduced:
-            print('parents_reduced', parents_reduced)
-            print('parent', parent)
-            children = self.get_sub_activities_of_activity(parent)
-            for child in children:
-                if child in activies:
-                    activies.remove(child)
-
-        return activies
 
     def get_super_activity_of_activity(self, activity):
         subject = activity
@@ -257,6 +281,65 @@ class semantic_reasoning_module:
 
         score = actor_count / max_actors
 
-        print('Score', score)
-
         return score
+
+    def reduce_activities_by_parent(self, activities, objects):
+        parents = []
+
+        for activity in activities:
+            super_activity = self.get_super_activity_of_activity(activity)
+            parents.append(super_activity)
+
+        parents_reduced = []
+
+        for parent in parents:
+            children = parents.count(parent)
+            if children > 1 and parent not in parents_reduced:
+                parents_reduced = parents_reduced + parent
+
+        for parent in parents_reduced:
+            children = self.get_sub_activities_of_activity(parent)
+
+            select_child, child_select = self.select_parent_or_child_activity(parent, children, objects)
+
+            if select_child == True:
+                try:
+                    activities.remove(parent)
+                except ValueError:
+                    pass
+                for child in children:
+                    if child != child_select:
+                        try:
+                            activities.remove(child)
+                        except ValueError:
+                            pass
+            else:
+                for child in children:
+                    if child in activities:
+                        activities.remove(child)
+            
+
+        return activities
+
+    def select_parent_or_child_activity(self, parent, children, objects):
+        select_child = False
+        child_select = ''
+
+        parent_score = self.calculate_dependency_satisfaction(parent, objects)
+
+        child_scores = []
+        for child in children:
+            child_scores.append(self.calculate_dependency_satisfaction(child, objects))
+
+        max_child_score = max(child_scores)
+
+        if child_scores.count(1.0) == 1:
+            select_child = True
+            for i in range(0, len(children)):
+                if child_scores[i] == 1.0:
+                    child_select = children[i]
+        elif max_child_score > parent_score:
+            select_child = True
+            child_select = children[child_scores.index(max_child_score)]
+
+        return select_child, child_select
