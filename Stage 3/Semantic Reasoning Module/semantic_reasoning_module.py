@@ -32,8 +32,11 @@ class semantic_reasoning_module:
                 print('G1.0', first_guess_activities[0])
             else:
                 if first_guess_activities[0] == "no_results":
-                    second_guess_activities = self.check_neighbouring_locations(location_classification, object_activation)
-                    print('G2.1', second_guess_activities)
+                    second_guess_activity = self.check_neighbouring_locations(location_classification, object_activation)
+                    if second_guess_activity != "no_results":
+                        print('G2.1', second_guess_activities)
+                    else:
+                        print('G3.0', location_classification[0])
                 else:
                     second_guess_activities = self.reduce_competing_first_guesses_by_dependency_score(first_guess_activities, object_activation)
                     print('G2.2', second_guess_activities)
@@ -74,8 +77,6 @@ class semantic_reasoning_module:
         for activity in location_activities:
             if activity in object_activities:
                 agreed_activities.append(activity)
-        
-        print('agreed', agreed_activities)
 
         reduced_activities = []
         if len(agreed_activities) == 0:
@@ -102,6 +103,9 @@ class semantic_reasoning_module:
             potential_agreed_activities = self.check_location_and_object_agreements(potential_location, object_activation)
             if potential_agreed_activities[0] != "no_results":
                 agreed_activities = agreed_activities + potential_agreed_activities
+
+        if len(agreed_activities) == 0:
+            agreed_activities.append('no_results')
 
         return agreed_activities
 
