@@ -36,11 +36,11 @@ class control_module:
         # object_activations = self.object_activation_detection_module.start()
         # location_classifications = self.classification_module.start()
 
-        location_classifications = [["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
+        location_classifications = [["kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
                                     ["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
                                     ["bedroom_location_mirror", "bedroom_location_bed", "bedroom_location_drawers", "bedroom_location_wardrobe"],
                                     ["bedroom_location_bed", "bedroom_location_mirror", "bedroom_location_drawers", "bedroom_location_wardrobe"]]
-        object_activations = [["object_kettle", "object_mug", "object_coffee_container", "object_tea_container"],
+        object_activations = [["object_kettle", "object_mug", "object_coffee_container", "object_tea_container", "object_plate"],
                             ["object_kettle", "object_mug", "object_coffee_container", "object_book"],
                             ["object_toothbrush"],
                             ["object_toothbrush"]]

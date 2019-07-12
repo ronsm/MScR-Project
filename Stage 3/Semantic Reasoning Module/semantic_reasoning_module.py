@@ -25,15 +25,18 @@ class semantic_reasoning_module:
             print("[semantic_reasoning_module][DEBUG] location_classifications:", num_location_classifications, "object_activations: ", num_object_activations)
             return
 
-        activities = []
-
         for location_classification, object_activation in zip(self.location_classifications, self.object_activations):
             first_guess_activities = self.check_location_and_object_agreements(location_classification[0], object_activation)
-            print('G1', first_guess_activities)
 
-            if first_guess_activities[0] == "no_results":
-                second_guess_activities = self.check_neighbouring_locations(location_classification, object_activation)
-                print('G2', second_guess_activities)
+            if len(first_guess_activities) == 1 and first_guess_activities[0] != "no_results":
+                print('G1.0', first_guess_activities[0])
+            else:
+                if first_guess_activities[0] == "no_results":
+                    second_guess_activities = self.check_neighbouring_locations(location_classification, object_activation)
+                    print('G2.1', second_guess_activities)
+                else:
+                    second_guess_activities = self.reduce_competing_first_guesses_by_dependency_score(first_guess_activities, object_activation)
+                    print('G2.2', second_guess_activities)
 
         # self.module_test()
 
@@ -281,6 +284,9 @@ class semantic_reasoning_module:
 
         score = actor_count / max_actors
 
+        if score > 1.0:
+            score = 1.0
+
         return score
 
     def reduce_activities_by_parent(self, activities, objects):
@@ -343,3 +349,16 @@ class semantic_reasoning_module:
             child_select = children[child_scores.index(max_child_score)]
 
         return select_child, child_select
+
+    def reduce_competing_first_guesses_by_dependency_score(self, activities, objects):
+        scores = []
+
+        for activity in activities:
+            scores.append(self.calculate_dependency_satisfaction(activity, objects))
+
+        max_score = max(scores)
+        max_score_index = scores.index(max_score)
+
+        print(scores)
+
+        return activities[max_score_index]
