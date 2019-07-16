@@ -29,17 +29,20 @@ class semantic_reasoning_module:
             first_guess_activities = self.check_location_and_object_agreements(location_classification[0], object_activation)
 
             if len(first_guess_activities) == 1 and first_guess_activities[0] != "no_results":
-                print('G1.0', first_guess_activities[0])
+                self.generate_human_readable_output('G1.0', 1, first_guess_activities[0], location_classification[0],)
             else:
                 if first_guess_activities[0] == "no_results":
-                    second_guess_activity = self.check_neighbouring_locations(location_classification, object_activation)
-                    if second_guess_activity != "no_results":
-                        print('G2.1', second_guess_activity[0])
+                    second_guess_activities, actual_locations = self.check_neighbouring_locations(location_classification, object_activation)
+                    if len(second_guess_activities) == 1 and second_guess_activities[0] != "no_results":
+                        self.generate_human_readable_output('G2.1', 1, second_guess_activities[0], actual_locations[0])
+                    elif len(second_guess_activities) > 1 and second_guess_activities[0] != "no_results":
+                        second_guess_activity, activity_index = self.reduce_competing_first_guesses_by_dependency_score(second_guess_activities, object_activation)
+                        self.generate_human_readable_output('G2.2', 1, second_guess_activity, actual_locations[activity_index])
                     else:
-                        print('G3.0', location_classification[0])
+                        self.generate_human_readable_output('G3.0', 0, '', location_classification[0])
                 else:
-                    second_guess_activities = self.reduce_competing_first_guesses_by_dependency_score(first_guess_activities, object_activation)
-                    print('G2.2', second_guess_activities)
+                    second_guess_activity, activity_index = self.reduce_competing_first_guesses_by_dependency_score(first_guess_activities, object_activation)
+                    self.generate_human_readable_output('G2.3', 1, second_guess_activity, location_classification[activity_index])
 
         # self.module_test()
 
@@ -90,6 +93,7 @@ class semantic_reasoning_module:
         return reduced_activities
 
     def check_neighbouring_locations(self, location_classification, object_activation):
+        actual_locations = []
         agreed_activities = []
 
         neighbours = self.get_neighbours_of_location(location_classification[0])
@@ -103,11 +107,12 @@ class semantic_reasoning_module:
             potential_agreed_activities = self.check_location_and_object_agreements(potential_location, object_activation)
             if potential_agreed_activities[0] != "no_results":
                 agreed_activities = agreed_activities + potential_agreed_activities
+                actual_locations.append(potential_location)
 
         if len(agreed_activities) == 0:
             agreed_activities.append('no_results')
 
-        return agreed_activities
+        return agreed_activities, actual_locations
 
 
 # ***************************
@@ -266,6 +271,44 @@ class semantic_reasoning_module:
 
         return results
 
+# *** LABELLING
+
+    def get_label_for_activity(self, activity):
+        subject = activity
+        predicate = "human_readable_label"
+        object = "label"
+
+        results = self.submit_query_single_return(subject, predicate, object)
+
+        return results
+
+    def get_preposition_for_location(self, location):
+        subject = location
+        predicate = "human_readable_preposition"
+        object = "preposition"
+
+        results = self.submit_query_single_return(subject, predicate, object)
+
+        return results
+
+    def get_label_for_location(self, location):
+        subject = location
+        predicate = "human_readable_label"
+        object = "label"
+
+        results = self.submit_query_single_return(subject, predicate, object)
+
+        return results
+
+    def get_room_label_for_location(self, location):
+        subject = location
+        predicate = "human_readable_location"
+        object = "label"
+
+        results = self.submit_query_single_return(subject, predicate, object)
+
+        return results
+
 # *** COMPUTE
 
     def calculate_dependency_satisfaction(self, activity, objects):
@@ -363,4 +406,19 @@ class semantic_reasoning_module:
         max_score = max(scores)
         max_score_index = scores.index(max_score)
 
-        return activities[max_score_index]
+        return activities[max_score_index], max_score_index
+
+# *** HUMAN-READABLE OUTPUT
+
+    def generate_human_readable_output(self, stage, known, activity, location):
+        activity_label = self.get_label_for_activity(activity)
+        location_preposition = self.get_preposition_for_location(location)
+        location_label = self.get_label_for_location(location)
+        location_room = self.get_room_label_for_location(location)
+
+        if known == 1:
+            formatted_string = "Result at Stage " + stage + ": " + activity_label[0] + " " + location_preposition[0] + " " + location_label[0] + " in " + location_room[0]
+        else:
+            formatted_string = "Result at Stage " + stage + ": unknown activity at location " + location_room[0]
+
+        print(formatted_string)

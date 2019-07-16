@@ -518,9 +518,9 @@
         <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_grooming"/>
         <sho:isNextTo rdf:resource="file://sho.owl#bedroom_location_bed"/>
         <sho:isNextTo rdf:resource="file://sho.owl#bedroom_location_chair"/>
-        <sho:human_readable_label>at</sho:human_readable_label>
         <sho:human_readable_label>mirror</sho:human_readable_label>
         <sho:human_readable_location>bedroom</sho:human_readable_location>
+        <sho:human_readable_preposition>at</sho:human_readable_preposition>
     </owl:NamedIndividual>
     
 
