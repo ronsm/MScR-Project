@@ -34,7 +34,7 @@ class semantic_reasoning_module:
                 if first_guess_activities[0] == "no_results":
                     second_guess_activity = self.check_neighbouring_locations(location_classification, object_activation)
                     if second_guess_activity != "no_results":
-                        print('G2.1', second_guess_activities)
+                        print('G2.1', second_guess_activity[0])
                     else:
                         print('G3.0', location_classification[0])
                 else:
@@ -362,7 +362,5 @@ class semantic_reasoning_module:
 
         max_score = max(scores)
         max_score_index = scores.index(max_score)
-
-        print(scores)
 
         return activities[max_score_index]
