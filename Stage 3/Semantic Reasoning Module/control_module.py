@@ -39,11 +39,13 @@ class control_module:
         location_classifications = [["kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
                                     ["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
                                     ["bedroom_location_mirror", "bedroom_location_bed", "bedroom_location_drawers", "bedroom_location_wardrobe"],
-                                    ["bedroom_location_bed", "bedroom_location_mirror", "bedroom_location_drawers", "bedroom_location_wardrobe"]]
+                                    ["bedroom_location_bed", "bedroom_location_mirror", "bedroom_location_drawers", "bedroom_location_wardrobe"],
+                                    ["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"]]
         object_activations = [["object_kettle", "object_mug", "object_coffee_container", "object_tea_container", "object_plate"],
                             ["object_kettle", "object_mug", "object_coffee_container", "object_book"],
                             ["object_toothbrush"],
-                            ["object_toothbrush"]]
+                            ["object_toothbrush"],
+                            ["object_cake", "object_plate"]]
 
 
         self.semantic_reasoning_module.start(location_classifications, object_activations)
