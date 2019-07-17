@@ -19,3 +19,21 @@ The following modules are provided within the `Training` directory:
 * Data Segmentation Module
 * Data Converter Module
 * Classification Module
+
+There are individual readmes for each module. Here we will simply discuss some parameters and the order of execution of the modules to ultimately generate an LSTM or ConvLSTM model.
+
+### Data Collector Module (DCM)
+
+Text
+
+### Data Segmentation Module (DSM)
+
+Text
+
+### Data Converter Module
+
+Text
+
+### Classification Module
+
+Text
