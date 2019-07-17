@@ -38,12 +38,24 @@ The module will load and after a few seconds will request that you provide a lab
 
 ### Data Segmentation Module (DSM)
 
-Text
+Using the label that you have previously provided to the DCM, the Data Segmentation Module can help you automatically split the original collection, which contains many activities, into a single collection for each activity.
 
-### Data Converter Module
+You must run this module before attempting to run either the Data Converter Module or the Classification Module.
 
-Text
+See the README inside this module's directory for information on how to setup and use it.
+
+### Data Converter Module (DCvM)
+
+The standalone Data Converter Module needs to be run before the Classification Module, since it requires a dataset to be provided to it from DCvM.
+
+It will generate a dataset inside its own directory (titled `dataset`) which you should copy in its entirety to wtihin the root directory of the Classification Module - overwriting a previous 'dataset' folder if need be.
+
+See the README inside this module's directory for information on how to setup and use it.
 
 ### Classification Module
 
-Text
+Once the files have been provided from the DCvM, the Classification Module will generate and evaluate numerous LSTM or ConvLSTM models (ConvLSTM is the default).
+
+The best performing model will be saved within the root directory of the module as `best_model.h5`. This file is required by the sofware in the `Deployment` directory to make predictions. Place the `best_model.h5` file into the `Deployment/models` directory - again, overwriting a previous model if need be.
+
+See the README inside this module's directory for information on how to setup and use it.
