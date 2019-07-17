@@ -12,4 +12,11 @@ From there, you should then simply be able to run the module with the following 
 
 Only the best model will be saved by default, although each model is temporarily stored as `model.h5`, so if you wish to capture another model you will have to either stop the program at the correct time (before it is overwritten by the next model) or change the code to save mutliple models.
 
-You may also wish to modify the parameters of the neural network yourself. In fact, you almost will certainly want to do this **if you have modified the unified sequence length** in other modules, since the divided time-slices must be manually derived from it. The sequence length you choose may not agree mathematically with the default values, in which case you must change them.
+You may also wish to modify the parameters of the neural network yourself. In fact, you almost will certainly want to do this **if you have modified the unified sequence length** in other modules, since the divided time-slices must be manually derived from it. The sequence length you choose may not agree mathematically with the default values, in which case you must change them. The line you need to change is below:
+
+```
+# reshape into subsequences (samples, time steps, rows, cols, channels)
+n_steps, n_length = 4, 32
+```
+
+In this case, the unified sequence length is 128, and so we are splitting it up into 4 x 32 snapshot long sub-sequences.
