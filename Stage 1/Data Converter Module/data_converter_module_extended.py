@@ -6,11 +6,11 @@ from random import shuffle
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['RALT_RFID_HAR_System_5']
+db = client['RALT_RFID_HAR_System_4']
 
 # user modifable variables
 collection_name_prefix = None
-num_tags = 253
+num_tags = 244
 unified_sequence_length = 24
 train_test_ratio = 0.7
 
@@ -51,7 +51,7 @@ def progress_bar(iteration, total, prefix = '', suffix = '', decimals = 1, lengt
         print()
 
 def read_tag_epcs():
-    with open("static.txt") as f:
+    with open("tags.txt") as f:
         tag_epcs = f.read().splitlines() 
     f.close()
 
@@ -88,6 +88,18 @@ def create_dataset_files(tag_epcs):
             f.write("")
             f.close
 
+        with open("dataset/train/input/{}_antenna.txt".format(tag), "w") as f:
+            f.write("")
+            f.close
+
+        with open("dataset/train/input/{}_phaseAngle.txt".format(tag), "w") as f:
+            f.write("")
+            f.close
+
+        with open("dataset/train/input/{}_velocity.txt".format(tag), "w") as f:
+            f.write("")
+            f.close
+
     with open("dataset/train/y_train.txt".format(), "w") as f:
             f.write("")
             f.close
@@ -95,6 +107,18 @@ def create_dataset_files(tag_epcs):
     # test set
     for tag in tag_epcs:
         with open("dataset/test/input/{}_peakRSSI.txt".format(tag), "w") as f:
+            f.write("")
+            f.close
+
+        with open("dataset/test/input/{}_antenna.txt".format(tag), "w") as f:
+            f.write("")
+            f.close
+
+        with open("dataset/test/input/{}_phaseAngle.txt".format(tag), "w") as f:
+            f.write("")
+            f.close
+
+        with open("dataset/test/input/{}_velocity.txt".format(tag), "w") as f:
             f.write("")
             f.close
 
@@ -141,6 +165,21 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
                         f.write(peakRSSI)
                         f.write("  ")
                         f.close()
+                    
+                    with open("dataset/train/input/{}_antenna.txt".format(epc), "a") as f:
+                        f.write(antenna)
+                        f.write("  ")
+                        f.close()
+
+                    with open("dataset/train/input/{}_phaseAngle.txt".format(epc), "a") as f:
+                        f.write(str(phaseAngle))
+                        f.write("  ")
+                        f.close()
+
+                    with open("dataset/train/input/{}_velocity.txt".format(epc), "a") as f:
+                        f.write(velocity)
+                        f.write("  ")
+                        f.close()
 
         # pad timeseries and add new lines at end of every sample
         if sequence_length < unified_sequence_length:
@@ -152,8 +191,35 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
                         f.write("  ")
                         f.close()
 
+                    with open("dataset/train/input/{}_antenna.txt".format(tag), "a") as f:
+                        f.write("0")
+                        f.write("  ")
+                        f.close()
+
+                    with open("dataset/train/input/{}_phaseAngle.txt".format(tag), "a") as f:
+                        f.write("0")
+                        f.write("  ")
+                        f.close()
+
+                    with open("dataset/train/input/{}_velocity.txt".format(tag), "a") as f:
+                        f.write("0")
+                        f.write("  ")
+                        f.close()
+
         for tag in tag_epcs:
             with open("dataset/train/input/{}_peakRSSI.txt".format(tag), "a") as f:
+                f.write('\n')
+                f.close()
+
+            with open("dataset/train/input/{}_antenna.txt".format(tag), "a") as f:
+                f.write('\n')
+                f.close()
+
+            with open("dataset/train/input/{}_phaseAngle.txt".format(tag), "a") as f:
+                f.write('\n')
+                f.close()
+
+            with open("dataset/train/input/{}_velocity.txt".format(tag), "a") as f:
                 f.write('\n')
                 f.close()
 
@@ -196,6 +262,21 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
                         f.write("  ")
                         f.close()
 
+                    with open("dataset/test/input/{}_antenna.txt".format(epc), "a") as f:
+                        f.write(antenna)
+                        f.write("  ")
+                        f.close()
+
+                    with open("dataset/test/input/{}_phaseAngle.txt".format(epc), "a") as f:
+                        f.write(str(phaseAngle))
+                        f.write("  ")
+                        f.close()
+
+                    with open("dataset/test/input/{}_velocity.txt".format(epc), "a") as f:
+                        f.write(velocity)
+                        f.write("  ")
+                        f.close()
+
         # add new lines at end of every sample
         if sequence_length < unified_sequence_length :
             sequence_length_diff = unified_sequence_length - sequence_length
@@ -206,8 +287,35 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
                         f.write("  ")
                         f.close()
 
+                    with open("dataset/test/input/{}_antenna.txt".format(tag), "a") as f:
+                        f.write("0")
+                        f.write("  ")
+                        f.close()
+
+                    with open("dataset/test/input/{}_phaseAngle.txt".format(tag), "a") as f:
+                        f.write("0")
+                        f.write("  ")
+                        f.close()
+
+                    with open("dataset/test/input/{}_velocity.txt".format(tag), "a") as f:
+                        f.write("0")
+                        f.write("  ")
+                        f.close()
+
         for tag in tag_epcs:
             with open("dataset/test/input/{}_peakRSSI.txt".format(tag), "a") as f:
+                f.write('\n')
+                f.close()
+
+            with open("dataset/test/input/{}_antenna.txt".format(tag), "a") as f:
+                f.write('\n')
+                f.close()
+
+            with open("dataset/test/input/{}_phaseAngle.txt".format(tag), "a") as f:
+                f.write('\n')
+                f.close()
+
+            with open("dataset/test/input/{}_velocity.txt".format(tag), "a") as f:
                 f.write('\n')
                 f.close()
 
@@ -228,8 +336,10 @@ def main():
 
     global database_name
 
-    if num_arguments != 1:
-        print("[MAIN][INFO] Invalid arguments. Usage: python3 data_converter_module.py")
+    if num_arguments == 2:
+        database_name = sys.argv[1]
+    else:
+        print("[MAIN][INFO] Invalid arguments. Usage: python3 data_converter_module.py database_name")
         exit()
 
     # read in tag EPCs
