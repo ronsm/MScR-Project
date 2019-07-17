@@ -19,7 +19,7 @@ def get_collection(collection_name):
     pointer = collection.find({})
     return pointer
 
-def get_collection_names(database_name):
+def get_collection_names():
     collections = db.collection_names()
 
     shuffle(collections)
@@ -239,7 +239,7 @@ def main():
 
     # get the names of all collections (sessions) in the given database
     print("[MAIN][STAT] Getting all collection (session) names from database...", end="", flush=True)
-    num_collections, collections, num_train_collections, num_test_collections, train_collections, test_collections = get_collection_names(database_name)
+    num_collections, collections, num_train_collections, num_test_collections, train_collections, test_collections = get_collection_names()
     print("[DONE]")
 
     # create output files in 'Dataset' folder
