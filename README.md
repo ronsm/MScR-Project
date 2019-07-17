@@ -24,7 +24,13 @@ There are individual readmes for each module. Here we will simply discuss some p
 
 ### Data Collector Module (DCM)
 
-Text
+This module must be run first. To run the Data Collector Module you must change directory into the `example` sub-directory of the root module folder. You will require Apache Ant and an up-to-date Java runtime environemt (JRE).
+
+> ant all
+
+> ant -Dreadername=<ip or hostame> run-datacollector
+
+> ant -Dreadername=192.168.1.3 run-datacollector
 
 ### Data Segmentation Module (DSM)
 
