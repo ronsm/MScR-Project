@@ -51,3 +51,9 @@ Once the files have been provided from the DCvM, the Classification Module will 
 The best performing model will be saved within the root directory of the module as `best_model.h5`. This file is required by the sofware in the `Deployment` directory to make predictions. Place the `best_model.h5` file into the `Deployment/models` directory - again, overwriting a previous model if need be.
 
 See the README inside this module's directory for information on how to setup and use it.
+
+## Deployment
+
+The software inside the `Deployment` directory is intended for use once the training phase has ended. It contains two pieces of software: a Data Collector Module that is designed to run continuously to gather fixed-size windows of data, and a control module that orchestrates the entire activity prediction process.
+
+See the README inside this module's directory for information on how to setup and use it.
