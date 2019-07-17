@@ -24,13 +24,17 @@ There are individual readmes for each module. Here we will simply discuss some p
 
 ### Data Collector Module (DCM)
 
-This module must be run first. To run the Data Collector Module you must change directory into the `example` sub-directory of the root module folder. You will require Apache Ant and an up-to-date Java runtime environemt (JRE).
+This module must be run first. To run the Data Collector Module you must change directory into the `example` sub-directory of the root module folder. You will require Apache Ant, an up-to-date Java runtime environemt (JRE), and a local install of MongoDB server. You **must** start an instance of MongoDB server *before* running DCM.
 
-> ant all
+To start the module, use the following command, replacing 'IP_ADDRESS' with the IP of your Speedway Revolution reader.
 
-> ant -Dreadername=<ip or hostame> run-datacollector
+> ant -Dreadername=<IP_ADDRESS> run-datacollector
+
+For example, if your Speedway Revolution reader has an IP address of 192.168.1.3, you would use the following command:
 
 > ant -Dreadername=192.168.1.3 run-datacollector
+
+The module will load and after a few seconds will request that you provide a label for the recording session, which will be used to label the collection that will be inserted into the MongoDB database.
 
 ### Data Segmentation Module (DSM)
 
