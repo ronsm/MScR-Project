@@ -262,6 +262,7 @@
     <owl:NamedIndividual rdf:about="file://sho.owl#activity_brushing_teeth">
         <rdf:type rdf:resource="file://sho.owl#Activity"/>
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_toothbrush"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_toothpaste"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#bedroom_location_mirror"/>
         <sho:subActivityOf rdf:resource="file://sho.owl#activity_grooming"/>
         <sho:human_readable_label>brushing teeth</sho:human_readable_label>
@@ -335,6 +336,7 @@
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_coffee_container"/>
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_kettle"/>
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_mug"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_sugar_container"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_worktop_corner"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_worktop_sink"/>
         <sho:subActivityOf rdf:resource="file://sho.owl#activity_prepare_hot_drink"/>
@@ -365,6 +367,7 @@
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_hot_drink_container"/>
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_kettle"/>
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_mug"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_sugar_container"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_worktop_corner"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_worktop_sink"/>
         <sho:superActivityOf rdf:resource="file://sho.owl#activity_prepare_coffee"/>
@@ -395,6 +398,7 @@
         <rdf:type rdf:resource="file://sho.owl#Activity"/>
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_kettle"/>
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_mug"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_sugar_container"/>
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_tea_container"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_worktop_corner"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_worktop_sink"/>
@@ -799,6 +803,17 @@
     
 
 
+    <!-- file://sho.owl#object_sugar_container -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#object_sugar_container">
+        <rdf:type rdf:resource="file://sho.owl#Object"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_prepare_coffee"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_prepare_hot_drink"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_prepare_tea"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- file://sho.owl#object_tableware -->
 
     <owl:NamedIndividual rdf:about="file://sho.owl#object_tableware">
@@ -824,6 +839,15 @@
     <!-- file://sho.owl#object_toothbrush -->
 
     <owl:NamedIndividual rdf:about="file://sho.owl#object_toothbrush">
+        <rdf:type rdf:resource="file://sho.owl#Object"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_brushing_teeth"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- file://sho.owl#object_toothpaste -->
+
+    <owl:NamedIndividual rdf:about="file://sho.owl#object_toothpaste">
         <rdf:type rdf:resource="file://sho.owl#Object"/>
         <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_brushing_teeth"/>
     </owl:NamedIndividual>
