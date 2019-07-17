@@ -14,9 +14,9 @@ Open `data_converter_module.py` and adjust the following parameters if needed:
 
 You **must** modify `static.txt` to include the EPCs of all static tags (NOT object tags) for which TXT files are to be generated. The number of lines in this file **must** match the value of `num_tags`.
 
-With the root directory of this module as your working directory, use the following command to start the module.
+With the root directory of this module as your working directory, use the following command to start the module:
 
-> python3 data_converter_module
+> python3 data_converter_module.py
 
 ## Data Format
 
