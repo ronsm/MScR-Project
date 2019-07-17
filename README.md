@@ -15,7 +15,7 @@ To understand fully the purpose and design of this software, you may first wish 
 ## Training
 
 The following modules are provided within the `Training` directory:
-⋅⋅* Data Collector Module
-⋅⋅* Data Segmentation Module
-⋅⋅* Data Converter Module
-⋅⋅* Classification Module
+* Data Collector Module
+* Data Segmentation Module
+* Data Converter Module
+* Classification Module
