@@ -13,3 +13,9 @@ This repository stores all of the code developed during the project. The softwar
 To understand fully the purpose and design of this software, you may first wish to read the accompanying thesis, available on my website: [https://ronsm.com/courses/mscr-project/thesis.pdf](https://ronsm.com/courses/mscr-project/thesis.pdf)
 
 ## Training
+
+The following modules are provided within the `Training` directory:
+⋅⋅* Data Collector Module
+⋅⋅* Data Segmentation Module
+⋅⋅* Data Converter Module
+⋅⋅* Classification Module
