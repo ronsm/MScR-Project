@@ -39,9 +39,14 @@ class semantic_reasoning_module:
                         second_guess_activity, activity_index = self.reduce_competing_first_guesses_by_dependency_score(second_guess_activities, object_activation)
                         self.generate_human_readable_output('G2.2', 1, second_guess_activity, actual_locations[activity_index])
                     else:
-                        self.generate_human_readable_output('G3.0', 0, '', location_classification[0])
+                        default_activity = self.get_default_activity_for_location(location_classification[activity_index])
+                        if len(default_activity) == 0:
+                            self.generate_human_readable_output('G3.0', 0, '', location_classification[0])
+                        else:
+                            self.generate_human_readable_output('G3.1', 2, '', location_classification[0])
                 else:
                     second_guess_activity, activity_index = self.reduce_competing_first_guesses_by_dependency_score(first_guess_activities, object_activation)
+                    default_activity = self.get_default_activity_for_location(location_classification[activity_index])
                     self.generate_human_readable_output('G2.3', 1, second_guess_activity, location_classification[activity_index])
 
         # self.module_test()
@@ -416,9 +421,11 @@ class semantic_reasoning_module:
         location_label = self.get_label_for_location(location)
         location_room = self.get_room_label_for_location(location)
 
-        if known == 1:
-            formatted_string = "Result at Stage " + stage + ": " + activity_label[0] + " " + location_preposition[0] + " " + location_label[0] + " in " + location_room[0]
-        else:
+        if known == 0:
             formatted_string = "Result at Stage " + stage + ": unknown activity at location " + location_room[0]
+        elif known == 1:
+            formatted_string = "Result at Stage " + stage + ": " + activity_label[0] + " " + location_preposition[0] + " " + location_label[0] + " in " + location_room[0]
+        elif known == 2:
+            formatted_string = "Result at Stage " + stage + ": [LOCATION ONLY] " + self.remove_IRI(location)
 
         print(formatted_string)
