@@ -43,10 +43,9 @@ class semantic_reasoning_module:
                         if len(default_activity) == 0:
                             self.generate_human_readable_output('G3.0', 0, '', location_classification[0])
                         else:
-                            self.generate_human_readable_output('G3.1', 2, '', location_classification[0])
+                            self.generate_human_readable_output('G3.1', 2, default_activity[0], location_classification[0])
                 else:
                     second_guess_activity, activity_index = self.reduce_competing_first_guesses_by_dependency_score(first_guess_activities, object_activation)
-                    default_activity = self.get_default_activity_for_location(location_classification[activity_index])
                     self.generate_human_readable_output('G2.3', 1, second_guess_activity, location_classification[activity_index])
 
         # self.module_test()
@@ -217,15 +216,6 @@ class semantic_reasoning_module:
 
         return results
 
-    def get_possible_activities_for_object(self, leaf_object):
-        subject = leaf_object
-        predicate = "isPossibleActorIn"
-        object = "activity"
-
-        results = self.submit_query_single_return(subject, predicate, object)
-
-        return results
-
     def get_possible_actors_for_activity(self, activity):
         subject = activity
         predicate = "hasPossibleActor"
@@ -255,6 +245,15 @@ class semantic_reasoning_module:
 
 
 # *** OBJECT
+
+    def get_possible_activities_for_object(self, leaf_object):
+        subject = leaf_object
+        predicate = "isPossibleActorIn"
+        object = "activity"
+
+        results = self.submit_query_single_return(subject, predicate, object)
+
+        return results
 
     def get_super_object_of_object(self, sub_object):
         subject = sub_object
@@ -426,6 +425,9 @@ class semantic_reasoning_module:
         elif known == 1:
             formatted_string = "Result at Stage " + stage + ": " + activity_label[0] + " " + location_preposition[0] + " " + location_label[0] + " in " + location_room[0]
         elif known == 2:
-            formatted_string = "Result at Stage " + stage + ": [LOCATION ONLY] " + self.remove_IRI(location)
+            if len(activity) > 0:
+                formatted_string = "Result at Stage " + stage + ": " + activity_label[0] + " " + location_preposition[0] + " " + location_label[0] + " in " + location_room[0]
+            else:
+                formatted_string = "Result at Stage " + stage + ": [LOCATION ONLY] " + self.remove_IRI(location)
 
         print(formatted_string)
