@@ -374,7 +374,6 @@ class semantic_reasoning_module:
                 for child in children:
                     if child in activities:
                         activities.remove(child)
-            
 
         return activities
 
