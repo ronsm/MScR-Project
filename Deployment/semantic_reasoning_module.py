@@ -29,24 +29,24 @@ class semantic_reasoning_module:
             first_guess_activities = self.check_location_and_object_agreements(location_classification[0], object_activation)
 
             if len(first_guess_activities) == 1 and first_guess_activities[0] != "no_results":
-                self.generate_human_readable_output('G1.0', 1, first_guess_activities[0], location_classification[0],)
+                self.generate_human_readable_output('1A', 1, first_guess_activities[0], location_classification[0],)
             else:
                 if first_guess_activities[0] == "no_results":
                     second_guess_activities, actual_locations = self.check_neighbouring_locations(location_classification, object_activation)
                     if len(second_guess_activities) == 1 and second_guess_activities[0] != "no_results":
-                        self.generate_human_readable_output('G2.1', 1, second_guess_activities[0], actual_locations[0])
+                        self.generate_human_readable_output('2A', 1, second_guess_activities[0], actual_locations[0])
                     elif len(second_guess_activities) > 1 and second_guess_activities[0] != "no_results":
                         second_guess_activity, activity_index = self.reduce_competing_first_guesses_by_dependency_score(second_guess_activities, object_activation)
-                        self.generate_human_readable_output('G2.2', 1, second_guess_activity, actual_locations[activity_index])
+                        self.generate_human_readable_output('2B', 1, second_guess_activity, actual_locations[activity_index])
                     else:
                         default_activity = self.get_default_activity_for_location(location_classification[activity_index])
                         if len(default_activity) == 0:
-                            self.generate_human_readable_output('G3.0', 0, '', location_classification[0])
+                            self.generate_human_readable_output('3A', 0, '', location_classification[0])
                         else:
-                            self.generate_human_readable_output('G3.1', 2, default_activity[0], location_classification[0])
+                            self.generate_human_readable_output('3B', 2, default_activity[0], location_classification[0])
                 else:
                     second_guess_activity, activity_index = self.reduce_competing_first_guesses_by_dependency_score(first_guess_activities, object_activation)
-                    self.generate_human_readable_output('G2.3', 1, second_guess_activity, location_classification[activity_index])
+                    self.generate_human_readable_output('1B', 1, second_guess_activity, location_classification[activity_index])
 
         # self.module_test()
 
@@ -420,13 +420,13 @@ class semantic_reasoning_module:
         location_room = self.get_room_label_for_location(location)
 
         if known == 0:
-            formatted_string = "Result at Stage " + stage + ": unknown activity at location " + location_room[0]
+            formatted_string = "Result at Round " + stage + ": unknown activity at location " + location_room[0]
         elif known == 1:
-            formatted_string = "Result at Stage " + stage + ": " + activity_label[0] + " " + location_preposition[0] + " " + location_label[0] + " in " + location_room[0]
+            formatted_string = "Result at Round " + stage + ": " + activity_label[0] + " " + location_preposition[0] + " " + location_label[0] + " in " + location_room[0]
         elif known == 2:
             if len(activity) > 0:
-                formatted_string = "Result at Stage " + stage + ": " + activity_label[0] + " " + location_preposition[0] + " " + location_label[0] + " in " + location_room[0]
+                formatted_string = "Result at Round " + stage + ": " + activity_label[0] + " " + location_preposition[0] + " " + location_label[0] + " in " + location_room[0]
             else:
-                formatted_string = "Result at Stage " + stage + ": [LOCATION ONLY] " + self.remove_IRI(location)
+                formatted_string = "Result at Round " + stage + ": [LOCATION ONLY] " + self.remove_IRI(location)
 
         print(formatted_string)
