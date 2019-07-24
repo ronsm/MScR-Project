@@ -142,6 +142,9 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
                         f.write("  ")
                         f.close()
 
+            if sequence_length == unified_sequence_length:
+                break
+
         # pad timeseries and add new lines at end of every sample
         if sequence_length < unified_sequence_length:
             sequence_length_diff = unified_sequence_length - sequence_length
@@ -195,6 +198,9 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
                         f.write(peakRSSI)
                         f.write("  ")
                         f.close()
+
+            if sequence_length == unified_sequence_length:
+                break
 
         # add new lines at end of every sample
         if sequence_length < unified_sequence_length :
