@@ -12,11 +12,13 @@ from keras.layers import TimeDistributed
 from keras.layers import ConvLSTM2D
 from keras.utils import to_categorical
 from keras.utils import plot_model
+from keras.layers import Embedding, Masking
+from keras.regularizers import l2
 from matplotlib import pyplot
 from keras.layers.convolutional import Conv1D
 from keras.layers.convolutional import MaxPooling1D
 from keras.wrappers.scikit_learn import KerasClassifier
-from keras.callbacks import EarlyStopping, ModelCheckpoint
+from keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
 from keras.models import load_model
 from sklearn.model_selection import cross_val_score
 from sklearn.datasets import make_classification
@@ -26,7 +28,7 @@ import glob, os
 np.random.seed(0)
 
 def load_file(filepath):
-    print(filepath)
+    # print(filepath)
     dataframe = read_csv(filepath, header=None, delim_whitespace=True)
     # print(dataframe)
     return dataframe.values
@@ -75,22 +77,63 @@ def load_dataset(prefix=''):
 
     return trainX, trainy, testX, testy
 
-# fit and evaluate a model
-def evaluate_model(trainX, trainy, testX, testy):
+def evaluate_model_lstm(trainX, trainy, testX, testy):
     # define model
-    verbose, epochs, batch_size = 0, 10, 4
+    verbose, epochs, batch_size = 0, 25, 16
     n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 
     # reshape into subsequences (samples, time steps, rows, cols, channels)
-    n_steps, n_length = 4, 16
-    trainX = trainX.reshape((trainX.shape[0], n_steps, 1, n_length, n_features))
-    testX = testX.reshape((testX.shape[0], n_steps, 1, n_length, n_features))
+    n_steps, n_length = 2, 15
 
     # define model
     model = Sequential()
-    model.add(ConvLSTM2D(filters=122, kernel_size=(1,3), activation='relu', input_shape=(n_steps, 1, n_length, n_features)))
+    # model.add(Masking(mask_value=999, input_shape=(n_timesteps, n_features)))
+    # add regularizer to below line: kernel_regularizer=l2(0.01), recurrent_regularizer=l2(0.01)
+    model.add(LSTM(100, input_shape=(n_timesteps,n_features)))
     model.add(Dropout(0.5))
-    model.add(Flatten())
+    model.add(Dense(100, activation='relu'))
+    model.add(Dense(n_outputs, activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+    callbacks = []
+    callbacks.append(EarlyStopping(monitor='val_loss', patience=2, verbose=1))
+    callbacks.append(ModelCheckpoint(filepath='epoch_best_model.h5', monitor='val_loss', save_best_only=True))
+    callbacks.append(ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=1, min_lr=0.001))
+
+    history = model.fit(trainX,
+                      trainy,
+                      epochs=epochs,
+                      callbacks=callbacks,
+                      verbose=0,
+                      batch_size=batch_size,
+                      validation_data=(testX, testy))
+
+    model = load_model('epoch_best_model.h5')
+
+    # evaluate model
+    _, accuracy = model.evaluate(testX, testy, batch_size=batch_size, verbose=0)
+
+    return accuracy, model
+
+def evaluate_model_cnn_lstm(trainX, trainy, testX, testy):
+    # define model
+    verbose, epochs, batch_size = 0, 25, 64
+    n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
+
+    # reshape data into time steps of sub-sequences
+    n_steps, n_length = 4, 15
+    trainX = trainX.reshape((trainX.shape[0], n_steps, n_length, n_features))
+    testX = testX.reshape((testX.shape[0], n_steps, n_length, n_features))
+
+    # define model
+    model = Sequential()
+    model.add(TimeDistributed(Conv1D(filters=64, kernel_size=3, activation='relu'), input_shape=(None,n_length,n_features)))
+    model.add(TimeDistributed(Conv1D(filters=64, kernel_size=3, activation='relu')))
+    model.add(TimeDistributed(Dropout(0.5)))
+    model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
+    model.add(TimeDistributed(Flatten()))
+    model.add(LSTM(100))
+    model.add(Dropout(0.5))
     model.add(Dense(100, activation='relu'))
     model.add(Dense(n_outputs, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -99,14 +142,52 @@ def evaluate_model(trainX, trainy, testX, testy):
 
     history = model.fit(trainX,
                       trainy,
-                      epochs=20,
+                      epochs=epochs,
                       callbacks=callbacks,
                       verbose=0,
                       batch_size=batch_size,
                       validation_data=(testX, testy))
 
-    # plot model
-    plot_model(model, to_file='model.png', show_shapes=True, show_layer_names=True)
+    model = load_model('epoch_best_model.h5')
+
+    # evaluate model
+    _, accuracy = model.evaluate(testX, testy, batch_size=batch_size, verbose=0)
+
+    return accuracy, model
+
+# fit and evaluate a model
+def evaluate_model_convlstm(trainX, trainy, testX, testy):
+    # define model
+    verbose, epochs, batch_size = 0, 100, 32
+    n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
+
+    # reshape into subsequences (samples, time steps, rows, cols, channels)
+    n_steps, n_length = 2, 15
+    trainX = trainX.reshape((trainX.shape[0], n_steps, 1, n_length, n_features))
+    testX = testX.reshape((testX.shape[0], n_steps, 1, n_length, n_features))
+
+    # define model
+    model = Sequential()
+    model.add(ConvLSTM2D(filters=98, kernel_size=(1,3), activation='relu', input_shape=(n_steps, 1, n_length, n_features)))
+    model.add(Dropout(0.5))
+    model.add(Flatten())
+    model.add(Dense(116, activation='sigmoid'))
+    # model.add(Dense(116, activation='relu'))
+    model.add(Dense(n_outputs, activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+    callbacks = []
+    callbacks.append(EarlyStopping(monitor='val_loss', patience=2, verbose=1))
+    callbacks.append(ModelCheckpoint(filepath='epoch_best_model.h5', monitor='val_loss', save_best_only=True))
+    callbacks.append(ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=1, min_lr=0.001))
+
+    history = model.fit(trainX,
+                      trainy,
+                      epochs=epochs,
+                      callbacks=callbacks,
+                      verbose=0,
+                      batch_size=batch_size,
+                      validation_data=(testX, testy))
 
     model = load_model('epoch_best_model.h5')
 
@@ -155,7 +236,7 @@ def main():
     for r in range(repeats):
         string = "[MAIN][STAT] Evaluating model, run " + str(r+1) + "/" + str(repeats) + "..."
         print(string)
-        score, model = evaluate_model(trainX, trainy, testX, testy)
+        score, model = evaluate_model_convlstm(trainX, trainy, testX, testy)
         score = score * 100.0
         print('>#%d: %.3f' % (r+1, score))
         scores.append(score)
@@ -163,7 +244,9 @@ def main():
         if score > peak_score:
             print('[MAIN][INFO] Saving overall best model...')
             peak_score = score
+            model.summary()
             model.save('best_model.h5')
+            plot_model(model, to_file='model.png', show_shapes=True, show_layer_names=True)
 
     # summarize results
     print("[MAIN][STAT] Summarizing results... [DONE]")

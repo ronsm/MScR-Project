@@ -7,7 +7,7 @@ import sys
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['RALT_RFID_HAR_System_F1']
+db = client['RALT_RFID_HAR_System_F1_Kitchen']
 
 # configuration variables
 time_between_snapshots_millis = 1000
@@ -140,7 +140,8 @@ def drop_transitions(collection_name):
 
         if prefix == collection_name:
             for document in pointer:
-                if document["activity_label"] == "TRA":
+                activity_label = document["activity_label"]
+                if activity_label == "TRA":
                     collection.drop()
                 break
             

@@ -11,7 +11,7 @@ from semantic_reasoning_module import semantic_reasoning_module
 
 class control_module:
     def __init__(self, database_name):
-        self.unified_sequence_length = 24
+        self.unified_sequence_length = 30
         self.num_static_tags = 232
         self.num_object_tags = 24
         self.train_test_ratio = 0.0
@@ -27,30 +27,30 @@ class control_module:
         # self.database_helper = database_helper(database_name)
         # self.data_converter_module = data_converter_module(self.dcvm_mode, self.database_helper, self.static_tag_epcs, self.num_static_tags, self.unified_sequence_length, self.train_test_ratio)
         # self.object_activation_detection_module = object_activation_detection_module(self.database_helper, self.num_object_tags, self.object_tag_epcs, self.object_tag_labels, self.object_tag_dict)
-        # self.classification_module = classification_module(self.unified_sequence_length)
-        self.semantic_reasoning_module = semantic_reasoning_module(self.verbose, self.ontology_name, self.ontology_IRI)
+        self.classification_module = classification_module(self.unified_sequence_length)
+        # self.semantic_reasoning_module = semantic_reasoning_module(self.verbose, self.ontology_name, self.ontology_IRI)
 
         self.start()
 
     def start(self):
         # object_activations = self.object_activation_detection_module.start()
-        # location_classifications = self.classification_module.start()
+        location_classifications = self.classification_module.start()
 
-        location_classifications = [["kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
-                                    ["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
-                                    ["bedroom_location_mirror", "bedroom_location_bed", "bedroom_location_drawers", "bedroom_location_wardrobe"],
-                                    ["bedroom_location_bed", "bedroom_location_mirror", "bedroom_location_drawers", "bedroom_location_wardrobe"],
-                                    ["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
-                                    ["bedroom_location_bed", "bedroom_location_mirror", "bedroom_location_drawers", "bedroom_location_wardrobe"]]
-        object_activations = [["object_kettle", "object_mug", "object_coffee_container", "object_tea_container", "object_plate"],
-                            ["object_kettle", "object_mug", "object_coffee_container", "object_book"],
-                            ["object_toothbrush"],
-                            ["object_toothbrush"],
-                            ["object_cake", "object_plate"],
-                            []]
+        # location_classifications = [["kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
+        #                             ["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
+        #                             ["bedroom_location_mirror", "bedroom_location_bed", "bedroom_location_drawers", "bedroom_location_wardrobe"],
+        #                             ["bedroom_location_bed", "bedroom_location_mirror", "bedroom_location_drawers", "bedroom_location_wardrobe"],
+        #                             ["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
+        #                             ["bedroom_location_bed", "bedroom_location_mirror", "bedroom_location_drawers", "bedroom_location_wardrobe"]]
+        # object_activations = [["object_kettle", "object_mug", "object_coffee_container", "object_tea_container", "object_plate"],
+        #                     ["object_kettle", "object_mug", "object_coffee_container", "object_book"],
+        #                     ["object_toothbrush"],
+        #                     ["object_toothbrush"],
+        #                     ["object_cake", "object_plate"],
+        #                     []]
 
 
-        self.semantic_reasoning_module.start(location_classifications, object_activations)
+        # self.semantic_reasoning_module.start(location_classifications, object_activations)
 
     def load_static_tag_data(self):
         with open("knowledge/static.txt") as f:

@@ -31,7 +31,7 @@ class classification_module:
         master_list = self.predict(new_data)
         master_list = self.one_hot_decoding(master_list)
 
-        # self.debug_print(master_list)
+        self.debug_print(master_list)
 
         return master_list
 
