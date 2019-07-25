@@ -13,7 +13,7 @@ class control_module:
     def __init__(self, database_name):
         self.unified_sequence_length = 24
         self.num_static_tags = 232
-        self.num_object_tags = 21
+        self.num_object_tags = 24
         self.train_test_ratio = 0.0
         self.dcvm_mode = 1
         self.ontology_name = 'sho.owl'

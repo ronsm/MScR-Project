@@ -7,7 +7,7 @@ import sys
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['RALT_RFID_HAR_System_4']
+db = client['RALT_RFID_HAR_System_F1']
 
 # configuration variables
 time_between_snapshots_millis = 1000
@@ -154,10 +154,6 @@ def main():
     print("- Developed by Ronnie Smith")
     print("- github: @ronsm | email: ronnie.smith@ed.ac.uk | web: ronsm.com")
     print()
-
-    # collection_name = 'Sample Dataset Segmentation'
-    # annotation_labels = 'annotation_labels.txt'
-    # annotation_times = 'annotation_times.txt'
 
     num_arguments = len(sys.argv)
 

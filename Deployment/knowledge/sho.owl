@@ -282,20 +282,9 @@
     
 
 
-    <!-- file://sho.owl#activity_drinking -->
+    <!-- file://sho.owl#activity_eating_drinking -->
 
-    <owl:NamedIndividual rdf:about="file://sho.owl#activity_drinking">
-        <rdf:type rdf:resource="file://sho.owl#Activity"/>
-        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_drinkware"/>
-        <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_table"/>
-        <sho:human_readable_label>drinking</sho:human_readable_label>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- file://sho.owl#activity_eating -->
-
-    <owl:NamedIndividual rdf:about="file://sho.owl#activity_eating">
+    <owl:NamedIndividual rdf:about="file://sho.owl#activity_eating_drinking">
         <rdf:type rdf:resource="file://sho.owl#Activity"/>
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_tableware"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_table"/>
@@ -553,8 +542,7 @@
         <rdf:type rdf:resource="file://sho.owl#Location"/>
         <rdf:type rdf:resource="file://sho.owl#kitchen_location"/>
         <sho:hasDefaultActivity rdf:resource="file://sho.owl#activity_sitting"/>
-        <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_drinking"/>
-        <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_eating"/>
+        <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_eating_drinking"/>
         <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_reading"/>
         <sho:hasPossibleActivity rdf:resource="file://sho.owl#activity_sitting"/>
         <sho:isNextTo rdf:resource="file://sho.owl#kitchen_location_worktop_sink"/>
@@ -692,7 +680,6 @@
 
     <owl:NamedIndividual rdf:about="file://sho.owl#object_drinkware">
         <rdf:type rdf:resource="file://sho.owl#Object"/>
-        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_drinking"/>
         <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_wash_dishes"/>
         <sho:superObjectOf rdf:resource="file://sho.owl#object_glass"/>
         <sho:superObjectOf rdf:resource="file://sho.owl#object_mug"/>
@@ -818,7 +805,7 @@
 
     <owl:NamedIndividual rdf:about="file://sho.owl#object_tableware">
         <rdf:type rdf:resource="file://sho.owl#Object"/>
-        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_eating"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_eating_drinking"/>
         <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_prepare_food"/>
         <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_wash_dishes"/>
         <sho:superObjectOf rdf:resource="file://sho.owl#object_plate"/>

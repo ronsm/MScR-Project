@@ -6,18 +6,28 @@ from random import shuffle
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['RALT_RFID_HAR_System_5']
+db = client['RALT_RFID_HAR_System_F1']
 
 # user modifable variables
 collection_name_prefix = None
-num_tags = 253
-unified_sequence_length = 24
+num_tags = 232
+unified_sequence_length = 64
 train_test_ratio = 0.7
 
 def get_collection(collection_name):
     collection = db[collection_name]
     pointer = collection.find({})
-    return pointer
+
+    return collection, pointer
+
+def get_all_collection_names():
+    collections = db.collection_names()
+
+    shuffle(collections)
+
+    num_collections = len(collections)
+
+    return num_collections, collections
 
 def get_collection_names():
     collections = db.collection_names()
@@ -40,6 +50,31 @@ def get_collection_names():
             test_collections.append(collections[i])
 
     return num_collections, collections, num_train_collections, num_test_collections, train_collections, test_collections
+
+def split_tags():
+    num_collections, collection_names = get_all_collection_names()
+    for collection in collection_names:
+        split_static_and_object_tags(collection)
+
+def split_static_and_object_tags(collection_name):
+    collection, pointer = get_collection(collection_name)
+
+    for document in pointer:
+        query = {"_id": document["_id"]}
+
+        object_tags = []
+        for i in range(0, len(document['tags'])):
+            if '9999' in document['tags'][i]['_id']:
+                object_tags.append(document['tags'][i])
+                
+                document_id = document['tags'][i]['_id']
+                remove = {"$pull": {"tags": {"_id": document_id}}}
+                # comment out line below to delete copy of object tags in original tag pool
+                collection.update_one(query, remove)
+        
+        new_array = {"$set": {"object_tags": object_tags}}
+
+        collection.update_one(query, new_array)
 
 def progress_bar(iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█'):
     percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
@@ -68,12 +103,20 @@ def get_label(full_label):
         label = 0
     elif full_label == "bedroom_location_chair":
         label = 1
-    elif full_label == "bedroom_location_wardrobe":
-        label = 2
     elif full_label == "bedroom_location_drawers":
-        label = 3
+        label = 2
     elif full_label == "bedroom_location_mirror":
+        label = 3
+    elif full_label == "bedroom_location_wardrobe":
         label = 4
+    elif full_label == "kitchen_location_table":
+        label = 5
+    elif full_label == "kitchen_location_worktop_corner":
+        label = 6
+    elif full_label == "kitchen_location_worktop_sink":
+        label = 7
+    elif full_label == "kitchen_location_worktop_stove":
+        label = 8
     elif full_label == "TRA":
         label = 5
 
@@ -109,7 +152,7 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
 
     for i in range(0, num_train_collections):
         progress_bar(i + 1, num_train_collections, prefix = 'Progress:', suffix = 'Complete', length = 50)
-        pointer = get_collection(train_collections[i])
+        collection, pointer = get_collection(train_collections[i])
 
         labelled = 0
         sequence_length = 0
@@ -129,18 +172,17 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
                 labelled = 1
 
             # appends value from current snapshot to every vector
-            for i in range(0, num_tags):
-                epc = document["tags"][i]["_id"]
-                antenna = document["tags"][i]["antenna"]
-                peakRSSI = document["tags"][i]["peakRSSI"]
-                phaseAngle = document["tags"][i]["phaseAngle"]
-                velocity = document["tags"][i]["velocity"]
+            for j in range(0, num_tags):
+                epc = document["tags"][j]["_id"]
+                antenna = document["tags"][j]["antenna"]
+                peakRSSI = document["tags"][j]["peakRSSI"]
+                phaseAngle = document["tags"][j]["phaseAngle"]
+                velocity = document["tags"][j]["velocity"]
 
-                if epc[:20] != "300833B2DDD901409999":
-                    with open("dataset/train/input/{}_peakRSSI.txt".format(epc), "a") as f:
-                        f.write(peakRSSI)
-                        f.write("  ")
-                        f.close()
+                with open("dataset/train/input/{}_peakRSSI.txt".format(epc), "a") as f:
+                    f.write(peakRSSI)
+                    f.write("  ")
+                    f.close()
 
             if sequence_length == unified_sequence_length:
                 break
@@ -149,7 +191,7 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
         if sequence_length < unified_sequence_length:
             sequence_length_diff = unified_sequence_length - sequence_length
             for tag in tag_epcs:
-                for i in range(0, sequence_length_diff):
+                for j in range(0, sequence_length_diff):
                     with open("dataset/train/input/{}_peakRSSI.txt".format(tag), "a") as f:
                         f.write("0")
                         f.write("  ")
@@ -168,7 +210,7 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
 
     for i in range(0, num_test_collections):
         progress_bar(i + 1, num_test_collections, prefix = 'Progress:', suffix = 'Complete', length = 50)
-        pointer = get_collection(test_collections[i])
+        collection, pointer = get_collection(test_collections[i])
 
         labelled = 0
         sequence_length = 0
@@ -186,18 +228,17 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
 
                 labelled = 1
 
-            for i in range(0, num_tags):
-                epc = document["tags"][i]["_id"]
-                antenna = document["tags"][i]["antenna"]
-                peakRSSI = document["tags"][i]["peakRSSI"]
-                phaseAngle = document["tags"][i]["phaseAngle"]
-                velocity = document["tags"][i]["velocity"]
+            for j in range(0, num_tags):
+                epc = document["tags"][j]["_id"]
+                antenna = document["tags"][j]["antenna"]
+                peakRSSI = document["tags"][j]["peakRSSI"]
+                phaseAngle = document["tags"][j]["phaseAngle"]
+                velocity = document["tags"][j]["velocity"]
 
-                if epc[:20] != "300833B2DDD901409999":
-                    with open("dataset/test/input/{}_peakRSSI.txt".format(epc), "a") as f:
-                        f.write(peakRSSI)
-                        f.write("  ")
-                        f.close()
+                with open("dataset/test/input/{}_peakRSSI.txt".format(epc), "a") as f:
+                    f.write(peakRSSI)
+                    f.write("  ")
+                    f.close()
 
             if sequence_length == unified_sequence_length:
                 break
@@ -206,7 +247,7 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
         if sequence_length < unified_sequence_length :
             sequence_length_diff = unified_sequence_length - sequence_length
             for tag in tag_epcs:
-                for i in range(0, sequence_length_diff):
+                for j in range(0, sequence_length_diff):
                     with open("dataset/test/input/{}_peakRSSI.txt".format(tag), "a") as f:
                         f.write("0")
                         f.write("  ")
@@ -241,6 +282,10 @@ def main():
     # read in tag EPCs
     print("[MAIN][STAT] Reading in tag EPCs from tags.txt...", end="", flush=True)
     tag_epcs = read_tag_epcs()
+    print("[DONE]")
+
+    print("[MAIN][STAT] Splitting static and objects tags...", end="", flush=True)
+    split_tags()
     print("[DONE]")
 
     # get the names of all collections (sessions) in the given database

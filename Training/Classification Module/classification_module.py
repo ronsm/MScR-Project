@@ -26,7 +26,7 @@ import glob, os
 np.random.seed(0)
 
 def load_file(filepath):
-    # print(filepath)
+    print(filepath)
     dataframe = read_csv(filepath, header=None, delim_whitespace=True)
     # print(dataframe)
     return dataframe.values
@@ -64,7 +64,7 @@ def load_dataset(prefix=''):
     trainy = trainy.astype(int)
     testy = testy.astype(int)
 
-    # zero-offset class values (if they don't already!)
+    # zero-offset class values (if they aren't already starting from zero!)
     # trainy = trainy - 1
     # testy = testy - 1
 
@@ -82,7 +82,7 @@ def evaluate_model(trainX, trainy, testX, testy):
     n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 
     # reshape into subsequences (samples, time steps, rows, cols, channels)
-    n_steps, n_length = 2, 12
+    n_steps, n_length = 4, 16
     trainX = trainX.reshape((trainX.shape[0], n_steps, 1, n_length, n_features))
     testX = testX.reshape((testX.shape[0], n_steps, 1, n_length, n_features))
 
