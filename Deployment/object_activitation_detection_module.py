@@ -21,9 +21,9 @@ class object_activation_detection_module:
 
     def start(self):
         # split the 'tags' array in each snapshot into 'tags' and 'object_tags'
-        print("[object_activation_detection_module][STAT] Splitting tags into static and object tags in collection... ", end="", flush=True)
-        self.split_tags()
-        print("[DONE]")
+        # print("[object_activation_detection_module][STAT] Splitting tags into static and object tags for each collection... ", end="", flush=True)
+        # self.split_tags()
+        # print("[DONE]")
 
         # apply object labels to the database, using the object tag dictionary
         print("[object_activation_detection_module][STAT] Applying labels to object tags... ", end="", flush=True)
@@ -36,11 +36,11 @@ class object_activation_detection_module:
         print("[DONE]")
 
         # generate the master list (list of lists) of object activiations by label
-        print("[object_activation_detection_module][STAT] Generating master list (list of lists) of object activiations (by label)... ", end="", flush=True)
-        master_list = self.generate_activated_object_lists()
-        print("[DONE]")
+        # print("[object_activation_detection_module][STAT] Generating master list (list of lists) of object activiations (by label)... ", end="", flush=True)
+        # master_list = self.generate_activated_object_lists()
+        # print("[DONE]")
 
-        return master_list
+        # return master_list
 
     def split_tags(self):
         self.num_collections, self.collection_names = self.database_helper.get_all_collection_names()
@@ -53,7 +53,6 @@ class object_activation_detection_module:
             collection, pointer = self.database_helper.get_collection(collection)
 
             for document in pointer:
-
                 object_tag_labels = []
                 for i in range(0, len(document['object_tags'])):
                     object_tag_labels.append(self.object_tag_dict[document['object_tags'][i]['_id']])
@@ -66,8 +65,8 @@ class object_activation_detection_module:
     def calculate_cpd_store(self):
         for collection in self.collection_names:
             object_tags_rssi = self.get_object_timeseries(collection)
-            object_tags_rssi_cp = self.change_point_detection(object_tags_rssi)
-            self.write_change_points(collection, object_tags_rssi_cp)
+            object_tags_rssi_cp, object_tags_rssi_cp_count = self.change_point_detection(object_tags_rssi)
+            self.write_change_points(collection, object_tags_rssi_cp, object_tags_rssi_cp_count)
 
     def get_object_timeseries(self, collection):
         collection, pointer = self.database_helper.get_collection(collection)
@@ -79,18 +78,21 @@ class object_activation_detection_module:
         i = 0
         for document in pointer:
             for j in range(0, self.num_object_tags):
-                object_tags_rssi[j][i] = document['object_tags'][j]['peakRSSI']
+                object_tags_rssi[j][i] = document['object_tags'][j]['phaseAngle']
             i = i + 1
 
         return object_tags_rssi
 
     def change_point_detection(self, object_tags_rssi):
         object_tags_rssi_cp = np.zeros(object_tags_rssi.shape, np.int32)
+        object_tags_rssi_cp_count = []
 
         rows, cols = object_tags_rssi.shape
         for i in range(0, rows):
+            object_tags_rssi_cp_count.append(0)
             signal = object_tags_rssi[i]
 
+            count = 0
             if len(signal) > 1:
                 algo = rpt.Pelt(model="l2").fit(signal)
                 result = algo.predict(pen=10)
@@ -101,12 +103,15 @@ class object_activation_detection_module:
                 for res in result:
                     if res != cols:
                         object_tags_rssi_cp[i][res] = 1
+                        count = count + 1
             else:
                 object_tags_rssi_cp[i][0] = 0
 
-        return object_tags_rssi_cp
+            object_tags_rssi_cp_count[i] = count
 
-    def write_change_points(self, collection_name, object_tags_rssi_cp):
+        return object_tags_rssi_cp, object_tags_rssi_cp_count
+
+    def write_change_points(self, collection_name, object_tags_rssi_cp, object_tags_rssi_cp_count):
         collection, pointer = self.database_helper.get_collection(collection_name)
 
         rows, cols = object_tags_rssi_cp.shape
@@ -121,6 +126,13 @@ class object_activation_detection_module:
 
             collection.update_one(query, add_cp)
             i = i + 1
+
+        collection, pointer = self.database_helper.get_collection(collection_name)
+        for document in pointer:
+            query = {"_id": document["_id"]}
+            add_cp_count = { "$set": { "object_tag_cps_counts": object_tags_rssi_cp_count } }
+
+            collection.update_one(query, add_cp_count)
 
     def generate_activated_object_lists(self):
         master_list = []
@@ -141,3 +153,18 @@ class object_activation_detection_module:
             master_list.append(collection_list)
 
         return master_list
+
+    def get_activited_objects_for_sample(self, collection):
+        collection, pointer = self.database_helper.get_collection(collection)
+
+        collection_list = []
+        for document in pointer:
+            for i in range(0, self.num_object_tags):
+                if document["object_tag_cps"][i] == 1:
+                    collection_list.append(document["object_tag_labels"][i])
+
+        if len(collection_list) == 0:
+            collection_list.append('none')
+        collection_list = list(dict.fromkeys(collection_list))
+
+        return collection_list

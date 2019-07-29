@@ -10,7 +10,7 @@ from classification_module import classification_module
 from semantic_reasoning_module import semantic_reasoning_module
 
 class control_module:
-    def __init__(self, database_name):
+    def __init__(self, location_database_name, activity_database_name):
         self.unified_sequence_length = 30
         self.num_static_tags = 232
         self.num_object_tags = 24
@@ -24,17 +24,20 @@ class control_module:
         self.static_tag_epcs = self.load_static_tag_data()
         self.object_tag_epcs, self.object_tag_labels, self.object_tag_dict = self.load_object_tag_data()
 
-        # self.database_helper = database_helper(database_name)
-        # self.data_converter_module = data_converter_module(self.dcvm_mode, self.database_helper, self.static_tag_epcs, self.num_static_tags, self.unified_sequence_length, self.train_test_ratio)
-        # self.object_activation_detection_module = object_activation_detection_module(self.database_helper, self.num_object_tags, self.object_tag_epcs, self.object_tag_labels, self.object_tag_dict)
+        self.location_database_helper = database_helper(location_database_name)
+        self.activity_database_helper = database_helper(activity_database_name)
+        # self.data_converter_module = data_converter_module(self.dcvm_mode, self.location_database_helper, self.static_tag_epcs, self.num_static_tags, self.unified_sequence_length, self.train_test_ratio)
+        self.object_activation_detection_module = object_activation_detection_module(self.activity_database_helper, self.num_object_tags, self.object_tag_epcs, self.object_tag_labels, self.object_tag_dict)
         self.classification_module = classification_module(self.unified_sequence_length)
         # self.semantic_reasoning_module = semantic_reasoning_module(self.verbose, self.ontology_name, self.ontology_IRI)
 
         self.start()
 
     def start(self):
-        # object_activations = self.object_activation_detection_module.start()
+        self.object_activation_detection_module.start()
         location_classifications = self.classification_module.start()
+
+        self.generate_location_activity_pairs(location_classifications)
 
         # location_classifications = [["kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
         #                             ["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
@@ -75,6 +78,24 @@ class control_module:
 
         return object_tag_epcs, object_tag_labels, object_tag_dict
 
+    def generate_location_activity_pairs(self, location_classifications):
+        num_collections, location_collection_names = self.location_database_helper.get_all_collection_names()
+        
+        activity_collection_names = []
+        master_list = []
+        for collection_name in location_collection_names:
+            collection, pointer = self.location_database_helper.get_collection(collection_name)
+
+            first_document = collection.find_one()
+
+            activity_collection_name = collection_name[:6] + '-A' + str(first_document["activity_index"])
+            activated_objects = self.object_activation_detection_module.get_activited_objects_for_sample(activity_collection_name)
+
+            master_list.append(activated_objects)
+            activity_collection_names.append(activity_collection_name)
+
+        for i in range(0, len(location_collection_names)):
+            print(location_collection_names[i], activity_collection_names[i], master_list[i])
 
 # clear the terminal
 print(chr(27) + "[2J")
@@ -90,10 +111,11 @@ num_arguments = len(sys.argv)
 
 global database_name
 
-if num_arguments == 2:
-    database_name = sys.argv[1]
+if num_arguments == 3:
+    location_database_name = sys.argv[1]
+    activity_database_name = sys.argv[2]
 else:
-    print("[MAIN][INFO] Invalid arguments. Usage: python3 control_module.py database_name")
+    print("[MAIN][INFO] Invalid arguments. Usage: python3 control_module.py location_database_name activity_database_name")
     exit()
 
-control_module = control_module(database_name)
+control_module = control_module(location_database_name, activity_database_name)

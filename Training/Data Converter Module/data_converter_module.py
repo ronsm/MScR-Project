@@ -6,7 +6,7 @@ from random import shuffle
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['RALT_RFID_HAR_System_F1']
+db = client['TEST1-L']
 
 # user modifable variables
 collection_name_prefix = None
@@ -183,7 +183,7 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
             sequence_length = sequence_length + 1
 
             if labelled == 0:
-                label = get_label(document["activity_label"])
+                label = get_label(document["location_label"])
 
                 with open("dataset/train/y_train.txt".format(), "a") as f:
                     f.write(label)
@@ -240,7 +240,7 @@ def write_dataset_input_files(tag_epcs, num_collections, num_train_collections, 
             sequence_length = sequence_length + 1
 
             if labelled == 0:
-                label = get_label(document["activity_label"])
+                label = get_label(document["location_label"])
 
                 with open("dataset/test/y_test.txt".format(), "a") as f:
                     f.write(label)
