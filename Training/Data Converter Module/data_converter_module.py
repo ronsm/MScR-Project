@@ -120,6 +120,31 @@ def get_label(full_label):
     elif full_label == "TRA":
         label = 9
 
+    # if full_label == "activity_dressing":
+    #     label = 0
+    # elif full_label == "activity_brushing_teeth":
+    #     label = 1
+    # elif full_label == "activity_brushing_hair":
+    #     label = 2
+    # elif full_label == "activity_prepare_te":
+    #     label = 3
+    # elif full_label == "activity_prepare_coffee":
+    #     label = 4
+    # elif full_label == "activity_prepare_sandwich":
+    #     label = 5
+    # elif full_label == "activity_eating_drinking":
+    #     label = 6
+    # elif full_label == "activity_wash_dishes":
+    #     label = 7
+    # elif full_label == "activity_sleeping":
+    #     label = 8
+    # elif full_label == "activity_reading":
+    #     label = 9
+    # elif full_label == "activity_prepare_cake":
+    #     label = 10
+    # elif full_label == "TRA":
+    #     label = 10
+
     # if full_label == "bedroom_location_bed":
     #     label = 0
     # elif full_label == "bedroom_location_chair":

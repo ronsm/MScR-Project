@@ -289,7 +289,7 @@ def main():
     drop_location_transitions(db_l, collection_name)
     print("[DONE]")
 
-    print("[MAIN][STAT] Removing location transitional activities...", end="", flush=True)
+    print("[MAIN][STAT] Removing activity transitional activities...", end="", flush=True)
     drop_activity_transitions(db_a, collection_name)
     print("[DONE]")
 

@@ -81,21 +81,29 @@ class control_module:
     def generate_location_activity_pairs(self, location_classifications):
         num_collections, location_collection_names = self.location_database_helper.get_all_collection_names()
         
+        location_collection_names_expanded = []
         activity_collection_names = []
         master_list = []
         for collection_name in location_collection_names:
             collection, pointer = self.location_database_helper.get_collection(collection_name)
 
-            first_document = collection.find_one()
+            previous_activity_index = 'none'
+            for document in pointer:
+                current_activity_index = document["activity_index"]
 
-            activity_collection_name = collection_name[:6] + '-A' + str(first_document["activity_index"])
-            activated_objects = self.object_activation_detection_module.get_activited_objects_for_sample(activity_collection_name)
+                if current_activity_index != previous_activity_index:
+                    activity_collection_name = collection_name[:6] + '-A' + str(document["activity_index"])
+                    # print(collection_name, document["activity_index"])
+                    activated_objects = self.object_activation_detection_module.get_activited_objects_for_sample(activity_collection_name)
 
-            master_list.append(activated_objects)
-            activity_collection_names.append(activity_collection_name)
+                    location_collection_names_expanded.append(collection_name)
+                    master_list.append(activated_objects)
+                    activity_collection_names.append(activity_collection_name)
 
-        for i in range(0, len(location_collection_names)):
-            print(location_collection_names[i], activity_collection_names[i], master_list[i])
+                previous_activity_index = current_activity_index
+
+        for i in range(0, len(location_collection_names_expanded)):
+            print(location_collection_names_expanded[i], activity_collection_names[i], master_list[i])
 
 # clear the terminal
 print(chr(27) + "[2J")

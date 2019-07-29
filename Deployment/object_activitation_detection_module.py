@@ -78,7 +78,7 @@ class object_activation_detection_module:
         i = 0
         for document in pointer:
             for j in range(0, self.num_object_tags):
-                object_tags_rssi[j][i] = document['object_tags'][j]['phaseAngle']
+                object_tags_rssi[j][i] = document['object_tags'][j]['peakRSSI']
             i = i + 1
 
         return object_tags_rssi
@@ -94,16 +94,34 @@ class object_activation_detection_module:
 
             count = 0
             if len(signal) > 1:
-                algo = rpt.Pelt(model="l2").fit(signal)
-                result = algo.predict(pen=10)
+                # Uncomment below block for Ruptures-based CPD
+                # BEGIN
+                #
+                # algo = rpt.Pelt(model="l2").fit(signal)
+                # result = algo.predict(pen=10)
 
-                # rpt.display(signal, result)
-                # plt.show()
+                # # rpt.display(signal, result)
+                # # plt.show()
 
-                for res in result:
-                    if res != cols:
-                        object_tags_rssi_cp[i][res] = 1
+                # for res in result:
+                #     if res != cols:
+                #         object_tags_rssi_cp[i][res] = 1
+                #         count = count + 1
+                #
+                # END
+
+                # Uncomment below block for custom- CPD
+                # BEGIN
+                #
+                for j in range(0, len(signal)-1):
+                    if signal[j] == 0 and signal[j+1] != 0:
                         count = count + 1
+                        object_tags_rssi_cp[i][j] = 1
+                    if ((signal[j] - signal[j+1]) * -1.0) > 5:
+                        count = count + 1
+                        object_tags_rssi_cp[i][j] = 1
+                #
+                # END
             else:
                 object_tags_rssi_cp[i][0] = 0
 
