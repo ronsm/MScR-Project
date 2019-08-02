@@ -14,6 +14,7 @@ from keras.utils import to_categorical
 from keras.utils import plot_model
 from keras.layers import Embedding, Masking
 from keras.regularizers import l2
+from keras.optimizers import SGD
 from matplotlib import pyplot
 from keras.layers.convolutional import Conv1D
 from keras.layers.convolutional import MaxPooling1D
@@ -79,7 +80,7 @@ def load_dataset(prefix=''):
 
 def evaluate_model_lstm(trainX, trainy, testX, testy):
     # define model
-    verbose, epochs, batch_size = 0, 25, 16
+    verbose, epochs, batch_size = 0, 100, 16
     n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 
     # reshape into subsequences (samples, time steps, rows, cols, channels)
@@ -87,7 +88,7 @@ def evaluate_model_lstm(trainX, trainy, testX, testy):
 
     # define model
     model = Sequential()
-    # model.add(Masking(mask_value=999, input_shape=(n_timesteps, n_features)))
+    # model.add(Masking(mask_value=0, input_shape=(n_timesteps, n_features)))
     # add regularizer to below line: kernel_regularizer=l2(0.01), recurrent_regularizer=l2(0.01)
     model.add(LSTM(98, input_shape=(n_timesteps,n_features)))
     model.add(Dropout(0.5))
@@ -117,11 +118,11 @@ def evaluate_model_lstm(trainX, trainy, testX, testy):
 
 def evaluate_model_cnn_lstm(trainX, trainy, testX, testy):
     # define model
-    verbose, epochs, batch_size = 0, 25, 64
+    verbose, epochs, batch_size = 0, 25, 32
     n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 
     # reshape data into time steps of sub-sequences
-    n_steps, n_length = 4, 15
+    n_steps, n_length = 2, 15
     trainX = trainX.reshape((trainX.shape[0], n_steps, n_length, n_features))
     testX = testX.reshape((testX.shape[0], n_steps, n_length, n_features))
 

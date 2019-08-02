@@ -243,7 +243,6 @@ class semantic_reasoning_module:
 
         return results
 
-
 # *** OBJECT
 
     def get_possible_activities_for_object(self, leaf_object):

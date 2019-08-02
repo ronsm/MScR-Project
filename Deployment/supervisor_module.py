@@ -37,7 +37,7 @@ class control_module:
         self.object_activation_detection_module.start()
         location_classifications = self.classification_module.start()
 
-        self.generate_location_activity_pairs(location_classifications)
+        # self.generate_location_activity_pairs(location_classifications)
 
         # location_classifications = [["kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
         #                             ["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
