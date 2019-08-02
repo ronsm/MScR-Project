@@ -4,7 +4,7 @@ The Classification Module (CM) is configured to automatically generate a ConvLST
 
 ## Usage
 
-Timeseries data is required for the classification module to work, which is exactly what the Data Converter Module (DCvM) provides. If you have not done so already, you **must** copy the `dataset` folder output by the DCvM into the root directory of this module - potentially overwriting an existing dataset, if one already exists.
+Timeseries data is required for the classification module to work, which is exactly what the timeseries variant of the Data Converter Module (DCvM) provides. If you have not done so already, you **must** copy the `dataset` folder output by the timeseries DCvM into the root directory of this module - potentially overwriting an existing dataset, if one already exists.
 
 From there, you should then simply be able to run the module with the following command, where `num_experiments` is the number of unique models that will be generated an evaluated (each over a number of epochs):
 

@@ -18,6 +18,6 @@ With the root directory of this module as your working directory, use the follow
 
 ## Data Format
 
-When you run this application, a single file titled 'data.csv' is created within the 'dataset' directory.
+When you run this application, a single file titled `data.csv` is created within the 'dataset' directory.
 
 Data within the CSV file is structured so that each line contains the RSSI values from all tags, and the corresponding label for one snapshot of data.
