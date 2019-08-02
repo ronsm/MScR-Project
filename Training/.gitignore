@@ -3,5 +3,5 @@ Keras/HARDataset
 Data\ Converter\ Module\ (Snapshot)/dataset
 Data\ Converter\ Module\ (Timeseries)/dataset
 
-Classification\ Module/dataset
-Classification\ Module/example
+Classification\ Module\ (Timeseries)/dataset
+Classification\ Module\ (Snapshot)/dataset
