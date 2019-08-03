@@ -7,11 +7,13 @@ from random import shuffle
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['ES_SINGLE-CSV-L']
+db = client['ES_ALL-L']
 
 # user modifable variables
 collection_name_prefix = None
 num_tags = 232
+accepted_labels = ["bedroom_location_bed", "bedroom_location_drawers", "bedroom_location_wardrobe", "bedroom_location_mirror",
+                    "kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_table"]
 
 def get_collection(collection_name):
     collection = db[collection_name]
@@ -180,13 +182,11 @@ def write_dataset_input_files(tag_epcs, num_collections, collections):
         for document in pointer:
             snapshot = []
 
-            if document["location_label"] != "bedroom_location_chair":
+            if document["location_label"] in accepted_labels:
                 for j in range(0, num_tags):
                     epc = document["tags"][j]["_id"]
-                    antenna = document["tags"][j]["antenna"]
                     peakRSSI = document["tags"][j]["peakRSSI"]
                     phaseAngle = document["tags"][j]["phaseAngle"]
-                    velocity = document["tags"][j]["velocity"]
 
                     if epc[:20] != "300833B2DDD901401111":
                         snapshot.append(peakRSSI)

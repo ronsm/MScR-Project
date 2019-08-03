@@ -6,7 +6,7 @@ from random import shuffle
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['ES_SINGLE-CSV-L']
+db = client['ES_SINGLE-L']
 
 # user modifable variables
 collection_name_prefix = None
@@ -99,41 +99,41 @@ def print_collection(pointer):
 def get_label(full_label):
     label = 0
 
-    # if full_label == "bedroom_location_bed":
-    #     label = 0
-    # elif full_label == "bedroom_location_chair":
-    #     label = 1
-    # elif full_label == "bedroom_location_drawers":
-    #     label = 2
-    # elif full_label == "bedroom_location_mirror":
-    #     label = 3
-    # elif full_label == "bedroom_location_wardrobe":
-    #     label = 4
-    # elif full_label == "kitchen_location_table":
-    #     label = 5
-    # elif full_label == "kitchen_location_worktop_corner":
-    #     label = 6
-    # elif full_label == "kitchen_location_worktop_sink":
-    #     label = 7
-    # elif full_label == "kitchen_location_worktop_stove":
-    #     label = 8
-    # elif full_label == "TRA":
-    #     label = 9
-
     if full_label == "bedroom_location_bed":
         label = 0
     elif full_label == "bedroom_location_chair":
         label = 1
-    elif full_label == "bedroom_location_dressing_area":
+    elif full_label == "bedroom_location_drawers":
         label = 2
     elif full_label == "bedroom_location_mirror":
         label = 3
-    elif full_label == "kitchen_location_table":
+    elif full_label == "bedroom_location_wardrobe":
         label = 4
-    elif full_label == "kitchen_location_worktop":
+    elif full_label == "kitchen_location_table":
         label = 5
-    elif full_label == "TRA":
+    elif full_label == "kitchen_location_worktop_corner":
         label = 6
+    elif full_label == "kitchen_location_worktop_sink":
+        label = 7
+    elif full_label == "kitchen_location_worktop_stove":
+        label = 8
+    elif full_label == "TRA":
+        label = 9
+
+    # if full_label == "bedroom_location_bed":
+    #     label = 0
+    # elif full_label == "bedroom_location_chair":
+    #     label = 1
+    # elif full_label == "bedroom_location_dressing_area":
+    #     label = 2
+    # elif full_label == "bedroom_location_mirror":
+    #     label = 3
+    # elif full_label == "kitchen_location_table":
+    #     label = 4
+    # elif full_label == "kitchen_location_worktop":
+    #     label = 5
+    # elif full_label == "TRA":
+    #     label = 6
 
     # if full_label == "activity_dressing":
     #     label = 0
@@ -345,9 +345,9 @@ def main():
     tag_epcs = read_tag_epcs()
     print("[DONE]")
 
-    print("[MAIN][STAT] Splitting static and objects tags...", end="", flush=True)
-    split_tags()
-    print("[DONE]")
+    # print("[MAIN][STAT] Splitting static and objects tags...", end="", flush=True)
+    # split_tags()
+    # print("[DONE]")
 
     # get the names of all collections (sessions) in the given database
     print("[MAIN][STAT] Getting all collection (session) names from database...", end="", flush=True)

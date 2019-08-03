@@ -7,6 +7,9 @@ import sys
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
+drop_labels = ["TRA", "bedroom_location_chair", "kitchen_location_worktop_stove"]
+# drop_labels = ["TRA", "kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_worktop_sink", "kitchen_location_worktop_stove"]
+# drop_labels = ["TRA", "bedroom_location_bed", "bedroom_location_drawers", "bedroom_location_wardrobe", "bedroom_location_chair", "bedroom_location_mirror"]
 
 # configuration variables
 time_between_snapshots_millis = 1000
@@ -206,12 +209,15 @@ def drop_location_transitions(db, collection_name):
         if prefix == collection_name:
             for document in pointer:
                 location_label = document["location_label"]
-                if location_label == "TRA":
+                if location_label in drop_labels:
                     collection.drop()
                 break
 
 def drop_activity_transitions(db, collection_name):
     num_collections, collections = get_all_collection_names(db)
+
+    collection, pointer = get_collection(db, collection_name)
+    collection.drop()
 
     for c in collections:
         collection, pointer = get_collection(db, c)

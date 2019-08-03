@@ -2,6 +2,7 @@ from numpy import mean
 from numpy import std
 from numpy import dstack
 import numpy as np
+import pandas as pd
 from pandas import read_csv
 from keras.models import Sequential
 from keras.layers import Dense
@@ -12,6 +13,7 @@ from keras.layers import TimeDistributed
 from keras.layers import ConvLSTM2D
 from keras.utils import to_categorical
 from keras.utils import plot_model
+from keras.utils import normalize
 from keras.layers import Embedding, Masking
 from keras.regularizers import l2
 from keras.optimizers import SGD
@@ -22,9 +24,11 @@ from keras.wrappers.scikit_learn import KerasClassifier
 from keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
 from keras.models import load_model
 from sklearn.model_selection import cross_val_score
+from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.datasets import make_classification
 import sys
 import glob, os
+import random
 
 np.random.seed(0)
 
@@ -67,6 +71,12 @@ def load_dataset(prefix=''):
     trainy = trainy.astype(int)
     testy = testy.astype(int)
 
+    trainy = np.concatenate((trainy, trainy))
+    testy = np.concatenate((testy, testy))
+
+    # trainy = np.concatenate((trainy, trainy))
+    # testy = np.concatenate((testy, testy))
+
     # zero-offset class values (if they aren't already starting from zero!)
     # trainy = trainy - 1
     # testy = testy - 1
@@ -74,13 +84,58 @@ def load_dataset(prefix=''):
     # one hot encode y
     trainy = to_categorical(trainy)
     testy = to_categorical(testy)
+
+    # normalize
+    trainX = normalize(trainX)
+    testX = normalize(testX)
+
+    # augment
+    trainX = augment_input(trainX)
+    testX = augment_input(testX)
+
+    # trainX = augment_input(trainX)
+    # testX = augment_input(testX)
+
     print(trainX.shape, trainy.shape, testX.shape, testy.shape)
 
     return trainX, trainy, testX, testy
 
+def augment_input(data):
+    data_copy = data
+    
+    for k in range(0, data_copy.shape[2]):
+        for i in range(0, data_copy.shape[0]-1):
+            num_changes = random.randint(1,5)
+            changes = []
+
+            for j in range(0, num_changes):
+                index = random.randint(0, data_copy.shape[1]-1)
+                changes.append(index)
+
+            for change in changes:
+                modification = random.random() / 6
+                pos_neg = random.random()
+
+                # print(modification)
+                # print(data_copy[i][change])
+
+                if pos_neg > 0.5:
+                    data_copy[i][change][k] = data_copy[i][change][k] + modification
+                else:
+                    data_copy[i][change][k] = data_copy[i][change][k] - modification
+
+                if data_copy[i][change][k] > 1.0:
+                    data_copy[i][change][k] = 1.0
+                elif data_copy[i][change][k] < 0.0:
+                    data_copy[i][change][k] = 0.0
+
+    concat_data = np.concatenate((data, data_copy))
+
+    return concat_data
+
 def evaluate_model_lstm(trainX, trainy, testX, testy):
     # define model
-    verbose, epochs, batch_size = 0, 100, 16
+    verbose, epochs, batch_size = 0, 100, 10
     n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 
     # reshape into subsequences (samples, time steps, rows, cols, channels)
@@ -91,21 +146,22 @@ def evaluate_model_lstm(trainX, trainy, testX, testy):
     # model.add(Masking(mask_value=0, input_shape=(n_timesteps, n_features)))
     # add regularizer to below line: kernel_regularizer=l2(0.01), recurrent_regularizer=l2(0.01)
     model.add(LSTM(98, input_shape=(n_timesteps,n_features)))
-    model.add(Dropout(0.5))
-    model.add(Dense(98, activation='relu'))
+    model.add(Dropout(0.4))
+    model.add(Dense(32, activation='relu'))
+    model.add(Dropout(0.2))
     model.add(Dense(n_outputs, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     callbacks = []
-    callbacks.append(EarlyStopping(monitor='val_loss', patience=2, verbose=1))
+    callbacks.append(EarlyStopping(monitor='val_loss', patience=10, verbose=1))
     callbacks.append(ModelCheckpoint(filepath='epoch_best_model.h5', monitor='val_loss', save_best_only=True))
-    callbacks.append(ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=1, min_lr=0.001))
+    callbacks.append(ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=1, min_lr=0.0001))
 
     history = model.fit(trainX,
                       trainy,
                       epochs=epochs,
                       callbacks=callbacks,
-                      verbose=0,
+                      verbose=1,
                       batch_size=batch_size,
                       validation_data=(testX, testy))
 
@@ -118,7 +174,7 @@ def evaluate_model_lstm(trainX, trainy, testX, testy):
 
 def evaluate_model_cnn_lstm(trainX, trainy, testX, testy):
     # define model
-    verbose, epochs, batch_size = 0, 25, 32
+    verbose, epochs, batch_size = 0, 500, 10
     n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 
     # reshape data into time steps of sub-sequences
@@ -139,13 +195,16 @@ def evaluate_model_cnn_lstm(trainX, trainy, testX, testy):
     model.add(Dense(n_outputs, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-    callbacks = [EarlyStopping(monitor='val_loss', patience=2, verbose=1), ModelCheckpoint(filepath='epoch_best_model.h5', monitor='val_loss', save_best_only=True)]
+    callbacks = []
+    callbacks.append(EarlyStopping(monitor='val_loss', patience=10, verbose=1))
+    callbacks.append(ModelCheckpoint(filepath='epoch_best_model.h5', monitor='val_acc', save_best_only=True))
+    callbacks.append(ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=1, min_lr=0.0001))
 
     history = model.fit(trainX,
                       trainy,
                       epochs=epochs,
                       callbacks=callbacks,
-                      verbose=0,
+                      verbose=1,
                       batch_size=batch_size,
                       validation_data=(testX, testy))
 
@@ -159,7 +218,7 @@ def evaluate_model_cnn_lstm(trainX, trainy, testX, testy):
 # fit and evaluate a model
 def evaluate_model_convlstm(trainX, trainy, testX, testy):
     # define model
-    verbose, epochs, batch_size = 0, 100, 32
+    verbose, epochs, batch_size = 0, 100, 10
     n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 
     # reshape into subsequences (samples, time steps, rows, cols, channels)
@@ -169,24 +228,25 @@ def evaluate_model_convlstm(trainX, trainy, testX, testy):
 
     # define model
     model = Sequential()
-    model.add(ConvLSTM2D(filters=98, kernel_size=(1,3), activation='relu', input_shape=(n_steps, 1, n_length, n_features)))
+    model.add(ConvLSTM2D(filters=64, kernel_size=(1,3), activation='relu', input_shape=(n_steps, 1, n_length, n_features)))
     model.add(Dropout(0.5))
     model.add(Flatten())
-    model.add(Dense(98, activation='sigmoid'))
+    model.add(Dense(32, activation='sigmoid'))
     # model.add(Dense(116, activation='relu'))
+    model.add(Dropout(0.2))
     model.add(Dense(n_outputs, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     callbacks = []
-    callbacks.append(EarlyStopping(monitor='val_loss', patience=2, verbose=1))
+    callbacks.append(EarlyStopping(monitor='val_acc', patience=20, verbose=1))
     callbacks.append(ModelCheckpoint(filepath='epoch_best_model.h5', monitor='val_loss', save_best_only=True))
-    callbacks.append(ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=1, min_lr=0.001))
+    # callbacks.append(ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=1, min_lr=0.0001))
 
     history = model.fit(trainX,
                       trainy,
                       epochs=epochs,
                       callbacks=callbacks,
-                      verbose=0,
+                      verbose=1,
                       batch_size=batch_size,
                       validation_data=(testX, testy))
 
@@ -194,6 +254,17 @@ def evaluate_model_convlstm(trainX, trainy, testX, testy):
 
     # evaluate model
     _, accuracy = model.evaluate(testX, testy, batch_size=batch_size, verbose=0)
+
+    predy = model.predict(testX)
+
+    y_test_class = np.argmax(testy, axis = 1)
+    y_pred_class = np.argmax(predy, axis = 1)
+
+    print(classification_report(y_test_class, y_pred_class))
+
+    cm = confusion_matrix(y_pred_class, y_test_class)
+
+    print(cm)
 
     return accuracy, model
 
