@@ -286,6 +286,7 @@
 
     <owl:NamedIndividual rdf:about="file://sho.owl#activity_eating_drinking">
         <rdf:type rdf:resource="file://sho.owl#Activity"/>
+        <sho:hasPossibleActor rdf:resource="file://sho.owl#object_drinkware"/>
         <sho:hasPossibleActor rdf:resource="file://sho.owl#object_tableware"/>
         <sho:hasPossibleLocation rdf:resource="file://sho.owl#kitchen_location_table"/>
         <sho:human_readable_label>eating</sho:human_readable_label>
@@ -680,6 +681,7 @@
 
     <owl:NamedIndividual rdf:about="file://sho.owl#object_drinkware">
         <rdf:type rdf:resource="file://sho.owl#Object"/>
+        <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_eating_drinking"/>
         <sho:isPossibleActorIn rdf:resource="file://sho.owl#activity_wash_dishes"/>
         <sho:superObjectOf rdf:resource="file://sho.owl#object_glass"/>
         <sho:superObjectOf rdf:resource="file://sho.owl#object_mug"/>

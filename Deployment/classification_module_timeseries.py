@@ -19,12 +19,12 @@ import glob, os
 import operator
 import pprint
 
-class classification_module:
+class classification_module_timeseries:
     def __init__(self, unified_sequence_length):
-        print("[classification_module][INFO] Starting up... ")
-        self.model = load_model('models/best_model.h5')
+        print("[classification_module_timeseries][INFO] Starting up... ")
+        self.model = load_model('models/timeseries.h5')
         self.unified_sequence_length = unified_sequence_length
-        print("[classification_module][INFO] Starting up... [OK]")
+        print("[classification_module_timeseries][INFO] Starting up... [OK]")
 
     def start(self):
         new_data = self.load_dataset()

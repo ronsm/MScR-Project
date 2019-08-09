@@ -6,7 +6,7 @@ from random import shuffle
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['ES_SINGLE-L']
+db = client['ES_PID002-L']
 
 # user modifable variables
 collection_name_prefix = None
@@ -101,39 +101,31 @@ def get_label(full_label):
 
     if full_label == "bedroom_location_bed":
         label = 0
-    elif full_label == "bedroom_location_chair":
-        label = 1
     elif full_label == "bedroom_location_drawers":
-        label = 2
+        label = 1
     elif full_label == "bedroom_location_mirror":
-        label = 3
+        label = 2
     elif full_label == "bedroom_location_wardrobe":
-        label = 4
+        label = 3
     elif full_label == "kitchen_location_table":
-        label = 5
+        label = 4
     elif full_label == "kitchen_location_worktop_corner":
-        label = 6
+        label = 5
     elif full_label == "kitchen_location_worktop_sink":
-        label = 7
-    elif full_label == "kitchen_location_worktop_stove":
-        label = 8
+        label = 6
     elif full_label == "TRA":
-        label = 9
+        label = 7
 
     # if full_label == "bedroom_location_bed":
     #     label = 0
-    # elif full_label == "bedroom_location_chair":
+    # elif full_label == "bedroom_location_drawers":
     #     label = 1
-    # elif full_label == "bedroom_location_dressing_area":
-    #     label = 2
     # elif full_label == "bedroom_location_mirror":
+    #     label = 2
+    # elif full_label == "bedroom_location_wardrobe":
     #     label = 3
-    # elif full_label == "kitchen_location_table":
-    #     label = 4
-    # elif full_label == "kitchen_location_worktop":
-    #     label = 5
     # elif full_label == "TRA":
-    #     label = 6
+    #     label = 4
 
     # if full_label == "activity_dressing":
     #     label = 0

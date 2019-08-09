@@ -9,13 +9,14 @@ import numpy as np
 np.set_printoptions(threshold=sys.maxsize)
 
 class object_activation_detection_module:
-    def __init__(self, database_helper, num_object_tags, object_tag_epcs, object_tag_labels, object_tag_dict):
+    def __init__(self, database_helper, num_object_tags, object_tag_epcs, object_tag_labels, object_tag_dict, object_tag_weights):
         print("[object_activation_detection_module][INFO] Starting up... ", end="", flush=True)
         self.database_helper = database_helper
         self.num_object_tags = num_object_tags
         self.object_tag_dict = object_tag_dict
         self.object_tag_epcs = object_tag_epcs
         self.object_tag_labels = object_tag_labels
+        self.object_tag_weights = object_tag_weights
         self.num_collections, self.collection_names = self.database_helper.get_all_collection_names()
         print("[OK]")
 
@@ -26,9 +27,9 @@ class object_activation_detection_module:
         # print("[DONE]")
 
         # apply object labels to the database, using the object tag dictionary
-        print("[object_activation_detection_module][STAT] Applying labels to object tags... ", end="", flush=True)
-        self.label_tags()
-        print("[DONE]")
+        # print("[object_activation_detection_module][STAT] Applying labels to object tags... ", end="", flush=True)
+        # self.label_tags()
+        # print("[DONE]")
 
         # get timeseries of object RSSI, calculate CPD, return results
         print("[object_activation_detection_module][STAT] Calculating and storing CPD for each sample... ", end="", flush=True)
@@ -66,6 +67,7 @@ class object_activation_detection_module:
         for collection in self.collection_names:
             object_tags_rssi = self.get_object_timeseries(collection)
             object_tags_rssi_cp, object_tags_rssi_cp_count = self.change_point_detection(object_tags_rssi)
+            object_tags_rssi_cp_count = self.apply_weights_cp_counts(object_tags_rssi_cp_count)
             self.write_change_points(collection, object_tags_rssi_cp, object_tags_rssi_cp_count)
 
     def get_object_timeseries(self, collection):
@@ -97,29 +99,29 @@ class object_activation_detection_module:
                 # Uncomment below block for Ruptures-based CPD
                 # BEGIN
                 #
-                # algo = rpt.Pelt(model="l2").fit(signal)
-                # result = algo.predict(pen=10)
+                algo = rpt.Pelt(model="l2").fit(signal)
+                result = algo.predict(pen=10)
 
-                # # rpt.display(signal, result)
-                # # plt.show()
+                # rpt.display(signal, result)
+                # plt.show()
 
-                # for res in result:
-                #     if res != cols:
-                #         object_tags_rssi_cp[i][res] = 1
-                #         count = count + 1
+                for res in result:
+                    if res != cols:
+                        object_tags_rssi_cp[i][res] = 1
+                        count = count + 1
                 #
                 # END
 
-                # Uncomment below block for custom- CPD
+                # Uncomment below block for custom CPD
                 # BEGIN
                 #
-                for j in range(0, len(signal)-1):
-                    if signal[j] == 0 and signal[j+1] != 0:
-                        count = count + 1
-                        object_tags_rssi_cp[i][j] = 1
-                    if ((signal[j] - signal[j+1]) * -1.0) > 5:
-                        count = count + 1
-                        object_tags_rssi_cp[i][j] = 1
+                # for j in range(0, len(signal)-1):
+                #     if signal[j] == 0 and signal[j+1] != 0:
+                #         count = count + 1
+                #         object_tags_rssi_cp[i][j] = 1
+                #     if ((signal[j] - signal[j+1]) * -1.0) > 5:
+                #         count = count + 1
+                #         object_tags_rssi_cp[i][j] = 1
                 #
                 # END
             else:
@@ -178,11 +180,20 @@ class object_activation_detection_module:
         collection_list = []
         for document in pointer:
             for i in range(0, self.num_object_tags):
-                if document["object_tag_cps"][i] == 1:
-                    collection_list.append(document["object_tag_labels"][i])
+                count = 0
+                if document["object_tag_cps_counts"][i] >= 3:
+                    if count < 3:
+                        collection_list.append(document["object_tag_labels"][i])
+                    count = count + 1
 
         if len(collection_list) == 0:
             collection_list.append('none')
         collection_list = list(dict.fromkeys(collection_list))
 
         return collection_list
+
+    def apply_weights_cp_counts(self, cpd_scores):
+        for i in range(0, len(cpd_scores)):
+            cpd_scores[i] = cpd_scores[i] * float(self.object_tag_weights[str(i)])
+
+        return cpd_scores

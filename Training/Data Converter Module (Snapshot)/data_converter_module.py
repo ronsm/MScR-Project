@@ -9,11 +9,12 @@ from random import shuffle
 client = MongoClient("localhost", 27017, maxPoolSize=50)
 db = client['ES_ALL-L']
 
+bedroom_labels = ["bedroom_location_bed", "bedroom_location_drawers", "bedroom_location_wardrobe", "bedroom_location_mirror"]
+kitchen_labels = ["kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_table"]
+
 # user modifable variables
 collection_name_prefix = None
 num_tags = 232
-accepted_labels = ["bedroom_location_bed", "bedroom_location_drawers", "bedroom_location_wardrobe", "bedroom_location_mirror",
-                    "kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_table"]
 
 def get_collection(collection_name):
     collection = db[collection_name]
@@ -75,80 +76,6 @@ def print_collection(pointer):
     for document in pointer:
         pprint.pprint(document)
 
-def get_label(full_label):
-    label = 0
-
-    if full_label == "bedroom_location_bed":
-        label = 0
-    elif full_label == "bedroom_location_chair":
-        label = 1
-    elif full_label == "bedroom_location_drawers":
-        label = 2
-    elif full_label == "bedroom_location_mirror":
-        label = 3
-    elif full_label == "bedroom_location_wardrobe":
-        label = 4
-    elif full_label == "kitchen_location_table":
-        label = 5
-    elif full_label == "kitchen_location_worktop_corner":
-        label = 6
-    elif full_label == "kitchen_location_worktop_sink":
-        label = 7
-    elif full_label == "kitchen_location_worktop_stove":
-        label = 8
-    elif full_label == "TRA":
-        label = 9
-
-    # if full_label == "activity_dressing":
-    #     label = 0
-    # elif full_label == "activity_brushing_teeth":
-    #     label = 1
-    # elif full_label == "activity_brushing_hair":
-    #     label = 2
-    # elif full_label == "activity_prepare_te":
-    #     label = 3
-    # elif full_label == "activity_prepare_coffee":
-    #     label = 4
-    # elif full_label == "activity_prepare_sandwich":
-    #     label = 5
-    # elif full_label == "activity_eating_drinking":
-    #     label = 6
-    # elif full_label == "activity_wash_dishes":
-    #     label = 7
-    # elif full_label == "activity_sleeping":
-    #     label = 8
-    # elif full_label == "activity_reading":
-    #     label = 9
-    # elif full_label == "activity_prepare_cake":
-    #     label = 10
-    # elif full_label == "TRA":
-    #     label = 10
-
-    # if full_label == "bedroom_location_bed":
-    #     label = 0
-    # elif full_label == "bedroom_location_chair":
-    #     label = 0
-    # elif full_label == "bedroom_location_drawers":
-    #     label = 0
-    # elif full_label == "bedroom_location_mirror":
-    #     label = 0
-    # elif full_label == "bedroom_location_wardrobe":
-    #     label = 0
-    # elif full_label == "kitchen_location_table":
-    #     label = 1
-    # elif full_label == "kitchen_location_worktop_corner":
-    #     label = 1
-    # elif full_label == "kitchen_location_worktop_sink":
-    #     label = 1
-    # elif full_label == "kitchen_location_worktop_stove":
-    #     label = 1
-    # elif full_label == "TRA":
-    #     label = 2
-
-    label = str(label)
-
-    return label
-
 def create_dataset_files(tag_epcs, num_collections, collections):
 
     collection, pointer = get_collection(collections[0])
@@ -174,7 +101,7 @@ def write_dataset_input_files(tag_epcs, num_collections, collections):
     progress_bar(0, num_collections, prefix = 'Progress:', suffix = 'Complete', length = 50)
 
     snapshots = []
-
+        
     for i in range(0, num_collections):
         progress_bar(i + 1, num_collections, prefix = 'Progress:', suffix = 'Complete', length = 50)
         collection, pointer = get_collection(collections[i])
@@ -182,17 +109,22 @@ def write_dataset_input_files(tag_epcs, num_collections, collections):
         for document in pointer:
             snapshot = []
 
-            if document["location_label"] in accepted_labels:
-                for j in range(0, num_tags):
-                    epc = document["tags"][j]["_id"]
-                    peakRSSI = document["tags"][j]["peakRSSI"]
-                    phaseAngle = document["tags"][j]["phaseAngle"]
+            for j in range(0, num_tags):
+                epc = document["tags"][j]["_id"]
+                peakRSSI = document["tags"][j]["peakRSSI"]
+                phaseAngle = document["tags"][j]["phaseAngle"]
 
-                    if epc[:20] != "300833B2DDD901401111":
-                        snapshot.append(peakRSSI)
+                if epc[:20] != "300833B2DDD901401111":
+                    snapshot.append(peakRSSI)
 
-                snapshot.append(document["location_label"])
-                snapshots.append(snapshot)
+            snapshot.append(document["location_label"])
+
+            # if document["location_label"] in bedroom_labels:
+            #     snapshot.append("bedroom")
+            # if document["location_label"] in kitchen_labels:
+            #     snapshot.append("kitchen")
+
+            snapshots.append(snapshot)
 
     print()
 

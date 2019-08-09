@@ -30,7 +30,16 @@ import sys
 import glob, os
 import random
 
-np.random.seed(0)
+# fix seed
+np.random.seed(27)
+
+# verbose output
+verbose_enable = 1
+
+# shared model parameters
+n_steps, n_length = 3, 10
+verbose, epochs, batch_size = 0, 200, 5
+early_stopping_patience = 15
 
 def load_file(filepath):
     # print(filepath)
@@ -71,11 +80,9 @@ def load_dataset(prefix=''):
     trainy = trainy.astype(int)
     testy = testy.astype(int)
 
+    # y augmentation
     trainy = np.concatenate((trainy, trainy))
     testy = np.concatenate((testy, testy))
-
-    # trainy = np.concatenate((trainy, trainy))
-    # testy = np.concatenate((testy, testy))
 
     # zero-offset class values (if they aren't already starting from zero!)
     # trainy = trainy - 1
@@ -89,12 +96,9 @@ def load_dataset(prefix=''):
     trainX = normalize(trainX)
     testX = normalize(testX)
 
-    # augment
+    # x augmentation
     trainX = augment_input(trainX)
     testX = augment_input(testX)
-
-    # trainX = augment_input(trainX)
-    # testX = augment_input(testX)
 
     print(trainX.shape, trainy.shape, testX.shape, testy.shape)
 
@@ -134,34 +138,29 @@ def augment_input(data):
     return concat_data
 
 def evaluate_model_lstm(trainX, trainy, testX, testy):
-    # define model
-    verbose, epochs, batch_size = 0, 100, 10
     n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
-
-    # reshape into subsequences (samples, time steps, rows, cols, channels)
-    n_steps, n_length = 2, 15
 
     # define model
     model = Sequential()
     # model.add(Masking(mask_value=0, input_shape=(n_timesteps, n_features)))
     # add regularizer to below line: kernel_regularizer=l2(0.01), recurrent_regularizer=l2(0.01)
     model.add(LSTM(98, input_shape=(n_timesteps,n_features)))
-    model.add(Dropout(0.4))
-    model.add(Dense(32, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(64, activation='relu'))
     model.add(Dropout(0.2))
     model.add(Dense(n_outputs, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     callbacks = []
-    callbacks.append(EarlyStopping(monitor='val_loss', patience=10, verbose=1))
-    callbacks.append(ModelCheckpoint(filepath='epoch_best_model.h5', monitor='val_loss', save_best_only=True))
+    callbacks.append(EarlyStopping(monitor='val_loss', patience=early_stopping_patience, verbose=verbose_enable))
+    callbacks.append(ModelCheckpoint(filepath='epoch_best_model.h5', monitor='val_acc', save_best_only=True))
     callbacks.append(ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=1, min_lr=0.0001))
 
     history = model.fit(trainX,
                       trainy,
                       epochs=epochs,
                       callbacks=callbacks,
-                      verbose=1,
+                      verbose=verbose_enable,
                       batch_size=batch_size,
                       validation_data=(testX, testy))
 
@@ -170,15 +169,22 @@ def evaluate_model_lstm(trainX, trainy, testX, testy):
     # evaluate model
     _, accuracy = model.evaluate(testX, testy, batch_size=batch_size, verbose=0)
 
+    predy = model.predict(testX)
+
+    y_test_class = np.argmax(testy, axis = 1)
+    y_pred_class = np.argmax(predy, axis = 1)
+
+    print(classification_report(y_test_class, y_pred_class))
+
+    cm = confusion_matrix(y_pred_class, y_test_class)
+
+    print(cm)
+
     return accuracy, model
 
 def evaluate_model_cnn_lstm(trainX, trainy, testX, testy):
-    # define model
-    verbose, epochs, batch_size = 0, 500, 10
     n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 
-    # reshape data into time steps of sub-sequences
-    n_steps, n_length = 2, 15
     trainX = trainX.reshape((trainX.shape[0], n_steps, n_length, n_features))
     testX = testX.reshape((testX.shape[0], n_steps, n_length, n_features))
 
@@ -196,7 +202,7 @@ def evaluate_model_cnn_lstm(trainX, trainy, testX, testy):
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     callbacks = []
-    callbacks.append(EarlyStopping(monitor='val_loss', patience=10, verbose=1))
+    callbacks.append(EarlyStopping(monitor='val_loss', patience=early_stopping_patience, verbose=verbose_enable))
     callbacks.append(ModelCheckpoint(filepath='epoch_best_model.h5', monitor='val_acc', save_best_only=True))
     callbacks.append(ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=1, min_lr=0.0001))
 
@@ -204,7 +210,7 @@ def evaluate_model_cnn_lstm(trainX, trainy, testX, testy):
                       trainy,
                       epochs=epochs,
                       callbacks=callbacks,
-                      verbose=1,
+                      verbose=verbose_enable,
                       batch_size=batch_size,
                       validation_data=(testX, testy))
 
@@ -213,16 +219,23 @@ def evaluate_model_cnn_lstm(trainX, trainy, testX, testy):
     # evaluate model
     _, accuracy = model.evaluate(testX, testy, batch_size=batch_size, verbose=0)
 
+    predy = model.predict(testX)
+
+    y_test_class = np.argmax(testy, axis = 1)
+    y_pred_class = np.argmax(predy, axis = 1)
+
+    print(classification_report(y_test_class, y_pred_class))
+
+    cm = confusion_matrix(y_pred_class, y_test_class)
+
+    print(cm)
+
     return accuracy, model
 
 # fit and evaluate a model
 def evaluate_model_convlstm(trainX, trainy, testX, testy):
-    # define model
-    verbose, epochs, batch_size = 0, 100, 10
     n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 
-    # reshape into subsequences (samples, time steps, rows, cols, channels)
-    n_steps, n_length = 2, 15
     trainX = trainX.reshape((trainX.shape[0], n_steps, 1, n_length, n_features))
     testX = testX.reshape((testX.shape[0], n_steps, 1, n_length, n_features))
 
@@ -238,15 +251,15 @@ def evaluate_model_convlstm(trainX, trainy, testX, testy):
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     callbacks = []
-    callbacks.append(EarlyStopping(monitor='val_acc', patience=20, verbose=1))
-    callbacks.append(ModelCheckpoint(filepath='epoch_best_model.h5', monitor='val_loss', save_best_only=True))
-    # callbacks.append(ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=1, min_lr=0.0001))
+    callbacks.append(EarlyStopping(monitor='val_loss', patience=early_stopping_patience, verbose=verbose_enable))
+    callbacks.append(ModelCheckpoint(filepath='epoch_best_model.h5', monitor='val_acc', save_best_only=True))
+    callbacks.append(ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=1, min_lr=0.0001))
 
     history = model.fit(trainX,
                       trainy,
                       epochs=epochs,
                       callbacks=callbacks,
-                      verbose=1,
+                      verbose=verbose_enable,
                       batch_size=batch_size,
                       validation_data=(testX, testy))
 

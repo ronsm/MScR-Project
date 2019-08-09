@@ -6,7 +6,8 @@ import sys
 from database_helper import database_helper
 from data_converter_module import data_converter_module
 from object_activitation_detection_module import object_activation_detection_module
-from classification_module import classification_module
+from classification_module_timeseries import classification_module_timeseries
+from classification_module_snapshot import classification_module_snapshot
 from semantic_reasoning_module import semantic_reasoning_module
 
 class control_module:
@@ -23,21 +24,30 @@ class control_module:
 
         self.static_tag_epcs = self.load_static_tag_data()
         self.object_tag_epcs, self.object_tag_labels, self.object_tag_dict = self.load_object_tag_data()
+        self.object_tag_weights = self.load_object_tag_weights()
 
         self.location_database_helper = database_helper(location_database_name)
         self.activity_database_helper = database_helper(activity_database_name)
+
+        self.ground_truth_objects, self.ground_truth_activities = self.populate_ground_truths()
+
         # self.data_converter_module = data_converter_module(self.dcvm_mode, self.location_database_helper, self.static_tag_epcs, self.num_static_tags, self.unified_sequence_length, self.train_test_ratio)
-        self.object_activation_detection_module = object_activation_detection_module(self.activity_database_helper, self.num_object_tags, self.object_tag_epcs, self.object_tag_labels, self.object_tag_dict)
-        self.classification_module = classification_module(self.unified_sequence_length)
-        # self.semantic_reasoning_module = semantic_reasoning_module(self.verbose, self.ontology_name, self.ontology_IRI)
+
+        self.object_activation_detection_module = object_activation_detection_module(self.activity_database_helper, self.num_object_tags, self.object_tag_epcs, self.object_tag_labels, self.object_tag_dict, self.object_tag_weights)
+        
+        self.classification_module_timeseries = classification_module_timeseries(self.unified_sequence_length)
+        self.classification_module_snapshot = classification_module_snapshot(self.location_database_helper, self.num_static_tags)        
+
+        self.semantic_reasoning_module = semantic_reasoning_module(self.verbose, self.ontology_name, self.ontology_IRI)
 
         self.start()
 
     def start(self):
-        self.object_activation_detection_module.start()
-        location_classifications = self.classification_module.start()
+        # self.object_activation_detection_module.start()
+        
+        # location_classifications = self.classification_module_snapshot.start()
 
-        # self.generate_location_activity_pairs(location_classifications)
+        # self.generate_location_activity_pairs()
 
         # location_classifications = [["kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
         #                             ["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
@@ -52,8 +62,11 @@ class control_module:
         #                     ["object_cake", "object_plate"],
         #                     []]
 
+        location_classifications = [["kitchen_location_table"]]
+        object_activations = [['object_plate', 'object_toothpaste', 'object_newspaper']]
 
-        # self.semantic_reasoning_module.start(location_classifications, object_activations)
+
+        self.semantic_reasoning_module.start(location_classifications, object_activations)
 
     def load_static_tag_data(self):
         with open("knowledge/static.txt") as f:
@@ -78,7 +91,20 @@ class control_module:
 
         return object_tag_epcs, object_tag_labels, object_tag_dict
 
-    def generate_location_activity_pairs(self, location_classifications):
+    def load_object_tag_weights(self):
+        object_tag_weights = {}
+
+        with open("knowledge/object_weights.txt") as f:
+            lines = f.read().splitlines()
+        f.close()
+
+        for line in lines:
+            splits = line.split(":", 1)
+            object_tag_weights[splits[0]] = splits[1]
+
+        return object_tag_weights
+
+    def generate_location_activity_pairs(self):
         num_collections, location_collection_names = self.location_database_helper.get_all_collection_names()
         
         location_collection_names_expanded = []
@@ -92,7 +118,10 @@ class control_module:
                 current_activity_index = document["activity_index"]
 
                 if current_activity_index != previous_activity_index:
-                    activity_collection_name = collection_name[:6] + '-A' + str(document["activity_index"])
+                    if collection_name[6:7] != "-":
+                        activity_collection_name = collection_name[:7] + '-A' + str(document["activity_index"])
+                    else:
+                        activity_collection_name = collection_name[:6] + '-A' + str(document["activity_index"])
                     # print(collection_name, document["activity_index"])
                     activated_objects = self.object_activation_detection_module.get_activited_objects_for_sample(activity_collection_name)
 
@@ -102,8 +131,51 @@ class control_module:
 
                 previous_activity_index = current_activity_index
 
+        ground_truth = []
+        for i in range(0, len(master_list)):
+            matches = self.ground_truth_object_matches(activity_collection_names[i], master_list[i])
+            ground_truth.append(matches)
+
         for i in range(0, len(location_collection_names_expanded)):
-            print(location_collection_names_expanded[i], activity_collection_names[i], master_list[i])
+            print(location_collection_names_expanded[i], activity_collection_names[i], master_list[i], ground_truth[i])
+
+    def ground_truth_object_matches(self, activity_collection_name, objects):
+        activity = self.ground_truth_activities[activity_collection_name]
+
+        matches = []
+        for object in objects:
+            if object in self.ground_truth_objects[activity]:
+                matches.append(object)
+
+        return matches
+
+    def populate_ground_truths(self):
+        ground_truth_objects = {}
+        ground_truth_activities = {}
+
+        ground_truth_objects["activity_brushing_hair"] = ["object_hairbrush"]
+        ground_truth_objects["activity_brushing_teeth"] = ["object_toothbrush", "object_toothpaste"]
+        ground_truth_objects["activity_dressing"] = ["object_clothing"]
+        ground_truth_objects["activity_eating_drinking"] = ["object_tableware", "object_drinkware", "object_mug", "object_plate", "object_glass"]
+        ground_truth_objects["activity_prepare_cake"] = ["object_cake"]
+        ground_truth_objects["activity_prepare_coffee"] = ["object_mug", "object_coffee_container", "object_sugar_container", "object_kettle"]
+        ground_truth_objects["activity_prepare_tea"] = ["object_mug", "object_tea_container", "object_sugar_container", "object_kettle"]
+        ground_truth_objects["activity_prepare_sandwich"] = ["object_bread", "object_plate", "object_butter", "object_sandwich_topping"]
+        ground_truth_objects["activity_reading"] = ["object_book", "object_newspaper"]
+        ground_truth_objects["activity_sleeping"] = ["none"]
+        ground_truth_objects["activity_wash_dishes"] = ["object_tableware", "object_drinkware", "object_plate", "object_mug", "object_glass", "object_dish_soap"]
+
+        num_collections, collections = self.activity_database_helper.get_all_collection_names()
+        
+        for c in collections:
+            collection, pointer = self.activity_database_helper.get_collection(c)
+            document = collection.find_one()
+            if self.verbose == 1:
+                print('Ground truth for activity', c, 'is', document["activity_label"])
+            ground_truth_activities[c] = document["activity_label"]
+
+        return ground_truth_objects, ground_truth_activities
+
 
 # clear the terminal
 print(chr(27) + "[2J")
@@ -119,11 +191,13 @@ num_arguments = len(sys.argv)
 
 global database_name
 
-if num_arguments == 3:
-    location_database_name = sys.argv[1]
-    activity_database_name = sys.argv[2]
+if num_arguments == 2:
+    database_prefix = sys.argv[1]
 else:
-    print("[MAIN][INFO] Invalid arguments. Usage: python3 control_module.py location_database_name activity_database_name")
+    print("[MAIN][INFO] Invalid arguments. Usage: python3 supervisor_module.py database_prefix")
     exit()
+
+location_database_name = database_prefix + '-L'
+activity_database_name = database_prefix + '-A'
 
 control_module = control_module(location_database_name, activity_database_name)

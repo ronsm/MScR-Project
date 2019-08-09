@@ -8,6 +8,7 @@ from keras.models import Sequential
 from keras.layers import Dropout
 from keras.layers import Dense
 from keras.optimizers import Adam
+from keras.models import load_model
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
@@ -42,15 +43,13 @@ def load_dataset(prefix=''):
 
     X = augment_input(X)
 
-    print(X)
-
     return X, Y, encoder
 
 def augment_input(data):
     data_copy = data.copy()
     
     for i in range(0, len(data_copy)):
-        num_changes = random.randint(1,30)
+        num_changes = random.randint(1,20)
         changes = []
 
         for j in range(0, num_changes):
@@ -83,7 +82,7 @@ def augment_input(data):
 def create_model():
     input_dim = num_tags
 
-    # create model
+    # define model
     model = Sequential()
     model.add(Dense(98, input_dim = input_dim , activation = 'relu'))
     model.add(Dense(49, activation = 'relu'))
@@ -92,26 +91,26 @@ def create_model():
     model.add(Dense(49, activation = 'relu'))
     model.add(Dense(7, activation = 'softmax'))
 
-    # Compile model
     model.compile(loss = 'categorical_crossentropy' , optimizer = 'adam' , metrics = ['accuracy'] )
 
     return model
 
 def evaluate_model(model, X_train, y_train, X_test, y_test):
     callbacks = []
-    # callbacks.append(EarlyStopping(monitor='val_loss', patience=10, verbose=1))
+    callbacks.append(EarlyStopping(monitor='val_loss', patience=15, verbose=1))
     callbacks.append(ModelCheckpoint(filepath='epoch_best_model.h5', monitor='val_acc', save_best_only=True))
     callbacks.append(ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=1, min_lr=0.001))
 
     history = model.fit(X_train,
                       y_train,
-                      epochs=1000,
+                      epochs=500,
                       callbacks=callbacks,
                       verbose=1,
-                      batch_size=30,
+                      batch_size=50,
                       validation_data=(X_test, y_test))
 
     y_pred = model.predict(X_test)
+    _, accuracy = model.evaluate(X_test, y_test, batch_size=50, verbose=0)
 
     y_test_class = np.argmax(y_test, axis = 1)
     y_pred_class = np.argmax(y_pred, axis = 1)
@@ -120,6 +119,8 @@ def evaluate_model(model, X_train, y_train, X_test, y_test):
 
     cm = confusion_matrix(y_test_class, y_pred_class)
     print(cm)
+
+    return accuracy
 
 # summarize scores
 def summarize_results(scores):
@@ -168,13 +169,37 @@ def main():
 
         model = create_model()
 
-        evaluate_model(model, X_train, y_train, X_test, y_test)
+        score = evaluate_model(model, X_train, y_train, X_test, y_test)
+        score = score * 100.0
+        print('>#%d: %.3f' % (r+1, score))
+        scores.append(score)
+
+        if score > peak_score:
+            print('[MAIN][INFO] Saving overall best model...')
+            peak_score = score
+            model.summary()
+            model.save('best_model.h5')
 
         print(encoder.classes_)
 
     # summarize results
     print("[MAIN][STAT] Summarizing results... [DONE]")
     summarize_results(scores)
+
+    print("[MAIN][INFO] Confusion matrix for best model...")
+    # confusion matrix for best model
+    model = load_model('best_model.h5')
+    
+    y_pred = model.predict(X_test)
+    _, accuracy = model.evaluate(X_test, y_test, batch_size=50, verbose=0)
+
+    y_test_class = np.argmax(y_test, axis = 1)
+    y_pred_class = np.argmax(y_pred, axis = 1)
+
+    print(classification_report(y_test_class, y_pred_class))
+
+    cm = confusion_matrix(y_test_class, y_pred_class)
+    print(cm)
   
 if __name__== "__main__":
   main()
