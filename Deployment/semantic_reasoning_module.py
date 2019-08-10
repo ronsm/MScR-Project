@@ -39,14 +39,14 @@ class semantic_reasoning_module:
                         second_guess_activity, activity_index = self.reduce_competing_first_guesses_by_dependency_score(second_guess_activities, object_activation)
                         self.generate_human_readable_output('2B', 1, second_guess_activity, actual_locations[activity_index])
                     else:
-                        default_activity = self.get_default_activity_for_location(location_classification[activity_index])
+                        default_activity = self.get_default_activity_for_location(location_classification[0])
                         if len(default_activity) == 0:
                             self.generate_human_readable_output('3A', 0, '', location_classification[0])
                         else:
                             self.generate_human_readable_output('3B', 2, default_activity[0], location_classification[0])
                 else:
                     second_guess_activity, activity_index = self.reduce_competing_first_guesses_by_dependency_score(first_guess_activities, object_activation)
-                    self.generate_human_readable_output('1B', 1, second_guess_activity, location_classification[activity_index])
+                    self.generate_human_readable_output('1B', 1, second_guess_activity, location_classification[0])
 
         # self.module_test()
 

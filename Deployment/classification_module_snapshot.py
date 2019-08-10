@@ -29,7 +29,6 @@ warnings.filterwarnings(action='ignore', category=DataConversionWarning)
 
 class classification_module_snapshot:
     def __init__(self, database_helper, num_tags):
-        print("[classification_module_snapshot][INFO] Starting up... ")
         self.model = load_model('models/snapshot.h5')
         self.database_helper = database_helper
         self.num_tags = num_tags

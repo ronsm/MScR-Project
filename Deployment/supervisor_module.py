@@ -29,7 +29,7 @@ class control_module:
         self.location_database_helper = database_helper(location_database_name)
         self.activity_database_helper = database_helper(activity_database_name)
 
-        self.ground_truth_objects, self.ground_truth_activities = self.populate_ground_truths()
+        self.ground_truth_objects, self.ground_truth_activities, self.ground_truth_locations = self.populate_ground_truths()
 
         # self.data_converter_module = data_converter_module(self.dcvm_mode, self.location_database_helper, self.static_tag_epcs, self.num_static_tags, self.unified_sequence_length, self.train_test_ratio)
 
@@ -47,7 +47,7 @@ class control_module:
         
         # location_classifications = self.classification_module_snapshot.start()
 
-        # self.generate_location_activity_pairs()
+        self.generate_location_activity_pairs()
 
         # location_classifications = [["kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
         #                             ["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
@@ -62,11 +62,11 @@ class control_module:
         #                     ["object_cake", "object_plate"],
         #                     []]
 
-        location_classifications = [["kitchen_location_table"]]
-        object_activations = [['object_plate', 'object_toothpaste', 'object_newspaper']]
+        # location_classifications = [["kitchen_location_table"]]
+        # object_activations = [['object_plate', 'object_toothpaste', 'object_newspaper']]
 
 
-        self.semantic_reasoning_module.start(location_classifications, object_activations)
+        # self.semantic_reasoning_module.start(location_classifications, object_activations)
 
     def load_static_tag_data(self):
         with open("knowledge/static.txt") as f:
@@ -132,13 +132,26 @@ class control_module:
                 previous_activity_index = current_activity_index
 
         ground_truth = []
+        object_matches = 0
         for i in range(0, len(master_list)):
             matches = self.ground_truth_object_matches(activity_collection_names[i], master_list[i])
             ground_truth.append(matches)
+            if len(matches) > 0:
+                object_matches = object_matches + 1
+
+        print('Total number of collections:', len(location_collection_names_expanded))
+        print('Collections with object matches:', object_matches)
 
         for i in range(0, len(location_collection_names_expanded)):
-            print(location_collection_names_expanded[i], activity_collection_names[i], master_list[i], ground_truth[i])
-
+            if len(ground_truth[i]) > 0 and ground_truth[i] != 'none':
+                gtl = self.ground_truth_locations.get(location_collection_names_expanded[i])
+                if gtl:
+                    print(location_collection_names_expanded[i], activity_collection_names[i], master_list[i], ground_truth[i])
+                    # print([self.ground_truth_locations[location_collection_names_expanded[i]]], master_list[i])
+                    self.semantic_reasoning_module.start([[self.ground_truth_locations[location_collection_names_expanded[i]]]], [master_list[i]])
+                    print('Ground truth activity:', self.ground_truth_activities[activity_collection_names[i]])
+                    print()
+                
     def ground_truth_object_matches(self, activity_collection_name, objects):
         activity = self.ground_truth_activities[activity_collection_name]
 
@@ -152,6 +165,7 @@ class control_module:
     def populate_ground_truths(self):
         ground_truth_objects = {}
         ground_truth_activities = {}
+        ground_truth_locations = {}
 
         ground_truth_objects["activity_brushing_hair"] = ["object_hairbrush"]
         ground_truth_objects["activity_brushing_teeth"] = ["object_toothbrush", "object_toothpaste"]
@@ -174,7 +188,16 @@ class control_module:
                 print('Ground truth for activity', c, 'is', document["activity_label"])
             ground_truth_activities[c] = document["activity_label"]
 
-        return ground_truth_objects, ground_truth_activities
+        num_collections, collections = self.location_database_helper.get_all_collection_names()
+    
+        for c in collections:
+            collection, pointer = self.location_database_helper.get_collection(c)
+            document = collection.find_one()
+            if self.verbose == 1:
+                print('Ground truth for location', c, 'is', document["location_label"])
+            ground_truth_locations[c] = document["location_label"]
+
+        return ground_truth_objects, ground_truth_activities, ground_truth_locations
 
 
 # clear the terminal

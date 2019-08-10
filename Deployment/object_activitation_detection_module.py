@@ -180,11 +180,8 @@ class object_activation_detection_module:
         collection_list = []
         for document in pointer:
             for i in range(0, self.num_object_tags):
-                count = 0
-                if document["object_tag_cps_counts"][i] >= 3:
-                    if count < 3:
-                        collection_list.append(document["object_tag_labels"][i])
-                    count = count + 1
+                if document["object_tag_cps_counts"][i] >= 2:
+                    collection_list.append(document["object_tag_labels"][i])
 
         if len(collection_list) == 0:
             collection_list.append('none')
