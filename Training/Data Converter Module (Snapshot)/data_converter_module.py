@@ -91,6 +91,7 @@ def create_dataset_files(tag_epcs, num_collections, collections):
             headers.append(epc)
 
     headers.append('label')
+    headers.append('location_collection')
 
     with open('dataset/data.csv', 'w') as csvfile:
         filewriter = csv.writer(csvfile, delimiter = ',', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
@@ -118,6 +119,7 @@ def write_dataset_input_files(tag_epcs, num_collections, collections):
                     snapshot.append(peakRSSI)
 
             snapshot.append(document["location_label"])
+            snapshot.append(collections[i])
 
             # if document["location_label"] in bedroom_labels:
             #     snapshot.append("bedroom")

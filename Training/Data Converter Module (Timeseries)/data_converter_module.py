@@ -6,13 +6,13 @@ from random import shuffle
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['ES_PID002-L']
+db = client['ES_ALL-L']
 
 # user modifable variables
 collection_name_prefix = None
 num_tags = 232
 unified_sequence_length = 30
-train_test_ratio = 0.7
+train_test_ratio = 1.0
 
 def get_collection(collection_name):
     collection = db[collection_name]
@@ -352,7 +352,7 @@ def main():
     print("[DONE]")
 
     # write to dataset input files from database
-    print("[MAIN][INFO] Dataset will be split 70/30 for train/test sets.")
+    print("[MAIN][INFO] Dataset will be split at a ratio of", train_test_ratio, "for train/test sets.")
     print("[MAIN][STAT] Writing to dataset files with database (MongoDB) data...")
     write_dataset_input_files(tag_epcs, num_collections, num_train_collections, num_test_collections, train_collections, test_collections)
 

@@ -1,0 +1,4 @@
+0:kitchen_location_table
+1:kitchen_location_worktop_corner
+2:kitchen_location_worktop_sink
+3:TRA

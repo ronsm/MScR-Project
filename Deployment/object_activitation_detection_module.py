@@ -174,7 +174,7 @@ class object_activation_detection_module:
 
         return master_list
 
-    def get_activited_objects_for_sample(self, collection):
+    def get_activated_objects_for_sample(self, collection):
         collection, pointer = self.database_helper.get_collection(collection)
 
         collection_list = []

@@ -23,8 +23,6 @@ class database_helper:
         db = client[self.database_name]
         collections = db.collection_names()
 
-        shuffle(collections)
-
         num_collections = len(collections)
 
         return num_collections, collections

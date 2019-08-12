@@ -2,6 +2,7 @@ import pymongo
 from pymongo import MongoClient
 import pprint
 import sys
+import csv
 
 from database_helper import database_helper
 from data_converter_module import data_converter_module
@@ -45,9 +46,9 @@ class control_module:
     def start(self):
         # self.object_activation_detection_module.start()
         
-        # location_classifications = self.classification_module_snapshot.start()
+        location_classifications = self.classification_module_snapshot.start()
 
-        self.generate_location_activity_pairs()
+        self.generate_location_activity_pairs(location_classifications)
 
         # location_classifications = [["kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
         #                             ["kitchen_location_worktop_sink", "kitchen_location_worktop_corner", "kitchen_location_worktop_table", "kitchen_location_worktop_stove"],
@@ -61,12 +62,6 @@ class control_module:
         #                     ["object_toothbrush"],
         #                     ["object_cake", "object_plate"],
         #                     []]
-
-        # location_classifications = [["kitchen_location_table"]]
-        # object_activations = [['object_plate', 'object_toothpaste', 'object_newspaper']]
-
-
-        # self.semantic_reasoning_module.start(location_classifications, object_activations)
 
     def load_static_tag_data(self):
         with open("knowledge/static.txt") as f:
@@ -104,7 +99,7 @@ class control_module:
 
         return object_tag_weights
 
-    def generate_location_activity_pairs(self):
+    def generate_location_activity_pairs(self, location_classifications):
         num_collections, location_collection_names = self.location_database_helper.get_all_collection_names()
         
         location_collection_names_expanded = []
@@ -122,8 +117,7 @@ class control_module:
                         activity_collection_name = collection_name[:7] + '-A' + str(document["activity_index"])
                     else:
                         activity_collection_name = collection_name[:6] + '-A' + str(document["activity_index"])
-                    # print(collection_name, document["activity_index"])
-                    activated_objects = self.object_activation_detection_module.get_activited_objects_for_sample(activity_collection_name)
+                    activated_objects = self.object_activation_detection_module.get_activated_objects_for_sample(activity_collection_name)
 
                     location_collection_names_expanded.append(collection_name)
                     master_list.append(activated_objects)
@@ -142,15 +136,40 @@ class control_module:
         print('Total number of collections:', len(location_collection_names_expanded))
         print('Collections with object matches:', object_matches)
 
+        # test only cases where objects are detected, with GT locations
+        # for i in range(0, len(location_collection_names_expanded)):
+        #     if len(ground_truth[i]) > 0:
+        #         gtl = self.ground_truth_locations.get(location_collection_names_expanded[i])
+        #         if gtl:
+        #             print(location_collection_names_expanded[i], activity_collection_names[i], master_list[i], ground_truth[i])
+        #             # print([self.ground_truth_locations[location_collection_names_expanded[i]]], master_list[i])
+        #             self.semantic_reasoning_module.start([[self.ground_truth_locations[location_collection_names_expanded[i]]]], [master_list[i]])
+        #             print('Ground truth activity:', self.ground_truth_activities[activity_collection_names[i]])
+        #             print()
+
+        # test all cases with real location estimations
+        rows = []
         for i in range(0, len(location_collection_names_expanded)):
-            if len(ground_truth[i]) > 0 and ground_truth[i] != 'none':
-                gtl = self.ground_truth_locations.get(location_collection_names_expanded[i])
-                if gtl:
-                    print(location_collection_names_expanded[i], activity_collection_names[i], master_list[i], ground_truth[i])
-                    # print([self.ground_truth_locations[location_collection_names_expanded[i]]], master_list[i])
-                    self.semantic_reasoning_module.start([[self.ground_truth_locations[location_collection_names_expanded[i]]]], [master_list[i]])
-                    print('Ground truth activity:', self.ground_truth_activities[activity_collection_names[i]])
+            gtl = self.ground_truth_locations.get(location_collection_names_expanded[i])
+            if gtl:
+                loc_exists = location_classifications.get(location_collection_names_expanded[i])
+                if loc_exists:
+                    print('Location:', location_collection_names_expanded[i], '(', self.ground_truth_locations[location_collection_names_expanded[i]], ')')
+                    print('Activity:', activity_collection_names[i], '(', self.ground_truth_activities[activity_collection_names[i]], ')')
+                    print('CM Prediction:', location_classifications[location_collection_names_expanded[i]][0])
+                    print('Objects (GT)', self.ground_truth_objects[self.ground_truth_activities[activity_collection_names[i]]])
+                    selected_round, selected_activity, selected_location = self.semantic_reasoning_module.start([location_classifications[location_collection_names_expanded[i]]], [self.ground_truth_objects[self.ground_truth_activities[activity_collection_names[i]]]])
                     print()
+                    
+                    row = [ self.ground_truth_locations[location_collection_names_expanded[i]], self.ground_truth_activities[activity_collection_names[i]],
+                    location_classifications[location_collection_names_expanded[i]][0], selected_round, selected_location, selected_activity]
+
+                    rows.append(row)
+
+        f = open("output/output.csv", "w")
+        writer = csv.writer(f)
+        writer.writerows(rows)
+        f.close()
                 
     def ground_truth_object_matches(self, activity_collection_name, objects):
         activity = self.ground_truth_activities[activity_collection_name]

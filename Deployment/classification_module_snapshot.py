@@ -22,118 +22,89 @@ import sys
 import glob, os
 import operator
 import pprint
+import csv
 
 import warnings
 from sklearn.exceptions import DataConversionWarning
 warnings.filterwarnings(action='ignore', category=DataConversionWarning)
+
+bedroom_labels = ["bedroom_location_bed", "bedroom_location_drawers", "bedroom_location_wardrobe", "bedroom_location_mirror"]
+kitchen_labels = ["kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_table"]
 
 class classification_module_snapshot:
     def __init__(self, database_helper, num_tags):
         self.model = load_model('models/snapshot.h5')
         self.database_helper = database_helper
         self.num_tags = num_tags
+
         print("[classification_module_snapshot][INFO] Starting up... [OK]")
 
     def start(self):
-        num_collections, collections = self.database_helper.get_all_collection_names()
+        self.encoder = self.generate_predictions_csv()
+        predictions_dict = self.split_predictions()
+        
+        return predictions_dict
 
-        master_list = {}
-        for collection in collections:
-            snapshots = self.get_sample_batches(collection)
-            predictions = self.predict(snapshots)
-            predictions = self.decode_predictions(predictions)
-            predictions = self.predictions_reduce(predictions)
-            
-            master_list[collection] = predictions
-
-        print(master_list)
-        return master_list
-
-    def get_sample_batches(self, collection):
-        snapshots = []
-        collection, pointer = self.database_helper.get_collection(collection)
-
-        for document in pointer:
-            snapshot = []
-
-            for i in range(0, self.num_tags):
-                epc = document["tags"][i]["_id"]
-                peakRSSI = document["tags"][i]["peakRSSI"]
-                if epc[:20] != "300833B2DDD901401111":
-                    snapshot.append(peakRSSI)
-
-            snapshot.append(document["location_label"])
-            snapshot.append(document["activity_index"])
-
-            snapshots.append(snapshot)
-
-        return snapshots
-
-    def predict(self, samples):        
-        prediction_samples = []
-        for sample in samples:
-            sample_slice = sample[:196]
-            prediction_samples.append(sample_slice)
-
-        prediction_samples = np.array(prediction_samples)
-
-        min_max_scaler = preprocessing.MinMaxScaler()
-        prediction_samples_scaled = min_max_scaler.fit_transform(prediction_samples)
+    def generate_predictions_csv(self, prefix=''):
+        dataset = pd.read_csv("unclassified/data.csv")
     
-        prediction_samples_scaled = pd.DataFrame(prediction_samples_scaled)
+        X = dataset.iloc[:,0:196].values
+        Y = dataset.iloc[:,196].values
+        location_collections = dataset.iloc[:,197].values
+    
+        min_max_scaler = preprocessing.MinMaxScaler()
+        X_scaled = min_max_scaler.fit_transform(X)
+    
+        X = pd.DataFrame(X_scaled)
+    
+        encoder = LabelEncoder()
+        y1 = encoder.fit_transform(Y)
+        Y = pd.get_dummies(y1).values
 
-        predictions = self.model.predict(prediction_samples_scaled)
+        y_pred = self.model.predict(X)
 
-        return predictions
+        y_pred = y_pred.tolist()
+        y_pred[0].append('location_collection')
+        for i in range(1, len(y_pred)):
+            y_pred[i].append(location_collections[i])
 
-    def decode_predictions(self, predictions):
-        master_list = []
-        for i in range(0, len(predictions)):
-            prediction_dict = {}
-            for j in range(0, len(predictions[i])):
-                prediction_dict[j] = predictions[i][j]
-            sorted_prediction_dict = sorted(prediction_dict.items(), key=operator.itemgetter(1), reverse=True)
-            master_list.append(sorted_prediction_dict)
-
-        one_hot_encodings = self.load_label_map()
-
-        for i in range(0, len(master_list)):
-            for j in range(0, len(master_list[i])):
-                master_list[i][j] = list(master_list[i][j])
-
-        for i in range(0, len(master_list)):
-            for j in range(0, len(master_list[i])):
-                master_list[i][j][0] = one_hot_encodings[master_list[i][j][0]]
-
-        return master_list
-
-    def predictions_reduce(self, predictions):
-        rank_1 = []
-        for prediction in predictions:
-            rank_1.append(prediction[0][0])
-
-        c = Counter(rank_1)
-
-        ranked = c.most_common(7)
-
-        return ranked
-
-    def load_label_map(self):
-        one_hot_encodings = {}
-        with open("knowledge/label_map.txt") as f:
-            lines = f.read().splitlines()
+        f = open("output/predictions.csv", "w")
+        writer = csv.writer(f)
+        writer.writerow(encoder.classes_)
+        writer.writerows(y_pred)
         f.close()
+    
+        return encoder
 
-        for line in lines:
-            splits = line.split(":", 1)
-            splits[0] = int(splits[0])
-            one_hot_encodings[splits[0]] = splits[1]
+    def split_predictions(self):
+        predictions_dict = {}
 
-        return one_hot_encodings
+        csv = pd.read_csv('output/predictions.csv', sep=',', header=1, skipinitialspace=True)
+        
+        num_collections, collections = self.database_helper.get_all_collection_names()
+        for collection in collections:
+            sub_csv = csv[csv['location_collection'] == collection]
+            zipped = self.window_rank(sub_csv)
+            predictions_dict[collection] = zipped
 
-    # def debug_print(self, master_list):
-    #     i = 1
-    #     for location_classification in master_list:
-    #         print('ROW', i)
-    #         print(location_classification)
-    #         i = i + 1
+        return predictions_dict
+
+    def window_rank(self, sub_csv):
+        X = ["bedroom_location_bed", "bedroom_location_drawers", "bedroom_location_mirror", "bedroom_location_wardrobe", "kitchen_location_table",
+            "kitchen_location_worktop_corner", "kitchen_location_worktop_sink"]
+
+        sums = sub_csv.sum(axis = 0, skipna = True)
+
+        window = []
+        window.append(sums[0])
+        window.append(sums[1])
+        window.append(sums[2])
+        window.append(sums[3])
+        window.append(sums[4])
+        window.append(sums[5])
+        window.append(sums[6])
+
+        zipped = [x for _,x in sorted(zip(window,X))]
+        zipped.reverse()
+
+        return zipped

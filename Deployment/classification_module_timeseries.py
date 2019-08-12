@@ -65,8 +65,8 @@ class classification_module_timeseries:
         new_data = new_data.astype(int)
 
         n_features = new_data.shape[2]
-        n_steps = 2
-        n_length = int(self.unified_sequence_length / 2)
+        n_steps = 3
+        n_length = int(self.unified_sequence_length / 3)
         new_data = new_data.reshape((new_data.shape[0], n_steps, 1, n_length, n_features))
 
         return new_data

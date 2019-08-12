@@ -27,26 +27,52 @@ class semantic_reasoning_module:
 
         for location_classification, object_activation in zip(self.location_classifications, self.object_activations):
             first_guess_activities = self.check_location_and_object_agreements(location_classification[0], object_activation)
+            selected_round = ""
+            selected_activity = ""
+            selected_location = ""
 
             if len(first_guess_activities) == 1 and first_guess_activities[0] != "no_results":
-                self.generate_human_readable_output('1A', 1, first_guess_activities[0], location_classification[0],)
+                self.generate_human_readable_output('1A', 1, first_guess_activities[0], location_classification[0])
+                selected_round = "1A"
+                selected_activity = first_guess_activities[0]
+                selected_location = location_classification[0]
             else:
                 if first_guess_activities[0] == "no_results":
                     second_guess_activities, actual_locations = self.check_neighbouring_locations(location_classification, object_activation)
                     if len(second_guess_activities) == 1 and second_guess_activities[0] != "no_results":
                         self.generate_human_readable_output('2A', 1, second_guess_activities[0], actual_locations[0])
+                        selected_round = "2A"
+                        selected_activity = second_guess_activities[0]
+                        selected_location = actual_locations[0]
                     elif len(second_guess_activities) > 1 and second_guess_activities[0] != "no_results":
                         second_guess_activity, activity_index = self.reduce_competing_first_guesses_by_dependency_score(second_guess_activities, object_activation)
                         self.generate_human_readable_output('2B', 1, second_guess_activity, actual_locations[activity_index])
+                        selected_round = "2B"
+                        selected_activity = second_guess_activity
+                        selected_location = actual_locations[activity_index]
                     else:
                         default_activity = self.get_default_activity_for_location(location_classification[0])
                         if len(default_activity) == 0:
                             self.generate_human_readable_output('3A', 0, '', location_classification[0])
+                            selected_round = "3A"
+                            selected_activity = "none"
+                            selected_location = location_classification[0]
                         else:
                             self.generate_human_readable_output('3B', 2, default_activity[0], location_classification[0])
+                            selected_round = "3B"
+                            selected_activity = default_activity[0]
+                            selected_location = location_classification[0]
                 else:
                     second_guess_activity, activity_index = self.reduce_competing_first_guesses_by_dependency_score(first_guess_activities, object_activation)
                     self.generate_human_readable_output('1B', 1, second_guess_activity, location_classification[0])
+                    selected_round = "1B"
+                    selected_activity = second_guess_activity
+                    selected_location = location_classification[0]
+
+        selected_activity = self.remove_IRI(selected_activity)
+        selected_location = self.remove_IRI(selected_location)
+
+        return selected_round, selected_activity, selected_location
 
         # self.module_test()
 
@@ -102,10 +128,7 @@ class semantic_reasoning_module:
 
         neighbours = self.get_neighbours_of_location(location_classification[0])
 
-        potential_locations = []
-        for location in location_classification:
-            if location in neighbours:
-                potential_locations.append(location)
+        potential_locations = neighbours
 
         for potential_location in potential_locations:
             potential_agreed_activities = self.check_location_and_object_agreements(potential_location, object_activation)
