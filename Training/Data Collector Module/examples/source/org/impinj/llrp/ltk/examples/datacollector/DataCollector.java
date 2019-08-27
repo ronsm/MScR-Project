@@ -61,7 +61,8 @@ public class DataCollector implements LLRPEndpoint {
     private LLRPConnection connection;
     
     static DataInterface di = new DataInterface();
-    static int numSnapshots = 60;
+    static int numSnapshots = 3600;
+    static int sleepTime = 1000;
 
     private static Logger logger  = Logger.getLogger("org.impinj.llrp.ltk.examples.datacollector");
     private ROSpec rospec;
@@ -640,7 +641,7 @@ public class DataCollector implements LLRPEndpoint {
 
     String calculateVelocity()
     {
-        String out = " Velocity: Unknown";
+        String out = "0.0";
         double velocity = 0;
 
         /* you have to have two samples from the same EPC on the same
@@ -687,12 +688,11 @@ public class DataCollector implements LLRPEndpoint {
 
                 velocity = ((phaseChangeDegrees * 0.5 * 0.327868852 * 1000000) / (360 * timeChangeUsec));
 
-                out = " VelocityEstimate: " +
-                        velocity;
+                out = Double.toString(velocity);
             }
         }
 
-        // save the current sample as the alst sample
+        // save the current sample as the last sample
         lastReadTime = currentReadTime;
         lastEPCData = currentEPCData;
         lastRfPhase = currentRfPhase;
@@ -769,7 +769,7 @@ public class DataCollector implements LLRPEndpoint {
         for(int i = 0; i < numSnapshots; i++) {
             try {
             	// Collect samples for n milliseconds
-                Thread.sleep(5000);
+                Thread.sleep(sleepTime);
                 
                 // Get snapshot
                 HashMap<String, ReportData> snapshot = di.getSnapshot();
@@ -797,7 +797,7 @@ public class DataCollector implements LLRPEndpoint {
 class DataInterface {
 
 	HashMap<String, ReportData> map = new HashMap<String, ReportData>();
-	HashMap<String, Integer> tags = new HashMap<String, Integer>();
+	HashMap<String, int[]> tags = new HashMap<String, int[]>();
 	
 	long startTime;
 	long snapshotTimestamp;
@@ -809,11 +809,22 @@ class DataInterface {
 	    String line;
 	    BufferedReader reader = new BufferedReader(new FileReader(filePath));
 	    while ((line = reader.readLine()) != null) {
-	        String[] parts = line.split(":", 2);
-	        if (parts.length >= 2) {
-	        	int atnenna = Integer.parseInt(parts[1]);
-	            String key = parts[0];
-	            tags.put(key, atnenna);
+	        String[] parts = line.split(":", 3);
+	        if (parts.length >= 1) {
+	        	String key = parts[0];
+	        	
+	        	int[] antennas = new int[2];
+	        	
+	        	if (parts.length == 1) {
+		        	antennas[0] = 0;
+		        	antennas[1] = 0;
+		            tags.put(key, antennas);	
+	        	}
+	        	else if (parts.length == 3) {
+		        	antennas[0] = Integer.parseInt(parts[1]);
+		        	antennas[1] = Integer.parseInt(parts[2]);
+		            tags.put(key, antennas);	
+	        	}
 	        }
 	        else {
 	            System.out.println("[DATA_INTERFACE][loadTags] ignoring line: " + line);
@@ -827,7 +838,7 @@ class DataInterface {
 	}
 	
 	public void initMap() {		
-	    for (Map.Entry<String, Integer> entry : tags.entrySet()) {
+	    for (Map.Entry<String, int[]> entry : tags.entrySet()) {
 	        String key = entry.getKey();
 	        
 	        ReportData report = new ReportData(key, "0", "0", "0000", "0000", "0", "0", 0, "0");
@@ -854,10 +865,10 @@ class DataInterface {
 		
 		if(tags.get(EPC) != null) {
 			int updatingAntenna = Integer.parseInt(antenna);
-			int assignedAntenna = tags.get(EPC);
-			if (updatingAntenna != assignedAntenna) {
+			int assignedAntennas[] = tags.get(EPC);
+			if ((updatingAntenna != assignedAntennas[0] && updatingAntenna != assignedAntennas[1]) && assignedAntennas[0] != 0 ) {
 				System.out.println("[DATA_INTERFACE][updateReport] Cannot update tag " + EPC + " with antenna " + updatingAntenna + ", must use antenna "
-						+ assignedAntenna + ".");
+						+ assignedAntennas[0] + " or " + assignedAntennas[1] + ".");
 			}
 			else {
 				System.out.print("[DATA_INTERFACE][updateReport] Updating tag " + EPC + "...");
@@ -929,8 +940,8 @@ class DataInterface {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		long elapsedTime = timestamp.getTime() - startTime;
 		
-		snapshot.put("activityLabel", activityLabel);
-		snapshot.put("elapsedTime", elapsedTime);
+		snapshot.put("activity_label", activityLabel);
+		snapshot.put("elapsed_time", elapsedTime);
 		
 		List<BasicDBObject> tagArray = new ArrayList<>();
 		

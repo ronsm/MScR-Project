@@ -12,12 +12,12 @@
         <C1G2InventoryCommand>
             <TagInventoryStateAware>false</TagInventoryStateAware>
             <C1G2RFControl>
-                <ModeIndex>0</ModeIndex>
+                <ModeIndex>1002</ModeIndex>
                 <Tari>0</Tari>
             </C1G2RFControl>
             <C1G2SingulationControl>
                 <Session>2</Session>
-                <TagPopulation>32</TagPopulation>
+                <TagPopulation>244</TagPopulation>
                 <TagTransitTime>0</TagTransitTime>
             </C1G2SingulationControl>
             <Impinj:ImpinjInventorySearchMode xmlns="http://developer.impinj.com/ltk/schema/encoding/xml/1.28">

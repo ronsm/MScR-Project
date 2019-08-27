@@ -143,9 +143,12 @@ class control_module:
                 if loc_exists:
                     print('Location:', location_collection_names_expanded[i], '(', self.ground_truth_locations[location_collection_names_expanded[i]], ')')
                     print('Activity:', activity_collection_names[i], '(', self.ground_truth_activities[activity_collection_names[i]], ')')
-                    print('CM Prediction:', location_classifications[location_collection_names_expanded[i]][0])
-                    print('Objects (GT)', self.ground_truth_objects[self.ground_truth_activities[activity_collection_names[i]]])
-                    selected_round, selected_activity, selected_location = self.semantic_reasoning_module.start([location_classifications[location_collection_names_expanded[i]]], [self.ground_truth_objects[self.ground_truth_activities[activity_collection_names[i]]]])
+                    print('Location (CM):', location_classifications[location_collection_names_expanded[i]][0])
+                    print('Objects (GT):', self.ground_truth_objects[self.ground_truth_activities[activity_collection_names[i]]])
+                    print('Objects (OADM):', master_list[i])
+                    # selected_round, selected_activity, selected_location = self.semantic_reasoning_module.start([location_classifications[location_collection_names_expanded[i]]], [self.ground_truth_objects[self.ground_truth_activities[activity_collection_names[i]]]])
+
+                    selected_round, selected_activity, selected_location = self.semantic_reasoning_module.start([[self.ground_truth_locations[location_collection_names_expanded[i]]]], [master_list[i]])
                     print()
                     
                     row = [ self.ground_truth_locations[location_collection_names_expanded[i]], self.ground_truth_activities[activity_collection_names[i]],
