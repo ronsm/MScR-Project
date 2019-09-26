@@ -1,5 +1,4 @@
 import subprocess
-from moviepy.editor import VideoFileClip
 import pymongo
 from pymongo import MongoClient
 import pprint
@@ -7,7 +6,8 @@ import sys
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-drop_labels = ["TRA", "bedroom_location_chair", "kitchen_location_worktop_stove"]
+drop_labels = []
+# drop_labels = ["TRA", "bedroom_location_chair", "kitchen_location_worktop_stove"]
 # drop_labels = ["TRA", "kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_worktop_sink", "kitchen_location_worktop_stove", "kitchen_location_table", "bedroom_location_chair"]
 # drop_labels = ["TRA", "bedroom_location_bed", "bedroom_location_drawers", "bedroom_location_wardrobe", "bedroom_location_chair", "bedroom_location_mirror", "kitchen_location_worktop_stove"]
 
@@ -30,11 +30,6 @@ def create_collection(db, collection_name):
     collection = db[collection_name]
     pointer = collection.find({})
     return collection, pointer
-
-def get_video_length(filename):
-    clip = VideoFileClip(filename)
-    duration_millis = clip.duration * 1000
-    return duration_millis
 
 def read_annotations(annotation_times, annotation_location_labels, annotation_activity_labels, annotation_activity_indexes):
     f = open(annotation_times, "r")
@@ -101,7 +96,8 @@ def get_label_for_snapshot(document_num, start_times, end_times, labels):
     found = 0
     label = 'err:label_error'
 
-    document_time = (document_num * time_between_snapshots_millis) + time_between_snapshots_millis
+    document_time = document_num
+    # document_time = (document_num * time_between_snapshots_millis) + time_between_snapshots_millis
 
     for i in range(0, len(start_times)):
         if found == 1:
@@ -118,7 +114,8 @@ def get_activity_index_for_snapshot(document_num, start_times, end_times, activi
     found = 0
     activity_index = 'err:activity_index_error'
 
-    document_time = (document_num * time_between_snapshots_millis) + time_between_snapshots_millis
+    document_time = document_num
+    # document_time = (document_num * time_between_snapshots_millis) + time_between_snapshots_millis
 
     for i in range(0, len(start_times)):
         if found == 1:
@@ -134,30 +131,24 @@ def get_activity_index_for_snapshot(document_num, start_times, end_times, activi
 def label_location_database(start_times, end_times, db, location_labels, collection_name, activity_indexes):
     colelction, pointer = get_collection(db, collection_name)
 
-    document_num = 0
     for document in pointer:
         query = { "_id": document["_id"]}
-        location_label = { "$set": { "location_label": get_label_for_snapshot(document_num, end_times, end_times, location_labels) } }
-        activity_index = { "$set": { "activity_index": get_activity_index_for_snapshot(document_num, end_times, end_times, activity_indexes) } }
+        location_label = { "$set": { "location_label": get_label_for_snapshot(document["elapsed_time"], end_times, end_times, location_labels) } }
+        activity_index = { "$set": { "activity_index": get_activity_index_for_snapshot(document["elapsed_time"], end_times, end_times, activity_indexes) } }
 
         colelction.update_one(query, location_label)
         colelction.update_one(query, activity_index)
 
-        document_num = document_num + 1
-
 def label_activity_database(start_times, end_times, db, activity_labels, collection_name, activity_indexes):
     colelction, pointer = get_collection(db, collection_name)
 
-    document_num = 0
     for document in pointer:
         query = { "_id": document["_id"]}
-        activity_label = { "$set": { "activity_label": get_label_for_snapshot(document_num, end_times, end_times, activity_labels) } }
-        activity_index = { "$set": { "activity_index": get_activity_index_for_snapshot(document_num, end_times, end_times, activity_indexes) } }
+        activity_label = { "$set": { "activity_label": get_label_for_snapshot(document["elapsed_time"], end_times, end_times, activity_labels) } }
+        activity_index = { "$set": { "activity_index": get_activity_index_for_snapshot(document["elapsed_time"], end_times, end_times, activity_indexes) } }
 
         colelction.update_one(query, activity_label)
         colelction.update_one(query, activity_index)
-
-        document_num = document_num + 1
 
 def split_location_collections(db, collection_name):
     collection, pointer = get_collection(db, collection_name)
@@ -230,7 +221,7 @@ def drop_activity_transitions(db, collection_name):
         if prefix == collection_name:
             for document in pointer:
                 activity_label = document["activity_label"]
-                if activity_label == "TRA":
+                if activity_label in drop_labels:
                     collection.drop()
                 break
             
@@ -261,6 +252,9 @@ def main():
 
     db_l_name = database_prefix + '-L'
     db_a_name = database_prefix + '-A'
+
+    # db_l_name = database_prefix
+    # db_a_name = database_prefix
 
     db_l = client[db_l_name]
     db_a = client[db_a_name]
