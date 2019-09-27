@@ -7,7 +7,7 @@ from random import shuffle
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['ES_ALL-L']
+db = client['UNIFIED']
 
 bedroom_labels = ["bedroom_location_bed", "bedroom_location_drawers", "bedroom_location_wardrobe", "bedroom_location_mirror"]
 kitchen_labels = ["kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_table"]
@@ -18,7 +18,7 @@ num_tags = 232
 
 def get_collection(collection_name):
     collection = db[collection_name]
-    pointer = collection.find({})
+    pointer = collection.find({}).sort("_id", 1)
 
     return collection, pointer
 

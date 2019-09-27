@@ -6,17 +6,17 @@ from random import shuffle
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-db = client['ES_ALL-L']
+db = client['INDIVIDUAL_SEGMENTED']
 
 # user modifable variables
 collection_name_prefix = None
 num_tags = 232
 unified_sequence_length = 30
-train_test_ratio = 1.0
+train_test_ratio = 0.7
 
 def get_collection(collection_name):
     collection = db[collection_name]
-    pointer = collection.find({})
+    pointer = collection.find({}).sort("_id", 1)
 
     return collection, pointer
 

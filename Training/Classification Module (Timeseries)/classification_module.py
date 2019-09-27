@@ -81,8 +81,8 @@ def load_dataset(prefix=''):
     testy = testy.astype(int)
 
     # y augmentation
-    trainy = np.concatenate((trainy, trainy))
-    testy = np.concatenate((testy, testy))
+    # trainy = np.concatenate((trainy, trainy))
+    # testy = np.concatenate((testy, testy))
 
     # zero-offset class values (if they aren't already starting from zero!)
     # trainy = trainy - 1
@@ -97,8 +97,8 @@ def load_dataset(prefix=''):
     testX = normalize(testX)
 
     # x augmentation
-    trainX = augment_input(trainX)
-    testX = augment_input(testX)
+    # trainX = augment_input(trainX)
+    # testX = augment_input(testX)
 
     print(trainX.shape, trainy.shape, testX.shape, testy.shape)
 
@@ -144,9 +144,9 @@ def evaluate_model_lstm(trainX, trainy, testX, testy):
     model = Sequential()
     # model.add(Masking(mask_value=0, input_shape=(n_timesteps, n_features)))
     # add regularizer to below line: kernel_regularizer=l2(0.01), recurrent_regularizer=l2(0.01)
-    model.add(LSTM(98, input_shape=(n_timesteps,n_features)))
+    model.add(LSTM(98, input_shape=(n_timesteps, n_features)))
     model.add(Dropout(0.5))
-    model.add(Dense(64, activation='relu'))
+    model.add(Dense(98, activation='relu'))
     model.add(Dropout(0.2))
     model.add(Dense(n_outputs, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -154,7 +154,7 @@ def evaluate_model_lstm(trainX, trainy, testX, testy):
     callbacks = []
     callbacks.append(EarlyStopping(monitor='val_loss', patience=early_stopping_patience, verbose=verbose_enable))
     callbacks.append(ModelCheckpoint(filepath='epoch_best_model.h5', monitor='val_acc', save_best_only=True))
-    callbacks.append(ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=1, min_lr=0.0001))
+    # callbacks.append(ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=1, min_lr=0.0001))
 
     history = model.fit(trainX,
                       trainy,
@@ -321,7 +321,7 @@ def main():
     for r in range(repeats):
         string = "[MAIN][STAT] Evaluating model, run " + str(r+1) + "/" + str(repeats) + "..."
         print(string)
-        score, model = evaluate_model_convlstm(trainX, trainy, testX, testy)
+        score, model = evaluate_model_lstm(trainX, trainy, testX, testy)
         score = score * 100.0
         print('>#%d: %.3f' % (r+1, score))
         scores.append(score)
@@ -331,7 +331,7 @@ def main():
             peak_score = score
             model.summary()
             model.save('best_model.h5')
-            plot_model(model, to_file='model.png', show_shapes=True, show_layer_names=True)
+            # plot_model(model, to_file='model.png', show_shapes=True, show_layer_names=True)
 
     # summarize results
     print("[MAIN][STAT] Summarizing results... [DONE]")

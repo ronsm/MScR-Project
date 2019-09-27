@@ -6,7 +6,7 @@ import sys
 
 # mongodb connection setup
 client = MongoClient("localhost", 27017, maxPoolSize=50)
-drop_labels = []
+drop_labels = ["TRA"]
 # drop_labels = ["TRA", "bedroom_location_chair", "kitchen_location_worktop_stove"]
 # drop_labels = ["TRA", "kitchen_location_worktop_corner", "kitchen_location_worktop_sink", "kitchen_location_worktop_sink", "kitchen_location_worktop_stove", "kitchen_location_table", "bedroom_location_chair"]
 # drop_labels = ["TRA", "bedroom_location_bed", "bedroom_location_drawers", "bedroom_location_wardrobe", "bedroom_location_chair", "bedroom_location_mirror", "kitchen_location_worktop_stove"]
@@ -16,7 +16,7 @@ time_between_snapshots_millis = 1000
 
 def get_collection(db, collection_name):
     collection = db[collection_name]
-    pointer = collection.find({})
+    pointer = collection.find({}).sort( "_id", 1 )
     return collection, pointer
 
 def get_all_collection_names(db):
@@ -250,11 +250,11 @@ def main():
     annotation_activity_labels = 'annotations/' + str(collection_name) + '_activity_labels.txt'
     annotation_activity_indexes = 'annotations/' + str(collection_name) + '_activity_indexes.txt'
 
-    db_l_name = database_prefix + '-L'
-    db_a_name = database_prefix + '-A'
+    # db_l_name = database_prefix + '-L'
+    # db_a_name = database_prefix + '-A'
 
-    # db_l_name = database_prefix
-    # db_a_name = database_prefix
+    db_l_name = database_prefix
+    db_a_name = database_prefix
 
     db_l = client[db_l_name]
     db_a = client[db_a_name]
@@ -279,22 +279,22 @@ def main():
     print("[DONE]")
 
     # split the top-level collection into individual collections for each sample
-    print("[MAIN][STAT] Splitting master location collection into sample collections...", end="", flush=True)
-    split_location_collections(db_l, collection_name)
-    print("[DONE]")
+    # print("[MAIN][STAT] Splitting master location collection into sample collections...", end="", flush=True)
+    # split_location_collections(db_l, collection_name)
+    # print("[DONE]")
 
-    print("[MAIN][STAT] Splitting master activity collection into sample collections...", end="", flush=True)
-    split_activity_collections(db_a, collection_name)
-    print("[DONE]")
+    # print("[MAIN][STAT] Splitting master activity collection into sample collections...", end="", flush=True)
+    # split_activity_collections(db_a, collection_name)
+    # print("[DONE]")
 
     # remove transitioning (TRA) activities from the collection (optional)
-    print("[MAIN][STAT] Removing location transitional activities...", end="", flush=True)
-    drop_location_transitions(db_l, collection_name)
-    print("[DONE]")
+    # print("[MAIN][STAT] Removing location transitional activities...", end="", flush=True)
+    # drop_location_transitions(db_l, collection_name)
+    # print("[DONE]")
 
-    print("[MAIN][STAT] Removing activity transitional activities...", end="", flush=True)
-    drop_activity_transitions(db_a, collection_name)
-    print("[DONE]")
+    # print("[MAIN][STAT] Removing activity transitional activities...", end="", flush=True)
+    # drop_activity_transitions(db_a, collection_name)
+    # print("[DONE]")
 
 if __name__== "__main__":
     main()
